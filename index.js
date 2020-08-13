@@ -1,5 +1,9 @@
 const { Pool } = require('pg')
-const HanaDatabase = require('./node_modules/@sap/cds-runtime/lib/hana/Service')
+let hanaService = '../@sap/cds-runtime/lib/hana/Service.js'
+if (!__dirname.endsWith('node_modules/cds-pg')) {
+  hanaService = './node_modules/@sap/cds-runtime/lib/hana/Service.js'
+}
+const HanaDatabase = require(hanaService)
 const cqn2pgsql = require('./lib/cqn2pgsql')
 
 module.exports = class PostgresDatabase extends HanaDatabase {
