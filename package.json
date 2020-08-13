@@ -1,0 +1,46 @@
+{
+  "name": "cds-pg",
+  "version": "0.0.1",
+  "description": "PostgreSQL adapter for SAP CDS (CAP)",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "lint": "prettier -c . && eslint '*.{js,ts,tsx}'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sapmentors/cds-pg.git"
+  },
+  "keywords": [
+    "sap",
+    "cap",
+    "cds",
+    "PostgreSQL",
+    "postgres"
+  ],
+  "author": "SAP Mentors & Friends",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sapmentors/cds-pg/issues"
+  },
+  "homepage": "https://github.com/sapmentors/cds-pg#readme",
+  "dependencies": {
+    "@sap/cds": "^4.1.5",
+    "@sap/hana-client": "^2.5.105",
+    "pg": "^8.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "mocha": "^8.1.0"
+  },
+  "optionalDependencies": {
+    "prettier": "2.0.4"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 120,
+    "arrowParens": "always",
+    "trailingComma": "es5",
+    "singleQuote": true
+  }
+}
