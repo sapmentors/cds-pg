@@ -2,9 +2,13 @@
 
 This node module provides an adapter to the PostgreSQL database.
 
+## Current status
+
+This is a first alpha version! It can connect to a PostgreSQL database and execute a simple SELECT statement. Please help us to improve by your contribution.
+
 ## Installation
 
-Add this package to your (SAP Cloud Application Programming Model)[https://cap.cloud.sap/docs/] project by running:
+Add this package to your [SAP Cloud Application Programming Model](https://cap.cloud.sap/docs/) project by running:
 
 ```bash
 npm install cds-pg
@@ -52,3 +56,5 @@ For local development you can provide the credentials in the file `default-env.j
   }
 }
 ```
+
+[pg-beershop](https://github.com/gregorwolf/pg-beershop) provides an example project.
