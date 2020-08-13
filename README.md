@@ -4,7 +4,7 @@ This node module provides an adapter to the PostgreSQL database.
 
 ## Installation
 
-Add this package to your SAP Cloud Application Programming Model project by running:
+Add this package to your (SAP Cloud Application Programming Model)[https://cap.cloud.sap/docs/] project by running:
 
 ```bash
 npm install cds-pg
