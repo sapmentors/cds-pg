@@ -1,3 +1,6 @@
+![npm version](https://img.shields.io/npm/v/cds-pg)
+![Package Build](https://github.com/sapmentors/cds-pg/workflows/Node.js%20Package/badge.svg)
+
 # cds-pg - PostgreSQL adapter for SAP CDS (CAP)
 
 This node module provides an adapter to the PostgreSQL database.
