@@ -4,7 +4,7 @@
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "jest",
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'"
   },
   "repository": {
