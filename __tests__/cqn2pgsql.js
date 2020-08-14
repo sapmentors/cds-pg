@@ -1,10 +1,9 @@
 const cqn2pgsql = require('../lib/cqn2pgsql')
-const assert = require('assert').strict
 
 describe('CQN to PostgreSQL', () => {
   describe('SELECT', () => {
-    it('+ should return SQL statment', (done) => {
-      let query = {
+    test('+ should return SQL statment', () => {
+      const query = {
         cmd: 'SELECT',
         SELECT: {
           from: { ref: ['BeershopService.Beers'] },
@@ -13,9 +12,11 @@ describe('CQN to PostgreSQL', () => {
           limit: { rows: { val: 1000 } },
         },
       }
-      let sql = cqn2pgsql(query)
-      assert.equal(sql, 'SELECT "ID", "name" FROM "BeershopService_Beers"')
-      done()
+      const sql = cqn2pgsql(query)
+      expect(sql).toMatch('SELECT "ID", "name" FROM "BeershopService_Beers"')
     })
   })
+  test.todo("INSERT")
+  test.todo("UPDATE")
+  test.todo("DELETE")
 })
