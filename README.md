@@ -58,3 +58,18 @@ For local development you can provide the credentials in the file `default-env.j
 ```
 
 [pg-beershop](https://github.com/gregorwolf/pg-beershop) provides an example project.
+
+## Development environment
+
+- `jest` is the test-runner and -framework (see folder `test`)
+- `prettier` is used for code styling, configured in `package.json` -> please adhere to the formatting rules :)
+- `eslint` is is responsible for static code checks, see `.eslintrc.json`
+- git commit messages are linted: they need to adhere to the "[conventional changelog](https://www.conventionalcommits.org/en/v1.0.0/)" rules that are based on the [angular commit guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit)  
+  this makes it easier for us maintaining a changelog
+
+## Collaboration
+
+do. make. plenty. PRs :)  
+Don't forget to run `jest` frequently (or even keeping the watch on via `jest -w`) to make sure all tests remain "green" 
+and we're not shooting as in the foot regression-ally, so to speak.
+

@@ -25,13 +25,31 @@
   },
   "homepage": "https://github.com/sapmentors/cds-pg#readme",
   "dependencies": {
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
     "@sap/cds": "^4.1.5",
     "@sap/hana-client": "^2.5.105",
+    "@types/jest": "^26.0.9",
+    "eslint-plugin-jest": "^23.20.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "pg": "^8.3.0"
   },
   "devDependencies": {
     "eslint": "^7.5.0",
-    "mocha": "^8.1.0"
+    "jest": "^26.4.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "optionalDependencies": {
     "prettier": "2.0.4"
