@@ -9,14 +9,14 @@ describe('CQN to PostgreSQL', () => {
           from: { ref: ['BeershopService.Beers'] },
           columns: [{ ref: ['ID'] }, { ref: ['name'] }],
           orderBy: [{ ref: ['ID'], sort: 'asc' }],
-          limit: { rows: { val: 1000 } },
+          limit: { rows: { val: 1 }, offset: { val: 1 } },
         },
       }
       const sql = cqn2pgsql(query)
-      expect(sql).toMatch('SELECT "ID", "name" FROM "BeershopService_Beers"')
+      expect(sql).toMatch('SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers LIMIT 1 OFFSET 1')
     })
   })
-  test.todo("INSERT")
-  test.todo("UPDATE")
-  test.todo("DELETE")
+  test.todo('INSERT')
+  test.todo('UPDATE')
+  test.todo('DELETE')
 })

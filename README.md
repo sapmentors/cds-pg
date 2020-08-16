@@ -73,6 +73,5 @@ For local development you can provide the credentials in the file `default-env.j
 ## Collaboration
 
 do. make. plenty. PRs :)  
-Don't forget to run `npm test` frequently (or even keeping the watch on via `node_modules/.bin/jest --watch`) to make sure all tests remain "green" 
+Don't forget to run `npm test` frequently (or even keeping the watch on via `node_modules/.bin/jest --watch`) to make sure all tests remain "green"
 and we're not shooting as in the foot regression-ally, so to speak.
-
