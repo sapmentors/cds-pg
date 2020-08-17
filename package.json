@@ -6,6 +6,7 @@
   "scripts": {
     "test": "run-s test:pg:up jest test:pg:down",
     "jest": "jest",
+    "test:pg:up-nobg": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up",
     "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up -d",
     "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'"
@@ -55,7 +56,12 @@
     "*.js": "eslint --cache --fix"
   },
   "jest": {
-    "testEnvironment": "node"
+    "globalSetup": "<rootDir>/__tests__/__assets__/hana-jest.config.js",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/__tests__/__assets__/"
+    ]
   },
   "optionalDependencies": {
     "prettier": "2.0.4"
