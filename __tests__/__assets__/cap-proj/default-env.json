@@ -1,0 +1,20 @@
+{
+    "VCAP_SERVICES": {
+      "postgres": [
+        {
+          "name": "postgres",
+          "label": "postgres",
+          "tags": [
+            "postgres"
+          ],
+          "credentials": {
+            "host": "localhost",
+            "port": "5432",
+            "database": "beershop",
+            "user": "postgres",
+            "password": "postgres"
+          }
+        }
+      ]
+    }
+  }

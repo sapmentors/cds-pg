@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up",
+    "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'"
   },
   "repository": {
