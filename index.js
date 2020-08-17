@@ -64,8 +64,12 @@ module.exports = class PostgresDatabase extends HanaDatabase {
     // .catch(err => {throw new PgError()}) // TODO: err handling -> pg-specific message?
   }
 
-  release(dbc) {
-    // do release
-    return dbc.release()
+  /**
+   * release the query client back to the pool
+   * explicitly passing a truthy value
+   * see https://node-postgres.com/api/pool#releasecallback
+   */
+  async release() {
+    return this.dbc.release(true)
   }
 }
