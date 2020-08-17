@@ -4,8 +4,9 @@
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up",
+    "test": "run-s test:pg:up jest test:pg:down",
+    "jest": "jest",
+    "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up -d",
     "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'"
   },
@@ -41,6 +42,7 @@
     "eslint": "^7.5.0",
     "express": "^4.17.1",
     "jest": "^26.4.0",
+    "npm-run-all": "^4.1.5",
     "supertest": "^4.0.2"
   },
   "husky": {
