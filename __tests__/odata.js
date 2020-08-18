@@ -54,5 +54,20 @@ describe('OData to Postgres dialect', () => {
       // at least one of them must be the "Lagerbier Hell"
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     })
+
+    test('odata: single entity -> sql: select record', async () => {
+      const response = await request.get('/beershop/Beers(9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b)')
+      // http response code
+      expect(response.status).toStrictEqual(200)
+      // the beer
+      expect(response.body.ID).toStrictEqual('9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
+      expect(response.body.name).toStrictEqual('Schönramer Hell')
+    })
+
+    test.todo('odata: $expand -> sql: select')
+    test.todo('odata: $filter -> sql: select')
+    test.todo('odata: $select -> sql: select')
+    test.todo('odata: $filter on $expand -> sql: select')
+    test.todo('odata: multiple $ combined: $expand, $filter, $select -> sql: select')
   })
 })
