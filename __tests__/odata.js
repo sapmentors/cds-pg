@@ -28,12 +28,8 @@ describe('OData to Postgres dialect', () => {
     await cds.serve('BeershopService').from(`${__dirname}/__assets__/cap-proj/srv/beershop-service`).in(app)
   })
 
-  afterAll(async () => {
-    // explicitly release the client back to the pool
-    await cds.db.release()
-  })
-
   // making sure we're running the beershop
+  // no db connection required
   test('$metadata document', async () => {
     const response = await request.get('/beershop/$metadata')
 
@@ -45,6 +41,10 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: GET -> sql: SELECT', () => {
+    afterEach(async () => {
+      // explicitly release the client back to the pool
+      await cds.db.release()
+    })
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
       // http response code
