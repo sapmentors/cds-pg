@@ -28,12 +28,8 @@ describe('OData to Postgres dialect', () => {
     await cds.serve('BeershopService').from(`${__dirname}/__assets__/cap-proj/srv/beershop-service`).in(app)
   })
 
-  afterAll(async () => {
-    // explicitly release the client back to the pool
-    await cds.db.release()
-  })
-
   // making sure we're running the beershop
+  // no db connection required
   test('$metadata document', async () => {
     const response = await request.get('/beershop/$metadata')
 
@@ -45,6 +41,10 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: GET -> sql: SELECT', () => {
+    afterEach(async () => {
+      // explicitly release the client back to the pool
+      await cds.db.release()
+    })
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
       // http response code
@@ -54,5 +54,104 @@ describe('OData to Postgres dialect', () => {
       // at least one of them must be the "Lagerbier Hell"
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     })
+
+    test('odata: single entity -> sql: select record', async () => {
+      const response = await request.get('/beershop/Beers(9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b)')
+      // http response code
+      expect(response.status).toStrictEqual(200)
+      // the beer
+      expect(response.body.ID).toStrictEqual('9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
+      expect(response.body.name).toStrictEqual('Schönramer Hell')
+    })
+
+    test.skip('odata: $expand entityset on 1:1 rel -> sql: sub-select from expand-target table', async () => {
+      const response = await request.get('/beershop/Beers?$expand=brewery')
+      /*
+        { SELECT: {
+          from: {ref:['BeershopService.Beers']},
+          columns: [
+            {ref:['ID']},
+            {ref:['name']},
+            {ref:['abv']},
+            {ref:['ibu']},
+            {ref:['brewery_ID']},
+            {
+              ref: [ 'brewery' ],
+              expand: [ {ref:['ID']}, {ref:['name']} ],
+              orderBy: [ {ref:[ 'ID' ], sort: 'asc' } ],
+              limit: { rows: {val:9007199254740991} }
+            }
+          ],
+          orderBy: [ {ref:[ 'ID' ], sort: 'asc' } ],
+          limit: { rows: {val:1000} }
+        }}
+      */
+      // http response code
+      expect(response.status).toStrictEqual(200)
+      // further assertions
+    })
+    test.skip('odata: $expand single entity on 1:1 rel -> sql: sub-select single record from expand-target table', async () => {
+      const response = await request.get('/beershop/Beers(9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b)?$expand=brewery')
+      /*
+      { SELECT: {
+        from: {ref:['BeershopService.Beers']},
+        where: [
+          {ref:['ID']},
+          '=',
+          {val:'9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b'}
+        ],
+        columns: [
+          {ref:['ID']},
+          {ref:['name']},
+          {ref:['abv']},
+          {ref:['ibu']},
+          {ref:['brewery_ID']},
+          {
+            ref: [ 'brewery' ],
+            expand: [ {ref:['ID']}, {ref:['name']} ],
+            orderBy: [ {ref:[ 'ID' ], sort: 'asc' } ],
+            limit: { rows: {val:9007199254740991} }
+          }
+        ]
+      }}
+      */
+      // http response code
+      expect(response.status).toStrictEqual(200)
+      // further assertions
+    })
+    test.skip('odata: $expand entityset on 1:n rel -> sql: sub-select multiple records from expand-target table', async () => {
+      const response = await request.get('/beershop/Breweries?$expand=beers')
+      /*
+     { SELECT: {
+      from: {ref:['BeershopService.Breweries']},
+      columns: [
+        {ref:['ID']},
+        {ref:['name']},
+        {
+          ref: [ 'beers' ],
+          expand: [
+            {ref:['ID']},
+            {ref:['name']},
+            {ref:['abv']},
+            {ref:['ibu']},
+            {ref:['brewery_ID']}
+          ],
+          orderBy: [ {ref:[ 'ID' ], sort: 'asc' } ],
+          limit: { rows: {val:9007199254740991} }
+        }
+      ],
+      orderBy: [ {ref:[ 'ID' ], sort: 'asc' } ],
+      limit: { rows: {val:1000} }
+    }}
+      */
+      // http response code
+      expect(response.status).toStrictEqual(200)
+      // further assertions
+    })
+    test
+    test.todo('odata: $filter -> sql: select')
+    test.todo('odata: $select -> sql: select')
+    test.todo('odata: $filter on $expand -> sql: select')
+    test.todo('odata: multiple $ combined: $expand, $filter, $select -> sql: select')
   })
 })
