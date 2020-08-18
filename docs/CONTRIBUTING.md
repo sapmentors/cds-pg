@@ -4,7 +4,7 @@ The PostgreSQL adapter to `CAP` lives off of the effort of the community 🧍‍
 Only _together_ can we get this to a state where `cds-pg` achieves production-level quality 💪, providing a persistence option outside `sqlite` and `hana`.
 
 **The overall goal is to validate SQL-results in PostgreSQL by issuing OData-calls via `cds`**:  
-because we know the data model, we can predict the result of the OData call, thus assering the correct SQL statement and `cds.Service`-implementation via PostgreSQL.
+because we know the data model, we can predict the result of the OData call, thus asserting the correct SQL statement and `cds.Service`-implementation via PostgreSQL.
 
 The two most crucial files/code points are:
 
@@ -16,6 +16,18 @@ There most likely the majority of your work will take place.
 The path towards _what to implement_ is paved via the tests (in `__tests__/*`) that issue bespoken OData-calls and provide example `cqn`-queries to transform.
 
 The idea is to grab any not-yet-implemented (`test.todo(..)`) or incomplete (`test.skip(...)`) test and/or add new ones, and implement functionality of `cds-pg` based on those tests.
+
+## in here
+
+- [setting up the development environment](#setting-up-the-development-environment)
+  - [initial setup](#initial-setup)
+  - [local PostgreSQL server with content](#local-postgresql-server-with-content)
+  - [runnable queries and runtime debug capabilites](#runnable-queries-and-runtime-debug-capabilites)
+    - [OData queries](#odata-queries)
+    - [Debugging](#debugging)
+  - [comparison possibility with sqlite](#comparison-possibility-with-sqlite)
+- [other thingies](#other-thingies)
+- [Collaboration](#collaboration)
 
 ## setting up the development environment
 
@@ -45,7 +57,7 @@ $> nvm use
 
 `CDS_DEBUG` and `DEBUG` environment variables are respected. Setting them causes `cds-pg` to produce verbose logging output (which you want 😉).
 
-`Visual Studio Code` is the ecommend IDE (b/c we use it 😆).  
+`Visual Studio Code` is the recommend IDE (b/c we use it 😆).  
 If you're on a different IDE - no sweat, but we might not be able to help with e.g. debugging capabilites.
 
 ### local PostgreSQL server with content
@@ -120,7 +132,7 @@ Any set breakpoints in the code will then be hit during run-time of the tests.
 
 To be able to compare expected OData query results within an officially (by SAP) supported scenario,  
 `npm run test:as-sqlite`  
-bootstrap the base cap project in `__tests__/__assets__/cap-proj` with an in-mem SQListe database.
+bootstraps the base cap project in `__tests__/__assets__/cap-proj` with an in-mem SQListe database.
 
 ```bash
 $> npm run test:as-sqlite
