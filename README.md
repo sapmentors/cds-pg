@@ -7,9 +7,10 @@ This node module provides an adapter to the PostgreSQL database.
 
 ## Current status
 
-This is a first alpha version! It can connect to a PostgreSQL database and execute a simple SELECT statement. Please help us to improve by your contribution.
+This is a first alpha version! It can connect to a PostgreSQL database and execute statements, currently `SELECT` for entitysets and entites only.  
+Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to help with additional capabilites!
 
-## Installation
+## Usage in your `cap` project
 
 Add this package to your [SAP Cloud Application Programming Model](https://cap.cloud.sap/docs/) project by running:
 
@@ -35,7 +36,7 @@ Then add this configuration to the cds section of your package.json:
   }
 ```
 
-For local development you can provide the credentials in the file `default-env.json`:
+For local development you can provide the credentials in the file `default-env.json` in the root folder of your project:
 
 ```JSON
 {
