@@ -4,7 +4,11 @@
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "run-s test:pg:up jest test:pg:down",
+    "jest": "jest",
+    "test:pg:up-nobg": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up",
+    "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up -d",
+    "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'"
   },
   "repository": {
@@ -37,7 +41,10 @@
   },
   "devDependencies": {
     "eslint": "^7.5.0",
-    "jest": "^26.4.0"
+    "express": "^4.17.1",
+    "jest": "^26.4.0",
+    "npm-run-all": "^4.1.5",
+    "supertest": "^4.0.2"
   },
   "husky": {
     "hooks": {
@@ -49,7 +56,12 @@
     "*.js": "eslint --cache --fix"
   },
   "jest": {
-    "testEnvironment": "node"
+    "globalSetup": "<rootDir>/__tests__/__assets__/hana-jest.config.js",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/__tests__/__assets__/"
+    ]
   },
   "optionalDependencies": {
     "prettier": "2.0.4"

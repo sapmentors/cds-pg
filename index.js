@@ -1,9 +1,5 @@
 const { Pool } = require('pg')
-let hanaService = '../@sap/cds-runtime/lib/hana/Service.js'
-if (!__dirname.endsWith('node_modules/cds-pg')) {
-  hanaService = './node_modules/@sap/cds-runtime/lib/hana/Service.js'
-}
-const HanaDatabase = require(hanaService)
+const HanaDatabase = require('@sap/cds-runtime/lib/hana/Service.js')
 const cqn2pgsql = require('./lib/cqn2pgsql')
 
 module.exports = class PostgresDatabase extends HanaDatabase {
@@ -48,7 +44,6 @@ module.exports = class PostgresDatabase extends HanaDatabase {
         })
       })
       this.on('READ', (req) => {
-        console.log(req.query)
         const dbc = req.context._dbc
         return dbc.query(cqn2pgsql(req.query)).then((res) => res.rows)
       })
@@ -69,8 +64,12 @@ module.exports = class PostgresDatabase extends HanaDatabase {
     // .catch(err => {throw new PgError()}) // TODO: err handling -> pg-specific message?
   }
 
-  release(dbc) {
-    // do release
-    return dbc.release()
+  /**
+   * release the query client back to the pool
+   * explicitly passing a truthy value
+   * see https://node-postgres.com/api/pool#releasecallback
+   */
+  async release() {
+    return this.dbc.release(true)
   }
 }
