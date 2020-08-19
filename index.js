@@ -72,4 +72,9 @@ module.exports = class PostgresDatabase extends HanaDatabase {
   async release() {
     return this.dbc.release(true)
   }
+
+  cdssql2pgsql(cdssql) {
+    var pgsql = cdssql.replace(/NVARCHAR/g, 'VARCHAR')
+    return pgsql
+  }
 }
