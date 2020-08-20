@@ -72,4 +72,14 @@ module.exports = class PostgresDatabase extends HanaDatabase {
   async release() {
     return this.dbc.release(true)
   }
+
+  /**
+   * Convert the cds compile -to sql output to a PostgreSQL compatible format
+   * @param {String} SQL from cds compile -to sql
+   * @returns {String} postgresql sql compatible SQL
+   */
+  cdssql2pgsql(cdssql) {
+    const pgsql = cdssql.replace(/NVARCHAR/g, 'VARCHAR')
+    return pgsql
+  }
 }
