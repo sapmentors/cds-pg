@@ -10,7 +10,7 @@ describe('CDS SQL to PostgreSQL', () => {
       const cdssql = cds.compile.to.sql(csn, { as: 'str' })
       const cdspg = new postgresDatabase()
       let pgsql = cdspg.cdssql2pgsql(cdssql)
-      const pgsqlMatch = fs.readFileSync(`${__dirname}/test.sql`, 'utf-8')
+      const pgsqlMatch = fs.readFileSync(`${__dirname}/__assets__/test.sql`, 'utf-8')
       expect(pgsql).toMatch(pgsqlMatch)
     })
   })
