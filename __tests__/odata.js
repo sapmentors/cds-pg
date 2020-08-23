@@ -19,7 +19,7 @@ describe('OData to Postgres dialect', () => {
         host: 'localhost',
         port: '5432',
         database: 'beershop',
-        user: 'postgres',
+        username: 'postgres',
         password: 'postgres',
       },
     })
