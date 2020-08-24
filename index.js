@@ -6,6 +6,10 @@ module.exports = class PostgresDatabase extends HanaDatabase {
   constructor(...args) {
     super(...args)
     // maybe do more stuff
+    // Cloud Foundry provides the user in the field username the pg npm module expects user
+    if (this.options.credentials && this.options.credentials.username) {
+      this.options.credentials.user = this.options.credentials.username
+    }
     this._pool = new Pool(this.options.credentials)
   }
 
