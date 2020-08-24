@@ -172,7 +172,7 @@ As stated above, the SQLite-based app is accessible via http://localhost:4004
 
 ## Collaboration
 
-Please provide pull requests against the `master` branch of this project.  
+Please provide pull requests against the `main` branch of this project.  
 On every PR, the entire test suite is run against a dockerized `postgres` database, helping to prevent bugs and catch'em regressions :)  
 A reviewer is required for each PR. As of now, please add either [@gregorwolf](https://github.com/gregorwolf) or [@vobu](https://github.com/vobu).  
 Our hopes are high that one day, [@aragonX](https://twitter.com/aragonx) will chime in and lead all this :)
