@@ -41,10 +41,6 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: GET -> sql: SELECT', () => {
-    afterEach(async () => {
-      // explicitly release the client back to the pool
-      await cds.db.release()
-    })
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
       // http response code

@@ -11,7 +11,15 @@ This is a first alpha version! It can connect to a PostgreSQL database and execu
 
 Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to constribute additional capabilites!
 
-## Usage in your `cap` project
+### TODO
+
+[ ] refactor SQL "compiler" to produce prepared statement syntax à la https://node-postgres.com/features/queries ("Prepared Statements") in `lib/cqn2pgsql.js`  
+[ ] extend `SELECT|READ`(~ OData `GET`)  
+[ ] start `INSERT|CREATE`(~ OData `POST`)  
+[ ] start `UPDATE`(~ OData `PUT|PATCH`)  
+[ ] start `DELETE`(~ OData `DELETE`)
+
+## usage in your CAP project
 
 Add this package to your [SAP Cloud Application Programming Model](https://cap.cloud.sap/docs/) project by running:
 
