@@ -35,14 +35,14 @@ describe('OData to Postgres dialect', () => {
 
     expect(response.status).toStrictEqual(200)
     const expectedVersion = '<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">'
-    const expectedBeersEntitySet = '<EntitySet Name="Beers" EntityType="BeershopService.Beers"/>'
+    const expectedBeersEntitySet = '<EntitySet Name="Beers" EntityType="BeershopService.Beers">'
     expect(response.text.includes(expectedVersion)).toBeTruthy()
     expect(response.text.includes(expectedBeersEntitySet)).toBeTruthy()
   })
 
   describe('odata: GET -> sql: SELECT', () => {
     test('odata: entityset Beers -> sql: select all beers', async () => {
-      const response = await request.get('/beershop/Beers?')
+      const response = await request.get('/beershop/Beers')
       expect(response.status).toStrictEqual(200)
       expect(response.body.value.length).toStrictEqual(2)
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
@@ -53,7 +53,7 @@ describe('OData to Postgres dialect', () => {
       // http response code
       expect(response.status).toStrictEqual(200)
       // the beer
-      expect(response.body.id).toStrictEqual('9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
+      expect(response.body.ID).toStrictEqual('9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
       expect(response.body.name).toStrictEqual('Schönramer Hell')
     })
 
@@ -68,7 +68,6 @@ describe('OData to Postgres dialect', () => {
 
     test('odata: select -> sql: select record', async () => {
       const response = await request.get("/beershop/Beers?$filter=name eq 'Lagerbier Hell'")
-
 
       expect(response.status).toStrictEqual(200)
       expect(response.body.value.length).toStrictEqual(1)

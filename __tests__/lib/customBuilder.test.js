@@ -1,4 +1,4 @@
-const CustomBuilder = require('../../lib/pg/customBuilder');
+const CustomBuilder = require('../../lib/customBuilder');
 const sqlFactory = require('../../lib/sqlFactory');
 
 describe('CQN to PostgreSQL', () => {
@@ -46,7 +46,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers');
+            expect(sql).toMatch('SELECT ID AS \"ID\", name AS \"name\" FROM BeershopService_Beers AS \"BeershopService.Beers\"');
             expect(values).toEqual([])
         })
 
@@ -202,7 +202,38 @@ describe('CQN to PostgreSQL', () => {
         })
     })
 
-    test.todo("DeleteBuilder")
+    describe('DeleteBuilder', () => {
+        test('+ should return a valid DELETE statement with given from', async () => {
+
+            const query = {
+                cmd: 'DELETE',
+                DELETE: {
+                    from: { ref: ['BeershopService.Beers'] }
+                }
+            }
+
+            const { sql, values = [] } = this.runQuery(query)
+
+            expect(sql).toMatch('DELETE FROM BeershopService_Beers');
+            expect(values).toEqual([])
+        })
+
+        test('+ should return a valid DELETE statement with given from and where', async () => {
+
+            const query = {
+                cmd: 'DELETE',
+                DELETE: {
+                    from: { ref: ['BeershopService.Beers'] },
+                    where: [{ ref: ["ID"] }, "=", { val: 111 }]
+                }
+            }
+
+            const { sql, values = [] } = this.runQuery(query)
+
+            expect(sql).toMatch('DELETE FROM BeershopService_Beers WHERE ID = $1');
+            expect(values).toEqual([111])
+        })
+    })
 
     test.todo("CreateBuilder")
 

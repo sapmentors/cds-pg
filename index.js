@@ -1,4 +1,4 @@
-const Service = require('./lib/pg/Service')
+const Service = require('./lib/Service')
 /*
  * the service
  */

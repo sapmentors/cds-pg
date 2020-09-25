@@ -2,12 +2,11 @@ namespace csw;
 
 using {cuid} from '@sap/cds/common';
 
-entity Beers {
-  key id      : UUID;
-      name    : String(100);
-      abv     : Decimal(3, 1);
-      ibu     : Integer;
-      brewery : Association to one Brewery;
+entity Beers : cuid {
+  name    : String(100);
+  abv     : Decimal(3, 1);
+  ibu     : Integer;
+  brewery : Association to one Brewery;
 }
 
 entity Brewery : cuid {
