@@ -35,19 +35,16 @@ describe('OData to Postgres dialect', () => {
 
     expect(response.status).toStrictEqual(200)
     const expectedVersion = '<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">'
-    const expectedBeersEntitySet = '<EntitySet Name="Beers" EntityType="BeershopService.Beers">'
+    const expectedBeersEntitySet = '<EntitySet Name="Beers" EntityType="BeershopService.Beers"/>'
     expect(response.text.includes(expectedVersion)).toBeTruthy()
     expect(response.text.includes(expectedBeersEntitySet)).toBeTruthy()
   })
 
   describe('odata: GET -> sql: SELECT', () => {
     test('odata: entityset Beers -> sql: select all beers', async () => {
-      const response = await request.get('/beershop/Beers')
-      // http response code
+      const response = await request.get('/beershop/Beers?')
       expect(response.status).toStrictEqual(200)
-      // 2 beers in the shop
       expect(response.body.value.length).toStrictEqual(2)
-      // at least one of them must be the "Lagerbier Hell"
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     })
 
@@ -56,9 +53,29 @@ describe('OData to Postgres dialect', () => {
       // http response code
       expect(response.status).toStrictEqual(200)
       // the beer
-      expect(response.body.ID).toStrictEqual('9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
+      expect(response.body.id).toStrictEqual('9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
       expect(response.body.name).toStrictEqual('Schönramer Hell')
     })
+
+    test('odata: select -> sql: select record', async () => {
+      const response = await request.get('/beershop/Beers(9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b)?$select=name,ibu')
+      // http response code
+      expect(response.status).toStrictEqual(200)
+      // the beer
+      expect(response.body.abv).toBeUndefined()
+      expect(response.body.name).toStrictEqual('Schönramer Hell')
+    })
+
+    test('odata: select -> sql: select record', async () => {
+      const response = await request.get("/beershop/Beers?$filter=name eq 'Lagerbier Hell'")
+
+
+      expect(response.status).toStrictEqual(200)
+      expect(response.body.value.length).toStrictEqual(1)
+      expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
+    })
+
+
 
     test.skip('odata: $expand entityset on 1:1 rel -> sql: sub-select from expand-target table', async () => {
       const response = await request.get('/beershop/Beers?$expand=brewery')
@@ -146,8 +163,17 @@ describe('OData to Postgres dialect', () => {
     })
     test
     test.todo('odata: $filter -> sql: select')
-    test.todo('odata: $select -> sql: select')
     test.todo('odata: $filter on $expand -> sql: select')
     test.todo('odata: multiple $ combined: $expand, $filter, $select -> sql: select')
+  })
+
+  describe('odata: POST -> sql: INSERT', () => {
+    test('odata: entityset Beers -> sql: insert into beers', async () => {
+      const response = await request.post('/beershop/Beers',).send({
+        name: 'Schlappe Seppel',
+        ibu: 10
+      });
+      expect(response.status).toStrictEqual(201)
+    })
   })
 })
