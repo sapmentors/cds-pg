@@ -1,5 +1,5 @@
-const CustomBuilder = require('../../lib/customBuilder');
-const sqlFactory = require('../../lib/sqlFactory');
+const CustomBuilder = require('')
+const { sqlFactory } = require('@sap/cds-runtime/lib/db/sql-builder')
 
 describe('CQN to PostgreSQL', () => {
 
@@ -46,7 +46,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch('SELECT ID AS \"ID\", name AS \"name\" FROM BeershopService_Beers AS \"BeershopService.Beers\"');
+            expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers');
             expect(values).toEqual([])
         })
 
@@ -64,7 +64,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers ORDER BY ID ASC LIMIT $1 OFFSET $2');
+            expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers ORDER BY ID ASC LIMIT ? OFFSET ?');
             expect(values).toEqual([1, 1])
         })
 
@@ -100,7 +100,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers WHERE ID = $1 ORDER BY ID ASC LIMIT $2 OFFSET $3');
+            expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers WHERE ID = ? ORDER BY ID ASC LIMIT ? OFFSET ?');
             expect(values).toEqual([111, 1, 1])
         })
     })
@@ -124,7 +124,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( $1, $2 )`)
+            expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( ?, ? )`)
             expect(values).toEqual([201, "MyBeer"])
         })
 
@@ -143,7 +143,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( $1, $2 )`)
+            expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( ?, ? )`)
             expect(values).toEqual([[201, "MyBeer"], [202, "MyOtherBeer"]])
         })
 
@@ -161,7 +161,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( $1, $2 )`)
+            expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( ?, ? )`)
             expect(values).toEqual([[201, "MyBeer"], [202, "MyOtherBeer"]])
         })
 
@@ -180,7 +180,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch('UPDATE BeershopService_Beers SET name = $1');
+            expect(sql).toMatch('UPDATE BeershopService_Beers SET name = ?');
             expect(values).toEqual(["The Raven"])
         })
 
@@ -197,7 +197,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch('UPDATE BeershopService_Beers SET name = $1 WHERE ID = $2');
+            expect(sql).toMatch('UPDATE BeershopService_Beers SET name = ? WHERE ID = ?');
             expect(values).toEqual(["The Raven", 111])
         })
     })
@@ -230,7 +230,7 @@ describe('CQN to PostgreSQL', () => {
 
             const { sql, values = [] } = this.runQuery(query)
 
-            expect(sql).toMatch('DELETE FROM BeershopService_Beers WHERE ID = $1');
+            expect(sql).toMatch('DELETE FROM BeershopService_Beers WHERE ID = ?');
             expect(values).toEqual([111])
         })
     })
