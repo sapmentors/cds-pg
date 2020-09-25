@@ -24,7 +24,7 @@ CREATE TABLE csw_TypeChecks (
   type_Int32 INTEGER,
   type_Int64 BIGINT,
   type_Decimal DECIMAL(2, 1),
-  type_Double NUMERIC(15, 15),
+  type_Double NUMERIC(30, 15),
   type_Date DATE,
   type_Time TIME,
   type_DateTime TIMESTAMP,

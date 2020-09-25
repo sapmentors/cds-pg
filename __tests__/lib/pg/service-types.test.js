@@ -53,44 +53,44 @@ describe('OData to Postgres dialect', () => {
             expect(response.status).toStrictEqual(201)
         })
 
-        test.skip(' -> Decimal', async () => {
+        test(' -> Decimal', async () => {
             const response = await request.post('/beershop/TypeChecks').send({
-                type_Decimal: 32.1
+                type_Decimal: '3.1'
+            }).set('content-type', "application/json;charset=UTF-8;IEEE754Compatible=true");
+            expect(response.status).toStrictEqual(201)
+        })
+
+        test(' -> Double', async () => {
+            const response = await request.post('/beershop/TypeChecks').send({
+                type_Double: 23423.1234234
             });
             expect(response.status).toStrictEqual(201)
         })
 
-        test.skip(' -> Double', async () => {
-            const response = await request.post('/beershop/TypeChecks').send({
-                type_Decimal: '12312332.134234324'
-            });
-            expect(response.status).toStrictEqual(201)
-        })
-
-        test.skip(' -> Date', async () => {
+        test(' -> Date', async () => {
             const response = await request.post('/beershop/TypeChecks').send({
                 type_Date: "2015-12-31"
             });
             expect(response.status).toStrictEqual(201)
         })
 
-        test.skip(' -> Time', async () => {
+        test(' -> Time', async () => {
             const response = await request.post('/beershop/TypeChecks').send({
-                type_Time: "2015-12-31"
+                type_Time: "10:21:15"
             });
             expect(response.status).toStrictEqual(201)
         })
 
-        test.skip(' -> DateTime', async () => {
+        test(' -> DateTime', async () => {
             const response = await request.post('/beershop/TypeChecks').send({
-                type_DateTime: "2015-12-31"
+                type_DateTime: "2012-12-03T07:16:23.574Z"
             });
             expect(response.status).toStrictEqual(201)
         })
 
-        test.skip(' -> Timestamp', async () => {
+        test(' -> Timestamp', async () => {
             const response = await request.post('/beershop/TypeChecks').send({
-                type_Timestamp: "2015-12-31"
+                type_Timestamp: "2012-12-03T07:16:23.574Z"
             });
             expect(response.status).toStrictEqual(201)
         })
@@ -102,16 +102,16 @@ describe('OData to Postgres dialect', () => {
             expect(response.status).toStrictEqual(201)
         })
 
-        test.skip(' -> Binary', async () => {
+        test(' -> Binary', async () => {
             const response = await request.post('/beershop/TypeChecks').send({
-                type_Binary: "Hello World"
+                type_Binary: "SGVsbG8gV29ybGQ="
             });
             expect(response.status).toStrictEqual(201)
         })
 
-        test.skip(' -> LargeBinary', async () => {
+        test(' -> LargeBinary', async () => {
             const response = await request.post('/beershop/TypeChecks').send({
-                type_LargeBinary: "Hello World"
+                type_LargeBinary: "SGVsbG8gV29ybGQ="
             });
             expect(response.status).toStrictEqual(201)
         })

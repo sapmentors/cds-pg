@@ -33,7 +33,7 @@ const { readHandler, createHandler, updateHandler, deleteHandler } = require('./
      */
     cdssql2pgsql(cdssql) {
         let pgsql = cdssql.replace(/NVARCHAR/g, 'VARCHAR')
-        pgsql = pgsql.replace(/DOUBLE/g, 'NUMERIC(15, 15)')
+        pgsql = pgsql.replace(/DOUBLE/g, 'NUMERIC(30, 15)')
         pgsql = pgsql.replace(/BLOB/g, 'BYTEA')
         pgsql = pgsql.replace(/NCLOB/g, 'TEXT')
         return pgsql
