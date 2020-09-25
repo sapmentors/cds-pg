@@ -19,6 +19,8 @@ Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to constribute ad
 [X] start `UPDATE`(~ OData `PUT|PATCH`)  
 [X] start `DELETE`(~ OData `DELETE`)
 [ ] use default query builders for INSERT/UPDATE/DELETE
+[ ] make all the default OData types work
+[ ] maybe add some PostgreSQL specific data type support
 [ ] add more tests
 
 ## usage in your CAP project
