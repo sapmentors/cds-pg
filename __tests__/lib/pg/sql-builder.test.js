@@ -1,4 +1,4 @@
-const CustomBuilder = require('')
+const CustomBuilder = require('../../../lib/pg/sql-builder')
 const { sqlFactory } = require('@sap/cds-runtime/lib/db/sql-builder')
 
 describe('CQN to PostgreSQL', () => {

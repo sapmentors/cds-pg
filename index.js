@@ -21,11 +21,21 @@ const { readHandler, createHandler, updateHandler, deleteHandler } = require('./
 
     /**
      * Convert the cds compile -to sql output to a PostgreSQL compatible format
+     * @see https://www.postgresql.org/docs/13/datatype.html
+     * 
+     * NVARCHAR -> VARCHAR
+     * DOUBLE -> NUMERIC(15, 15)
+     * BLOB -> BYTEA
+     * NCLOB -> TEXT
+     * 
      * @param {String} SQL from cds compile -to sql
      * @returns {String} postgresql sql compatible SQL
      */
     cdssql2pgsql(cdssql) {
-        const pgsql = cdssql.replace(/NVARCHAR/g, 'VARCHAR')
+        let pgsql = cdssql.replace(/NVARCHAR/g, 'VARCHAR')
+        pgsql = pgsql.replace(/DOUBLE/g, 'NUMERIC(15, 15)')
+        pgsql = pgsql.replace(/BLOB/g, 'BYTEA')
+        pgsql = pgsql.replace(/NCLOB/g, 'TEXT')
         return pgsql
     }
 

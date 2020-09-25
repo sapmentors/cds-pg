@@ -9,7 +9,8 @@ describe('CDS SQL to PostgreSQL', () => {
       const csn = await cds.load(`${servicePath}`)
       const cdssql = cds.compile.to.sql(csn, { as: 'str' })
       const cdspg = new postgresDatabase()
-      let pgsql = cdspg.cdssql2pgsql(cdssql)
+      let pgsql = cdspg.cdssql2pgsql(cdssql).trim()
+      //fs.writeFileSync(`${__dirname}/__assets__/test.sql`, pgsql);
       const pgsqlMatch = fs.readFileSync(`${__dirname}/__assets__/test.sql`, 'utf-8')
       expect(pgsql).toMatch(pgsqlMatch)
     })
