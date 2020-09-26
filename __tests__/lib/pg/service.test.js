@@ -100,9 +100,9 @@ describe('OData to Postgres dialect', () => {
         test('odata: entityset Beers -> sql: insert into beers', async () => {
             const response = await request.post('/beershop/Beers',).send({
                 name: 'Schlappe Seppel',
-                ibu: 10//,
-                //abv: "6.2"
-            });
+                ibu: 10,
+                abv: "16.2"
+            }).set('content-type', "application/json;charset=UTF-8;IEEE754Compatible=true");
 
             this._genratedId = response.body.ID;
             expect(response.status).toStrictEqual(201)
@@ -118,9 +118,9 @@ describe('OData to Postgres dialect', () => {
         beforeEach(async () => {
             const response = await request.post('/beershop/Beers',).send({
                 name: 'Schlappe Seppel',
-                ibu: 10//,
-                //abv: "6.2"
-            });
+                ibu: 10,
+                abv: "6.2"
+            }).set('content-type', "application/json;charset=UTF-8;IEEE754Compatible=true");
             this._genratedId = response.body.ID;
         })
 
