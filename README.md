@@ -9,7 +9,7 @@ This node module provides an adapter to the PostgreSQL database.
 
 This is a first alpha version! It can connect to a PostgreSQL database and execute statements, currently `SELECT` for entitysets and entites only.
 
-Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilites!
+Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
 
 ### TODO
 
