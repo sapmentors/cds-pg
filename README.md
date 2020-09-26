@@ -13,11 +13,15 @@ Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to constribute ad
 
 ### TODO
 
-[ ] refactor SQL "compiler" to produce prepared statement syntax à la https://node-postgres.com/features/queries ("Prepared Statements") in `lib/cqn2pgsql.js`  
-[ ] extend `SELECT|READ`(~ OData `GET`)  
-[ ] start `INSERT|CREATE`(~ OData `POST`)  
-[ ] start `UPDATE`(~ OData `PUT|PATCH`)  
-[ ] start `DELETE`(~ OData `DELETE`)
+[X] refactor SQL "compiler" to produce prepared statement syntax à la https://node-postgres.com/features/queries ("Prepared Statements") in `lib/cqn2pgsql.js`  
+[X] extend `SELECT|READ`(~ OData `GET`)  
+[X] start `INSERT|CREATE`(~ OData `POST`)  
+[X] start `UPDATE`(~ OData `PUT|PATCH`)  
+[X] start `DELETE`(~ OData `DELETE`)
+[ ] use default query builders for INSERT/UPDATE/DELETE
+[ ] make all the default OData types work
+[ ] maybe add some PostgreSQL specific data type support
+[ ] add more tests
 
 ## usage in your CAP project
 
