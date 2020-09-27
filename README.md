@@ -7,20 +7,22 @@ This node module provides an adapter to the PostgreSQL database.
 
 ## Current status
 
-This is a first alpha version! It can connect to a PostgreSQL database and execute statements, currently `SELECT` for entitysets and entites only.
+This is a first alpha version! It can connect to a PostgreSQL database and execute basic CRUD statements.
 
 Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to constribute additional capabilites!
 
 ### TODO
 
-[X] refactor SQL "compiler" to produce prepared statement syntax à la https://node-postgres.com/features/queries ("Prepared Statements") in `lib/cqn2pgsql.js`  
-[X] extend `SELECT|READ`(~ OData `GET`)  
-[X] start `INSERT|CREATE`(~ OData `POST`)  
-[X] start `UPDATE`(~ OData `PUT|PATCH`)  
-[X] start `DELETE`(~ OData `DELETE`)
-[ ] use default query builders for INSERT/UPDATE/DELETE
-[ ] make all the default OData types work
-[ ] maybe add some PostgreSQL specific data type support
+[X] implement basic `SELECT|READ`(~ OData `GET`)  
+[X] implement basic `INSERT|CREATE`(~ OData `POST`)  
+[X] implement basic `UPDATE`(~ OData `PUT|PATCH`)  
+[X] implement basic `DELETE`(~ OData `DELETE`)  
+[X] map OData to PostgreSQL vocabulary  
+[X] implement basic cds deployment  
+[ ] use default query builders for UPDATE/DELETE  
+[ ] add support for full OData vocabulary  
+[ ] add advanced deployment model that supports delta handling/migrations  
+[ ] maybe add some PostgreSQL specific data type support  
 [ ] add more tests
 
 ## usage in your CAP project
