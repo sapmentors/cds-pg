@@ -123,11 +123,10 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
      */
     this.on('*', function (req) {
       if (typeof req.query === 'string') {
-        return sqlHandler(this.dbc, req.query || req.event, this._model);
+        return sqlHandler(this.dbc, req.query || req.event, this._model)
       } else {
-        return cqnHandler(this.dbc, req.query || req.event, this._model);
+        return cqnHandler(this.dbc, req.query || req.event, this._model)
       }
-
     })
   }
 
@@ -168,12 +167,11 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
 
   // REVISIT: Borrowed from SQLite service, but needs cleanup
   async deploy(model, options = {}) {
-
     let createEntities = cds.compile.to.sql(model)
     if (!createEntities || createEntities.length === 0) return // > nothing to deploy
 
     // Transform to PostgresSQL
-    createEntities = createEntities.map(e => this.cdssql2pgsql(e));
+    createEntities = createEntities.map((e) => this.cdssql2pgsql(e))
 
     const dropViews = []
     const dropTables = []
@@ -186,13 +184,13 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
     if (options.dry) {
       const log = console.log // eslint-disable-line no-console
       for (let {
-        DROP: { view }
+        DROP: { view },
       } of dropViews) {
         log('DROP VIEW IF EXISTS ' + view + ';')
       }
       log()
       for (let {
-        DROP: { entity }
+        DROP: { entity },
       } of dropTables) {
         log('DROP TABLE IF EXISTS ' + entity + ';')
       }
