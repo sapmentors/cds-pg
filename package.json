@@ -1,6 +1,6 @@
 {
   "name": "cds-pg",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "main": "index.js",
   "scripts": {
