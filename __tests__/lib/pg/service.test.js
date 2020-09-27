@@ -12,7 +12,7 @@ describe('OData to Postgres dialect', () => {
   const request = require('supertest')(app)
 
   beforeAll(async () => {
-    this._model = './__tests__/__assets__/cap-proj/srv/';
+    this._model = './__tests__/__assets__/cap-proj/srv/'
     this._dbProperties = {
       kind: 'postgres',
       model: this._model,
@@ -23,7 +23,7 @@ describe('OData to Postgres dialect', () => {
         username: 'postgres',
         password: 'postgres',
       },
-    };
+    }
     cds.db = await cds.connect.to(this._dbProperties)
 
     // serve only a plain beershop
@@ -32,7 +32,7 @@ describe('OData to Postgres dialect', () => {
   })
 
   beforeEach(async () => {
-    await deploy(this._model, {}).to(this._dbProperties);
+    await deploy(this._model, {}).to(this._dbProperties)
   })
 
   // making sure we're running the beershop
@@ -48,9 +48,8 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: GET -> sql: SELECT', () => {
-
     beforeEach(async () => {
-      await deploy(this._model, {}).to(this._dbProperties);
+      await deploy(this._model, {}).to(this._dbProperties)
     })
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
@@ -121,9 +120,8 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: POST -> sql: INSERT', () => {
-
     beforeEach(async () => {
-      await deploy(this._model, {}).to(this._dbProperties);
+      await deploy(this._model, {}).to(this._dbProperties)
     })
 
     test('odata: entityset Beers -> sql: insert into beers', async () => {
@@ -141,7 +139,6 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: DELETE -> sql: DELETE', () => {
-
     test('odata delete ', async () => {
       const response = await request.delete(`/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b`).send()
       expect(response.status).toStrictEqual(204)

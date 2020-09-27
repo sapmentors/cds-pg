@@ -12,7 +12,7 @@ describe('OData to Postgres dialect', () => {
   const request = require('supertest')(app)
 
   beforeAll(async () => {
-    this._model = './__tests__/__assets__/cap-proj/srv/';
+    this._model = './__tests__/__assets__/cap-proj/srv/'
     this._dbProperties = {
       kind: 'postgres',
       model: this._model,
@@ -23,7 +23,7 @@ describe('OData to Postgres dialect', () => {
         username: 'postgres',
         password: 'postgres',
       },
-    };
+    }
     cds.db = await cds.connect.to(this._dbProperties)
 
     // serve only a plain beershop
@@ -32,7 +32,7 @@ describe('OData to Postgres dialect', () => {
   })
 
   beforeEach(async () => {
-    await deploy(this._model, {}).to(this._dbProperties);
+    await deploy(this._model, {}).to(this._dbProperties)
   })
 
   describe('OData types: CREATE', () => {
