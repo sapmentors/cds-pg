@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/sapmentors/cds-pg.git"
   },
+  "bin": {
+    "cds-pg": "bin/cds-pg.js"
+  },
   "keywords": [
     "sap",
     "cap",
