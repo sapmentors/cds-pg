@@ -58,7 +58,7 @@ describe('OData to Postgres dialect', () => {
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     })
 
-    test.skip('odata: entityset Beers -> sql: select all beers and count', async () => {
+    test('odata: entityset Beers -> sql: select all beers and count', async () => {
       const response = await request.get('/beershop/Beers?$count=true')
       expect(response.status).toStrictEqual(200)
       expect(response.body['@odata.count']).toEqual(2)
