@@ -1,4 +1,5 @@
 const cds = require('@sap/cds')
+const deploy = require('@sap/cds/lib/db/deploy')
 
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -10,11 +11,11 @@ describe('OData to Postgres dialect', () => {
   const app = require('express')()
   const request = require('supertest')(app)
 
-  // custom bootstrap
-  // docker pg server needs to be started first!
   beforeAll(async () => {
-    cds.db = await cds.connect.to({
+    this._model = './__tests__/__assets__/cap-proj/srv/';
+    this._dbProperties = {
       kind: 'postgres',
+      model: this._model,
       credentials: {
         host: 'localhost',
         port: '5432',
@@ -22,12 +23,16 @@ describe('OData to Postgres dialect', () => {
         username: 'postgres',
         password: 'postgres',
       },
-    })
+    };
+    cds.db = await cds.connect.to(this._dbProperties)
+
     // serve only a plain beershop
     // that matches the db content/setup in dockered pg
     await cds.serve('BeershopService').from(`${__dirname}/../../__assets__/cap-proj/srv/beershop-service`).in(app)
+  })
 
-    // TODO: Reset the DB
+  beforeEach(async () => {
+    await deploy(this._model, {}).to(this._dbProperties);
   })
 
   // making sure we're running the beershop
@@ -46,7 +51,7 @@ describe('OData to Postgres dialect', () => {
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
       expect(response.status).toStrictEqual(200)
-      //expect(response.body.value.length).toStrictEqual(2)
+      expect(response.body.value.length).toStrictEqual(2)
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     })
 
@@ -122,30 +127,14 @@ describe('OData to Postgres dialect', () => {
         })
         .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
 
-      this._genratedId = response.body.ID
       expect(response.status).toStrictEqual(201)
-    })
-
-    afterEach(async () => {
-      await request.delete(`/beershop/Beers/${this._genratedId}`).send()
     })
   })
 
   describe('odata: DELETE -> sql: DELETE', () => {
-    beforeEach(async () => {
-      const response = await request
-        .post('/beershop/Beers')
-        .send({
-          name: 'Schlappe Seppel',
-          ibu: 10,
-          abv: '6.2',
-        })
-        .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
-      this._genratedId = response.body.ID
-    })
 
     test('odata delete ', async () => {
-      const response = await request.delete(`/beershop/Beers/${this._genratedId}`).send()
+      const response = await request.delete(`/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b`).send()
       expect(response.status).toStrictEqual(204)
     })
   })

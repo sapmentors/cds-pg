@@ -4,7 +4,7 @@ const { managed, virtual, keys, rewrite } = require('@sap/cds-runtime/lib/db/gen
 /*eslint no-undef: "warn"*/
 /*eslint no-unused-vars: "warn"*/
 const cds = global.cds || require('@sap/cds/lib')
-const { readHandler, createHandler, updateHandler, deleteHandler } = require('./lib/pg/query')
+const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cqnHandler } = require('./lib/pg/query')
 
 /*
  * the service
@@ -122,7 +122,12 @@ const { readHandler, createHandler, updateHandler, deleteHandler } = require('./
      * "final on"
      */
     this.on('*', function (req) {
-      // if you reach here, your request wasn't handled above
+      if (typeof req.query === 'string') {
+        return sqlHandler(this.dbc, req.query || req.event, this._model);
+      } else {
+        return cqnHandler(this.dbc, req.query || req.event, this._model);
+      }
+
     })
   }
 
@@ -159,5 +164,49 @@ const { readHandler, createHandler, updateHandler, deleteHandler } = require('./
   async disconnect(tenant = 'anonymous') {
     await custom_disconnect_function(tenant)
     super.disconnect(tenant)
+  }
+
+  // REVISIT: Borrowed from SQLite service, but needs cleanup
+  async deploy(model, options = {}) {
+
+    let createEntities = cds.compile.to.sql(model)
+    if (!createEntities || createEntities.length === 0) return // > nothing to deploy
+
+    // Transform to PostgresSQL
+    createEntities = createEntities.map(e => this.cdssql2pgsql(e));
+
+    const dropViews = []
+    const dropTables = []
+    for (let each of createEntities) {
+      const [, table, entity] = each.match(/^\s*CREATE (?:(TABLE)|VIEW)\s+"?([^\s(]+)"?/im) || []
+      if (table) dropTables.push({ DROP: { entity } })
+      else dropViews.push({ DROP: { view: entity } })
+    }
+
+    if (options.dry) {
+      const log = console.log // eslint-disable-line no-console
+      for (let {
+        DROP: { view }
+      } of dropViews) {
+        log('DROP VIEW IF EXISTS ' + view + ';')
+      }
+      log()
+      for (let {
+        DROP: { entity }
+      } of dropTables) {
+        log('DROP TABLE IF EXISTS ' + entity + ';')
+      }
+      log()
+      for (let each of createEntities) log(each + ';\n')
+      return
+    }
+
+    const tx = this.transaction()
+    await tx.run(dropViews)
+    await tx.run(dropTables)
+    await tx.run(createEntities)
+    await tx.commit()
+
+    return true
   }
 }

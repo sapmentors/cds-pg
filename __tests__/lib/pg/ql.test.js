@@ -1,4 +1,5 @@
 const cds = require('@sap/cds')
+const deploy = require('@sap/cds/lib/db/deploy')
 
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -9,10 +10,10 @@ cds.env.requires.postgres = {
 describe('QL to PostgreSQL', () => {
 
     beforeAll(async () => {
-
-        cds.db = await cds.connect.to({
+        this._model = './__tests__/__assets__/cap-proj/srv/';
+        this._dbProperties = {
             kind: 'postgres',
-            model: './__tests__/__assets__/cap-proj/db/schema.cds',
+            model: this._model,
             credentials: {
                 host: 'localhost',
                 port: '5432',
@@ -20,7 +21,12 @@ describe('QL to PostgreSQL', () => {
                 username: 'postgres',
                 password: 'postgres',
             },
-        })
+        };
+        cds.db = await cds.connect.to(this._dbProperties)
+    })
+
+    beforeEach(async () => {
+        await deploy(this._model, {}).to(this._dbProperties);
     })
 
     describe('SELECT', () => {
@@ -58,14 +64,26 @@ describe('QL to PostgreSQL', () => {
             expect(beer).toHaveProperty("ID", "9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b");
             expect(beer).not.toHaveProperty("abv");
         })
-  
+
         test.skip("-> with distinct", () => { })
         test.skip("-> with orderBy", () => { })
         test.skip("-> with groupBy", () => { })
         test.skip("-> with having", () => { })
         test.skip("-> with joins", () => { })
 
+    })
 
+    describe('INSERT', () => {
+        test("-> with one, columns and where", async () => {
+            const { Beers } = cds.entities("csw");
+            const beers = await cds.run(
+                INSERT.into(Beers).entries([
+                    { name: "Test" },
+                    { name: "Test2" },
+                ])
+            )
+
+        })
     })
 
 })
