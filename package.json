@@ -1,11 +1,11 @@
 {
   "name": "cds-pg",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "main": "index.js",
   "scripts": {
     "test": "run-s test:pg:up jest test:pg:down",
-    "jest": "jest",
+    "jest": "jest --runInBand",
     "test:pg:up-nobg": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up",
     "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up -d",
     "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
@@ -16,6 +16,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sapmentors/cds-pg.git"
+  },
+  "bin": {
+    "cds-pg": "bin/cds-pg.js"
   },
   "keywords": [
     "sap",

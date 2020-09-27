@@ -1,4 +1,5 @@
 const cds = require('@sap/cds')
+const deploy = require('@sap/cds/lib/db/deploy')
 
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -10,11 +11,11 @@ describe('OData to Postgres dialect', () => {
   const app = require('express')()
   const request = require('supertest')(app)
 
-  // custom bootstrap
-  // docker pg server needs to be started first!
   beforeAll(async () => {
-    cds.db = await cds.connect.to({
+    this._model = './__tests__/__assets__/cap-proj/srv/'
+    this._dbProperties = {
       kind: 'postgres',
+      model: this._model,
       credentials: {
         host: 'localhost',
         port: '5432',
@@ -22,12 +23,16 @@ describe('OData to Postgres dialect', () => {
         username: 'postgres',
         password: 'postgres',
       },
-    })
+    }
+    cds.db = await cds.connect.to(this._dbProperties)
+
     // serve only a plain beershop
     // that matches the db content/setup in dockered pg
     await cds.serve('BeershopService').from(`${__dirname}/../../__assets__/cap-proj/srv/beershop-service`).in(app)
+  })
 
-    // TODO: Reset the DB
+  beforeEach(async () => {
+    await deploy(this._model, {}).to(this._dbProperties)
   })
 
   describe('OData types: CREATE', () => {
