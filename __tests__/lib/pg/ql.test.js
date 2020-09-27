@@ -25,11 +25,11 @@ describe('QL to PostgreSQL', () => {
         cds.db = await cds.connect.to(this._dbProperties)
     })
 
-    beforeEach(async () => {
-        await deploy(this._model, {}).to(this._dbProperties);
-    })
-
     describe('SELECT', () => {
+
+        beforeEach(async () => {
+            await deploy(this._model, {}).to(this._dbProperties);
+        })
 
         test("-> with from", async () => {
             const { Beers } = cds.entities("csw");
@@ -74,6 +74,10 @@ describe('QL to PostgreSQL', () => {
     })
 
     describe('INSERT', () => {
+
+        beforeEach(async () => {
+            await deploy(this._model, {}).to(this._dbProperties);
+        })
         test("-> with one, columns and where", async () => {
             const { Beers } = cds.entities("csw");
             const beers = await cds.run(

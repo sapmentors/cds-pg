@@ -48,6 +48,10 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: GET -> sql: SELECT', () => {
+
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties);
+    })
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
       expect(response.status).toStrictEqual(200)
@@ -117,6 +121,11 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: POST -> sql: INSERT', () => {
+
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties);
+    })
+
     test('odata: entityset Beers -> sql: insert into beers', async () => {
       const response = await request
         .post('/beershop/Beers')
