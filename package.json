@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "run-s test:pg:up jest test:pg:down",
-    "jest": "jest",
+    "jest": "jest --runInBand",
     "test:pg:up-nobg": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up",
     "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up -d",
     "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
