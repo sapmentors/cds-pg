@@ -9,7 +9,7 @@ This node module provides an adapter to the PostgreSQL database.
 
 This is a first alpha version! It can connect to a PostgreSQL database and execute basic CRUD statements.
 
-Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to constribute additional capabilites!
+Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
 
 ### TODO
 
