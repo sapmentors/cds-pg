@@ -138,10 +138,36 @@ describe('OData to Postgres dialect', () => {
     })
   })
 
+  describe('odata: PUT -> sql: UPDATE', () => {
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties)
+    })
+
+    test('odata: entityset Beers -> sql: update beers', async () => {
+      const response = await request
+        .put('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
+        .send({
+          name: 'Changed name',
+          ibu: 10,
+        })
+        .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      expect(response.status).toStrictEqual(200)
+
+      const getResponse = await request.get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b').send()
+      expect(getResponse.body).toEqual(expect.objectContaining({ name: 'Changed name', ibu: 10 }))
+    })
+  })
+
   describe('odata: DELETE -> sql: DELETE', () => {
     test('odata delete ', async () => {
       const response = await request.delete(`/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b`).send()
       expect(response.status).toStrictEqual(204)
+
+      // REVISIT: Works and test does not fail but console contains express error (404). How to solve this?
+      //await request.
+      //  get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
+      //  .expect(404)
+      //  .send();
     })
   })
 })
