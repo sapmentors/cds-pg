@@ -72,7 +72,8 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/__tests__/__assets__/"
-    ]
+    ],
+    "testTimeout": 10000
   },
   "prettier": {
     "semi": false,

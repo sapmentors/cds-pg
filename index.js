@@ -122,9 +122,9 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
      */
     this.on('*', function (req) {
       if (typeof req.query === 'string') {
-        return sqlHandler(this.dbc, req.query || req.event, this._model)
+        return sqlHandler(this.dbc, req.query || req.event, this.models)
       } else {
-        return cqnHandler(this.dbc, req.query || req.event, this._model)
+        return cqnHandler(this.dbc, req.query || req.event, this.models)
       }
     })
   }
