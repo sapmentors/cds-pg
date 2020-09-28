@@ -7,6 +7,8 @@ cds.env.requires.postgres = {
   impl: './cds-pg', // hint: not really sure as to why this is, but...
 }
 
+const guidRegEx = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
+
 describe('OData to Postgres dialect', () => {
   const app = require('express')()
   const request = require('supertest')(app)
@@ -114,7 +116,7 @@ describe('OData to Postgres dialect', () => {
       expect(response.body.value.length).toBeGreaterThanOrEqual(2) // we have 2 beers
       response.body.value.map((brewery) => {
         expect(brewery.beers.length).toBeGreaterThanOrEqual(1) // every brewery has at least 1 beer
-        expect(brewery.beers[0].ID).toMatch(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/) // guid
+        expect(brewery.beers[0].ID).toMatch(guidRegEx) // guid
         expect(brewery.beers[0].name).toMatch(/\w+/)
       })
     })
@@ -128,7 +130,23 @@ describe('OData to Postgres dialect', () => {
       expect(schoenram.beers.length).toStrictEqual(1) // that's where Schönramer Hell is produced
       expect(schoenram.beers).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
     })
-    test.todo('odata: multiple $ combined: $expand, $filter, $select -> sql: select')
+    test('odata: multiple $ combined: $expand, $filter, $select -> sql: sub-select only selected fields matching records from expand-target table', async () => {
+      const response = await request.get(
+        "/beershop/Breweries?$expand=beers($filter=name eq 'Schönramer Hell';$select=name,ibu)"
+      )
+      expect(response.status).toStrictEqual(200)
+      const data = response.body.value
+      const augustiner = data.find((brewery) => brewery.name.includes('Augustiner'))
+      expect(augustiner.beers.length).toStrictEqual(0) // Augustiner doesn't produce Schönramer Hell
+      const schoenram = data.find((brewery) => brewery.name.includes('Private Landbrauerei'))
+      expect(schoenram.beers.length).toStrictEqual(1) // that's where Schönramer Hell is produced
+      // we expect only these fields
+      expect(schoenram.beers[0]).toMatchObject({
+        ID: expect.stringMatching(guidRegEx),
+        name: 'Schönramer Hell',
+        ibu: 20,
+      })
+    })
   })
 
   describe('odata: POST -> sql: INSERT', () => {
