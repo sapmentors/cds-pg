@@ -76,4 +76,14 @@ For local development you can provide the credentials in the file `default-env.j
 }
 ```
 
-[pg-beershop](https://github.com/gregorwolf/pg-beershop) provides an example project.
+### CDS deployment
+
+With the command:
+
+`npx cds-pg deploy srv --to db`
+
+you can deploy all tables and views defined in your CDS model to the PostgreSQL DB specified in `default-env.json`. Initial data will also be filled from the provided .csv files following the approach described in [Providing Initial Data](https://cap.cloud.sap/docs/guides/databases#providing-initial-data). Be aware that the existing tables and views are deleted and then re-created according the CDS model.
+
+## Projects using cds-pg
+
+Example project [pg-beershop](https://github.com/gregorwolf/pg-beershop)
