@@ -19,7 +19,7 @@ Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute add
 [X] implement basic `DELETE`(~ OData `DELETE`)  
 [X] map OData to PostgreSQL vocabulary  
 [X] implement basic cds deployment  
-[ ] use default query builders for UPDATE/DELETE  
+[X] use default query builders for UPDATE/DELETE  
 [ ] add support for full OData vocabulary  
 [ ] add advanced deployment model that supports delta handling/migrations  
 [ ] maybe add some PostgreSQL specific data type support  
