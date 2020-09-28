@@ -111,7 +111,12 @@ describe('OData to Postgres dialect', () => {
     test('odata: $expand entityset on 1:n rel -> sql: sub-select multiple records from expand-target table', async () => {
       const response = await request.get('/beershop/Breweries?$expand=beers')
       expect(response.status).toStrictEqual(200)
-      // further assertions
+      expect(response.body.value.length).toBeGreaterThanOrEqual(2) // we have 2 beers
+      response.body.value.map((brewery) => {
+        expect(brewery.beers.length).toBeGreaterThanOrEqual(1) // every brewery has at least 1 beer
+        expect(brewery.beers[0].ID).toMatch(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/) // guid
+        expect(brewery.beers[0].name).toMatch(/\w+/)
+      })
     })
     test.todo('odata: $filter on $expand -> sql: select')
     test.todo('odata: multiple $ combined: $expand, $filter, $select -> sql: select')
