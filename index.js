@@ -53,8 +53,7 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
     this.before(['CREATE', 'UPDATE'], '*', managed)
     this.before(['CREATE', 'UPDATE'], '*', virtual)
     this.before(['CREATE', 'READ', 'UPDATE', 'DELETE'], '*', rewrite)
-    this.before(['CREATE', 'READ', 'UPDATE', 'DELETE'], '*', this._rewrite)
-    this.before(['CREATE', 'READ', 'UPDATE', 'DELETE'], '*', this.models)
+    this.before(['CREATE', 'READ', 'UPDATE', 'DELETE'], '*', this.setModel)
 
     /*
      * on
@@ -130,10 +129,11 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
     })
   }
 
-  /*
+  /**
    * assign request metadata
+   * @param {Object} req currently served express http request, enhanced by cds
    */
-  models(req) {
+  setModel(req) {
     this.models = req.context._model
   }
 
@@ -143,9 +143,6 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
   async acquire(arg) {
     // const tenant = (typeof arg === 'string' ? arg : arg.user.tenant) || 'anonymous'
     const dbc = await this._pool.connect()
-
-    // anything you need to do to prepare dbc
-
     return dbc
   }
 
@@ -161,7 +158,7 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
 
   // if needed
   async disconnect(tenant = 'anonymous') {
-    await custom_disconnect_function(tenant)
+    // potential await custom_disconnect_function(tenant)
     super.disconnect(tenant)
   }
 
