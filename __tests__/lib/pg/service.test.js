@@ -73,7 +73,7 @@ describe('OData to Postgres dialect', () => {
       expect(response.body.name).toStrictEqual('Schönramer Hell')
     })
 
-    test('odata: select -> sql: select record', async () => {
+    test('odata: $select -> sql: select record', async () => {
       const response = await request.get('/beershop/Beers(9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b)?$select=name,ibu')
       // http response code
       expect(response.status).toStrictEqual(200)
@@ -82,7 +82,7 @@ describe('OData to Postgres dialect', () => {
       expect(response.body.name).toStrictEqual('Schönramer Hell')
     })
 
-    test('odata: select -> sql: select record', async () => {
+    test('odata: $filter -> sql: select record', async () => {
       const response = await request.get("/beershop/Beers?$filter=name eq 'Lagerbier Hell'")
 
       expect(response.status).toStrictEqual(200)
@@ -113,8 +113,6 @@ describe('OData to Postgres dialect', () => {
       expect(response.status).toStrictEqual(200)
       // further assertions
     })
-    test
-    test.todo('odata: $filter -> sql: select')
     test.todo('odata: $filter on $expand -> sql: select')
     test.todo('odata: multiple $ combined: $expand, $filter, $select -> sql: select')
   })
