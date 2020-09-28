@@ -98,6 +98,20 @@ describe('CQN to PostgreSQL', () => {
       expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers WHERE ID = ? ORDER BY ID ASC LIMIT ? OFFSET ?')
       expect(values).toEqual([111, 1, 1])
     })
+
+    test('+ should create a valid count statement', async () => {
+      const query = {
+        cmd: 'SELECT',
+        SELECT: {
+          from: { ref: ['BeershopService.Beers'] },
+          count: true,
+          columns: [{ func: 'count', args: [{ ref: ['1'] }], as: 'counted' }],
+        },
+      }
+      const { sql, values = [] } = this.runQuery(query)
+
+      expect(sql).toMatch('SELECT count ( 1 ) AS "counted" FROM BeershopService_Beers')
+    })
   })
 
   // Examples taken from: https://cap.cloud.sap/docs/cds/cqn#insert
