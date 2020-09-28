@@ -118,7 +118,16 @@ describe('OData to Postgres dialect', () => {
         expect(brewery.beers[0].name).toMatch(/\w+/)
       })
     })
-    test.todo('odata: $filter on $expand -> sql: select')
+    test('odata: $filter on $expand (1:n) -> sql: sub-select matching records from expand-target table', async () => {
+      const response = await request.get("/beershop/Breweries?$expand=beers($filter=name eq 'Schönramer Hell')")
+      expect(response.status).toStrictEqual(200)
+      const data = response.body.value
+      const augustiner = data.find((brewery) => brewery.name.includes('Augustiner'))
+      expect(augustiner.beers.length).toStrictEqual(0) // Augustiner doesn't produce Schönramer Hell
+      const schoenram = data.find((brewery) => brewery.name.includes('Private Landbrauerei'))
+      expect(schoenram.beers.length).toStrictEqual(1) // that's where Schönramer Hell is produced
+      expect(schoenram.beers).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+    })
     test.todo('odata: multiple $ combined: $expand, $filter, $select -> sql: select')
   })
 
