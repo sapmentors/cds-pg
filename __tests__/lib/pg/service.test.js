@@ -193,11 +193,8 @@ describe('OData to Postgres dialect', () => {
       const response = await request.delete(`/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b`).send()
       expect(response.status).toStrictEqual(204)
 
-      // REVISIT: Works and test does not fail but console contains express error (404). How to solve this?
-      //await request.
-      //  get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
-      //  .expect(404)
-      //  .send();
+      // make sure the deleted beer doesn't exist anymore
+      await request.get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b').expect(404).send()
     })
   })
 })
