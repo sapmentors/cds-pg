@@ -189,15 +189,14 @@ describe('OData to Postgres dialect', () => {
   })
 
   describe('odata: DELETE -> sql: DELETE', () => {
-    test('odata delete ', async () => {
-      const response = await request.delete(`/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b`).send()
+    test('odata: delete single beer -> sql: delete record', async () => {
+      const guid = '9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b'
+      const response = await request.delete(`/beershop/Beers(${guid})`)
       expect(response.status).toStrictEqual(204)
 
-      // REVISIT: Works and test does not fail but console contains express error (404). How to solve this?
-      //await request.
-      //  get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
-      //  .expect(404)
-      //  .send();
+      // make sure the deleted beer doesn't exist anymore
+      const subsequentResponse = await request.get(`/beershop/Beers(${guid})`)
+      expect(subsequentResponse.status).toStrictEqual(404)
     })
   })
 })
