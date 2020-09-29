@@ -59,20 +59,16 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
      * on
      */
     this.on('CREATE', '*', async function (req) {
-      const results = await createHandler(this.dbc, req.query)
-      return results.rows
+      return await createHandler(this.dbc, req.query)
     })
     this.on('READ', '*', async function (req) {
-      const results = await readHandler(this.dbc, req.query, req._model)
-      return results
+      return await readHandler(this.dbc, req.query, req._model)
     })
     this.on('UPDATE', '*', async function (req) {
-      const result = await updateHandler(this.dbc, req.query)
-      return result.rows
+      return await updateHandler(this.dbc, req.query)
     })
     this.on('DELETE', '*', async function (req) {
-      const result = await deleteHandler(this.dbc, req.query)
-      return result.rows
+      return await deleteHandler(this.dbc, req.query)
     })
 
     /*
