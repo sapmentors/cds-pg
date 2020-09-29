@@ -33,13 +33,14 @@ jobs:
       # and tagging the release properly
       # and auto-incrementing the release number
       - run: npm run release
-      # push to self aka main from within gh action
+      # push to self aka main from within gh action with "release-state"
       # doesn't trigger this workflow again
       # b/c of missing personal access token here
       - run: |
           git config --global user.name 'SAP Mentors & Friends'
           git config --global user.email 'sapmentors@users.noreply.github.com'
           git push --follow-tags origin main
+      # finally publish the npm package
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
