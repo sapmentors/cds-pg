@@ -50,3 +50,24 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+  gh-release:
+    # only run on non-ci commits 
+    if: "!contains(github.event.head_commit.author.name, 'SAP Mentors & Friends')"
+    needs: [publish-npm]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        # read all commit messages since the last tag
+      - run: |
+           LOG=`git log --oneline $(git describe --tags --abbrev=0 @^)..@`
+           echo "$LOG" > BODY
+      - uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: $(cat BODY)
+          draft: false
+          prerelease: false
