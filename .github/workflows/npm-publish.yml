@@ -28,6 +28,9 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      - run: |
+          git config --global user.name 'SAP Mentors & Friends'
+          git config --global user.email 'sapmentors@users.noreply.github.com'
       # use standard-version for bumping versions in files,
       # and generating changelog
       # and tagging the release properly
@@ -36,10 +39,7 @@ jobs:
       # push to self aka main from within gh action with "release-state"
       # doesn't trigger this workflow again
       # b/c of missing personal access token here
-      - run: |
-          git config --global user.name 'SAP Mentors & Friends'
-          git config --global user.email 'sapmentors@users.noreply.github.com'
-          git push --follow-tags origin main
+      - run: git push --follow-tags origin main
       # finally publish the npm package
       - run: npm publish
         env:
