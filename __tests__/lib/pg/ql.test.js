@@ -68,13 +68,37 @@ describe('QL to PostgreSQL', () => {
     beforeEach(async () => {
       await deploy(this._model, {}).to(this._dbProperties)
     })
-    test('-> two new entries', async () => {
+    test('-> by using entries', async () => {
       const { Beers } = cds.entities('csw')
       const beers = await cds.run(INSERT.into(Beers).entries([{ name: 'Test' }, { name: 'Test2' }]))
-      // TODO: does an INSERT return the number of affected rows? Currently beers.length is 0.
-      expect(beers).toBeDefined()
+
+      expect(beers.length).toStrictEqual(2)
+
       const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test2' }))
       expect(beer).toHaveProperty('name', 'Test2')
+    })
+
+    test.skip('-> by using columns and rows', async () => {
+      const { Beers } = cds.entities('csw')
+
+      // TODO: This does not autogenerate a UUID for ID but entries does. Why?
+      const beers = await cds.run(INSERT.into(Beers).columns('name').rows(['Bear 1'], ['Bear 2'], ['Bear 3']))
+
+      expect(beers.length).toStrictEqual(3)
+
+      const beer = await cds.run(SELECT.one(Beers).where({ name: 'Bear 2' }))
+      expect(beer).toHaveProperty('name', 'Bear 2')
+    })
+
+    test.skip('-> by using columns and values', async () => {
+      const { Beers } = cds.entities('csw')
+
+      // TODO: This does not autogenerate a UUID for ID but entries does. Why?
+      const beers = await cds.run(INSERT.into(Beers).columns('name').values('Test'))
+
+      expect(beers).toStrictEqual(1)
+      const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test' }))
+      expect(beer).toHaveProperty('name', 'Test')
     })
   })
 })
