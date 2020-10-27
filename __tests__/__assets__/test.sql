@@ -59,4 +59,4 @@ CREATE VIEW BeershopService_TypeChecks AS SELECT
   TypeChecks_0.type_Binary,
   TypeChecks_0.type_LargeBinary,
   TypeChecks_0.type_LargeString
-FROM csw_TypeChecks AS TypeChecks_0;
+FROM csw_TypeChecks AS TypeChecks_0

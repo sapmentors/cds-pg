@@ -49,11 +49,14 @@ const { readHandler, createHandler, updateHandler, deleteHandler, sqlHandler, cq
     // "flattens" the query
     // and "redirects" modification statements (CUD) from view to actual table
     this.before(['CREATE', 'UPDATE'], '*', dateTime) // > has to run before rewrite
-    this.before(['CREATE', 'UPDATE'], '*', keys)
-    this.before(['CREATE', 'UPDATE'], '*', managed)
-    this.before(['CREATE', 'UPDATE'], '*', virtual)
+
+    // TODO: Where to move this?
+    //this.before(['CREATE', 'UPDATE'], '*', keys)
+    //this.before(['CREATE', 'UPDATE'], '*', managed)
+    //this.before(['CREATE', 'UPDATE'], '*', virtual)
+
     this.before(['CREATE', 'READ', 'UPDATE', 'DELETE'], '*', rewrite)
-    this.before(['CREATE', 'READ', 'UPDATE', 'DELETE'], '*', this.setModel)
+    //this.before(['CREATE', 'READ', 'UPDATE', 'DELETE'], '*', this.setModel)
 
     /*
      * on
