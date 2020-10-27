@@ -5,25 +5,29 @@
 
 This node module provides an adapter to the PostgreSQL database.
 
+For a short introduction on the background of this project you can check out [a short video](https://www.youtube.com/watch?v=b9sPczwYN5Q&t=2310s) that has been captured as part of the SAP devtoberfest.
+
 ## Current status
 
-This is a first alpha version! It can connect to a PostgreSQL database and execute basic CRUD statements.
+This is an alpha version and **not yet ready for production usage**! _cds-pg_ is able to connect to a PostgreSQL database and execute basic CRUD statements, but there is definitly some more work to do to bring the library to a mature state.
 
 Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
 
 ### TODO
 
-[X] implement basic `SELECT|READ`(~ OData `GET`)  
-[X] implement basic `INSERT|CREATE`(~ OData `POST`)  
-[X] implement basic `UPDATE`(~ OData `PUT|PATCH`)  
-[X] implement basic `DELETE`(~ OData `DELETE`)  
-[X] map OData to PostgreSQL vocabulary  
-[X] implement basic cds deployment  
-[X] use default query builders for UPDATE/DELETE  
-[ ] add support for full OData vocabulary  
-[ ] add advanced deployment model that supports delta handling/migrations  
-[ ] maybe add some PostgreSQL specific data type support  
-[ ] add more tests
+- [x] implement basic `SELECT|READ`(~ OData `GET`)  
+- [x] implement basic `INSERT|CREATE`(~ OData `POST`)  
+- [x] implement basic `UPDATE`(~ OData `PUT|PATCH`)  
+- [x] implement basic `DELETE`(~ OData `DELETE`)  
+- [x] map OData to PostgreSQL vocabulary  
+- [x] implement basic cds deployment  
+- [x] use default query builders for UPDATE/DELETE  
+- [ ] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30)) 
+- [ ] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27)) 
+- [ ] add support for multitenancy (see [issue #25](https://github.com/sapmentors/cds-pg/issues/25)) 
+- [ ] add support for full OData vocabulary
+- [ ] add more tests to make the module more robust to @sap/cds core changes
+- [ ] maybe add some PostgreSQL specific data type support  
 
 ## usage in your CAP project
 
