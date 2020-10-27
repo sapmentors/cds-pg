@@ -1,7 +1,7 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/db/deploy')
+const deploy = require('@sap/cds/lib/srv/db/deploy')
 
-// mock (package|.cdsrc).json entries
+// mock (package|.cds'rc).json entries
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
   impl: './cds-pg', // hint: not really sure as to why this is, but...
