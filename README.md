@@ -15,19 +15,19 @@ Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute add
 
 ### TODO
 
-- [x] implement basic `SELECT|READ`(~ OData `GET`)  
-- [x] implement basic `INSERT|CREATE`(~ OData `POST`)  
-- [x] implement basic `UPDATE`(~ OData `PUT|PATCH`)  
-- [x] implement basic `DELETE`(~ OData `DELETE`)  
-- [x] map OData to PostgreSQL vocabulary  
-- [x] implement basic cds deployment  
-- [x] use default query builders for UPDATE/DELETE  
-- [ ] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30)) 
-- [ ] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27)) 
-- [ ] add support for multitenancy (see [issue #25](https://github.com/sapmentors/cds-pg/issues/25)) 
+- [x] implement basic `SELECT|READ`(~ OData `GET`)
+- [x] implement basic `INSERT|CREATE`(~ OData `POST`)
+- [x] implement basic `UPDATE`(~ OData `PUT|PATCH`)
+- [x] implement basic `DELETE`(~ OData `DELETE`)
+- [x] map OData to PostgreSQL vocabulary
+- [x] implement basic cds deployment
+- [x] use default query builders for UPDATE/DELETE
+- [ ] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
+- [ ] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
+- [ ] add support for multitenancy (see [issue #25](https://github.com/sapmentors/cds-pg/issues/25))
 - [ ] add support for full OData vocabulary
 - [ ] add more tests to make the module more robust to @sap/cds core changes
-- [ ] maybe add some PostgreSQL specific data type support  
+- [ ] maybe add some PostgreSQL specific data type support
 
 ## usage in your CAP project
 
