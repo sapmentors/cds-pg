@@ -1,6 +1,5 @@
 const cds = require('@sap/cds')
 const deploy = require('@sap/cds/lib/srv/db/deploy')
-const { uuid } = require('uuidv4')
 
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -72,29 +71,20 @@ describe('QL to PostgreSQL', () => {
     test('-> by using entries', async () => {
       const { Beers } = cds.entities('csw')
 
-      // TODO: This does not autogenerate a UUID for ID. Why?
-      const beers = await cds.run(
-        INSERT.into(Beers).entries([
-          { ID: uuid(), name: 'Test' },
-          { id: uuid(), name: 'Test2' },
-        ])
-      )
+      const beers = await cds.run(INSERT.into(Beers).entries([{ name: 'Test' }, { name: 'Test1' }]))
 
-      expect(beers.length).toStrictEqual(2)
+      expect(beers.affectedRows).toStrictEqual(2)
 
-      const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test2' }))
-      expect(beer).toHaveProperty('name', 'Test2')
+      const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test1' }))
+      expect(beer).toHaveProperty('name', 'Test1')
     })
 
     test('-> by using columns and rows', async () => {
       const { Beers } = cds.entities('csw')
 
-      // TODO: This does not autogenerate a UUID for ID. Why?
-      const beers = await cds.run(
-        INSERT.into(Beers).columns(['ID', 'name']).rows([uuid(), 'Beer 1'], [uuid(), 'Beer 2'], [uuid(), 'Beer 3'])
-      )
+      const beers = await cds.run(INSERT.into(Beers).columns(['name']).rows(['Beer 1'], ['Beer 2'], ['Beer 3']))
 
-      expect(beers.length).toStrictEqual(3)
+      expect(beers.affectedRows).toStrictEqual(3)
 
       const beer = await cds.run(SELECT.one(Beers).where({ name: 'Beer 2' }))
       expect(beer).toHaveProperty('name', 'Beer 2')
@@ -103,10 +93,9 @@ describe('QL to PostgreSQL', () => {
     test('-> by using columns and values', async () => {
       const { Beers } = cds.entities('csw')
 
-      // TODO: This does not autogenerate a UUID for ID. Why?
-      const beers = await cds.run(INSERT.into(Beers).columns(['ID', 'name']).values([uuid(), 'Test']))
+      const beers = await cds.run(INSERT.into(Beers).columns(['name']).values(['Test']))
 
-      expect(beers.length).toStrictEqual(1)
+      expect(beers.affectedRows).toStrictEqual(1)
 
       const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test' }))
       expect(beer).toHaveProperty('name', 'Test')
