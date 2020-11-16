@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.23 (2020-11-16)
+
+
+### Features
+
+* support SAP CP CF PG Hyperscaler Service ([#43](https://github.com/sapmentors/cds-pg/issues/43)) ([c0ba1dd](https://github.com/sapmentors/cds-pg/commit/c0ba1dde81fe5c30a9e1fec9ba6b7d71c51ac3cb))
+
 ### 0.0.22 (2020-11-13)
 
 ### 0.0.21 (2020-11-13)
