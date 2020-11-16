@@ -12,12 +12,11 @@ const guidRegEx = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f
 
 // construct suite data sets
 const localCredentials = {
-  hostname: 'localhost',
+  host: 'localhost',
   port: '5432',
-  dbname: 'beershop',
+  database: 'beershop',
   username: 'postgres',
   password: 'postgres',
-  _testCase: 'local',
 }
 const localModel = './__tests__/__assets__/cap-proj/srv/'
 const scpPostgresCredentials = {
@@ -26,7 +25,6 @@ const scpPostgresCredentials = {
   dbname: 'beershop',
   username: 'postgres',
   password: 'postgres',
-  _testCase: 'scp',
 }
 const scpModel = './__tests__/__assets__/cap-proj/srv/'
 
