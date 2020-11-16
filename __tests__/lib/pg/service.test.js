@@ -1,5 +1,6 @@
 const cds = require('@sap/cds')
 const deploy = require('@sap/cds/lib/srv/db/deploy')
+const path = require('path')
 
 // mock (package|.cds'rc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -9,28 +10,60 @@ cds.env.requires.postgres = {
 
 const guidRegEx = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
 
-describe('OData to Postgres dialect', () => {
+// construct suite data sets
+const localCredentials = {
+  hostname: 'localhost',
+  port: '5432',
+  dbname: 'beershop',
+  username: 'postgres',
+  password: 'postgres',
+  _testCase: 'local',
+}
+const localModel = './__tests__/__assets__/cap-proj/srv/'
+const scpPostgresCredentials = {
+  hostname: 'localhost',
+  port: '5432',
+  dbname: 'beershop',
+  username: 'postgres',
+  password: 'postgres',
+  _testCase: 'scp',
+}
+const scpModel = './__tests__/__assets__/cap-proj/srv/'
+
+// run test suite with different sets of data
+describe.each([
+  ['local', localCredentials, localModel],
+  ['scp', scpPostgresCredentials, scpModel],
+])('[%s] OData to Postgres dialect', (_suitename /* translates to %s via printf */, credentials, model) => {
   const app = require('express')()
   const request = require('supertest')(app)
 
   beforeAll(async () => {
-    this._model = './__tests__/__assets__/cap-proj/srv/'
+    // mock console.*
+    // in order not to pollute test logs
+    global.console = {
+      log: jest.fn(),
+      info: jest.fn(),
+      debug: jest.fn(),
+      error: jest.fn(),
+    }
+
+    this._model = model
     this._dbProperties = {
       kind: 'postgres',
       model: this._model,
-      credentials: {
-        host: 'localhost',
-        port: '5432',
-        database: 'beershop',
-        username: 'postgres',
-        password: 'postgres',
-      },
+      credentials: credentials,
     }
     cds.db = await cds.connect.to(this._dbProperties)
 
     // serve only a plain beershop
     // that matches the db content/setup in dockered pg
-    await cds.serve('BeershopService').from(`${__dirname}/../../__assets__/cap-proj/srv/beershop-service`).in(app)
+    const servicePath = path.resolve(this._model, 'beershop-service')
+    await cds.serve('BeershopService').from(servicePath).in(app)
+  })
+
+  afterAll(() => {
+    delete global.console // avoid side effect
   })
 
   beforeEach(async () => {
