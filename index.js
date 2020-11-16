@@ -1,3 +1,3 @@
-const Service = require('./lib/pg/Sevice')
+const Service = require('./lib/pg/Service')
 
 module.exports = Service
