@@ -23,6 +23,19 @@
       border: none;
       vertical-align: middle;
     }
+
+    li ul.no-bullets,
+    ul.no-bullets {
+      list-style-type: none;
+    }
+
+    table {
+      font-size: 1.8rem;
+    }
+
+    table thead td {
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -39,8 +52,51 @@
       </section>
 
       <section>
-          <h2>what it is</h2>
-          <img src="cap+us.png" width="75%" alt="where cds-pg and cds-dbm fit in with CAP: cds-pg on the db-layer, cds-dbm on the dev tools layer" />
+        <h2>what it is</h2>
+        <img src="cap+us.png" width="75%"
+             alt="where cds-pg and cds-dbm fit in with CAP: cds-pg on the db-layer, cds-dbm on the dev tools layer" />
+      </section>
+
+      <section>
+        <h2>where does it run?</h2>
+        <ul class="no-bullets">
+          <li class="no-bullets">✅ Kyma</li>
+          <li class="no-bullets">✅ SCP &rarr; Service Broker</li>
+          <li class="no-bullets">✅ SCP &rarr; user-provided service (AWS)</li>
+          <li class="no-bullets">✅ Azure Cloud (deployed using Azure DevOps)</li>
+          <li class="no-bullets">🤔 SCP Postgres (trial) Hyperscaler</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>what's in (and what's not)?</h2>
+        <table>
+          <thead>
+            <td>in 💪</td>
+            <td>njet 😭</td>
+          </thead>
+          <tr>
+            <td>CRUD</td>
+            <td>draft mode</td>
+          </tr>
+          <tr>
+            <td>$filter, $select, $expand</td>
+            <td>multitenancy</td>
+          </tr>
+          <tr>
+            <td>delta deployment (<code>cds-dbm</code>)</td>
+            <td>analytical calculations</td>
+          </tr>
+          <tr>
+            <td>schema-support (since yesterday 😊)</td>
+            <td></td>
+          </tr>
+        </table>
+      </section>
+
+      <section>
+        <h2>onboarding</h2>
+        <p>...</p>
       </section>
 
     </div>
