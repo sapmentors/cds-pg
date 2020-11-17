@@ -1,37 +1,60 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/reveal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/white.css">
-  </head>
-  <body>
-    <div class="reveal">
-      <div class="slides">
-        <section>
-          <h1>cds-pg & cds-dbm</h1>
-          <p>PostgreSQL Support for the<br />
-            SAP Cloud Application Programming Model</p>
-          <img src="pg-elephant.png" width="30%" alt="PostgreSQL Logo" />
-          <img src="sapcap.png" width="30%" alt="CAP Logo" />
-        </section>
-        <section data-markdown>
-          <textarea data-template>
-            ## Team
-            ### David
-            ### Gregor
-            ### Mike
-            ### Volker
-          </textarea>
-        </section>
-        <section>Slide 2</section>
-      </div>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>cds-pg + cds-dbm at SAP TechEd 2020</title>
+
+  <meta name="description" content="cds-pg + cds-dbm presentation at SAP TechEd 2020">
+  <meta name="author" content="Gregor Wolf, Mike Zaschka, Volker Buzek">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/theme/white.min.css">
+  <style>
+    .noUpper {
+      text-transform: none !important;
+    }
+
+    .reveal section img {
+      border: none;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h1 class="noUpper"><code>cds-pg</code> & <code>cds-dbm</code></h1>
+        <p>PostgreSQL Support for the<br />
+          SAP Cloud Application Programming Model</p>
+        <p><img src="pg-elephant.png" width="30%" alt="PostgreSQL Logo" />
+          <img src="sapcap.png" width="30%" alt="CAP Logo" /></p>
+      </section>
+
+      <section>
+          <h2>what it is</h2>
+          <img src="cap+us.png" width="75%" alt="where cds-pg and cds-dbm fit in with CAP: cds-pg on the db-layer, cds-dbm on the dev tools layer" />
+      </section>
+
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/js/reveal.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/marked.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/markdown.js"></script>
-    <script>
-      Reveal.initialize({
-        plugins: [ RevealMarkdown ]
-      });
-    </script>
-  </body>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/reveal.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/zoom/zoom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.1.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      plugins: [RevealZoom, RevealMarkdown, RevealHighlight]
+    });
+  </script>
+</body>
+
 </html>
