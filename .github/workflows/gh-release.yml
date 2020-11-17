@@ -15,16 +15,15 @@ jobs:
       - name: get commit messages
         run: |
           LOG=`git log --oneline $(git describe --tags --abbrev=0 @^)..@`
-          echo "$LOG" > _BODY
-          echo ::set-env name=BODY::${_BODY}
+          echo "_BODY=$LOG" >> $GITHUB_ENV
       - name: set tag to env var
-        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+        run: echo "_RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: Release ${{ env.RELEASE_VERSION }}
-          body: ${{ env.BODY }}
+          tag_name: $_RELEASE_VERSION
+          release_name: Release $_RELEASE_VERSION
+          body: $_BODY
           draft: false
           prerelease: false
