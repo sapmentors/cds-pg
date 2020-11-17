@@ -28,6 +28,7 @@ cds-dbm: Mike
 
 # MIKE
 
+- thank David Sooter
 - what’s in?
   - CRUD
   - basic query options: filter, select, ...
