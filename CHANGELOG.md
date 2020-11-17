@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.26 (2020-11-17)
+
+### 0.0.25 (2020-11-17)
+
+### 0.0.24 (2020-11-17)
+
+
+### Features
+
+* add multi schema feature ([#44](https://github.com/sapmentors/cds-pg/issues/44)) ([2eb6835](https://github.com/sapmentors/cds-pg/commit/2eb6835bcdaef2f37039eb5be5bad4f4cd5e50f2))
+
 ### 0.0.23 (2020-11-16)
 
 
