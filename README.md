@@ -72,7 +72,8 @@ For local development you can provide the credentials in the file `default-env.j
           "port": "5432",
           "database": "dbname",
           "user": "postgres",
-          "password": "postgres"
+          "password": "postgres",
+          "schema":"public"
         }
       }
     ]
