@@ -22,8 +22,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: $_RELEASE_VERSION
-          release_name: Release $_RELEASE_VERSION
-          body: $_BODY
+          tag_name: ${{ _RELEASE_VERSION }}
+          release_name: Release ${{ _RELEASE_VERSION }}
+          body: ${{ _BODY }}
           draft: false
           prerelease: false
