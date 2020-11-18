@@ -50,6 +50,9 @@ describe.each([
       model: this._model,
       credentials: credentials,
     }
+
+    await deploy(this._model, {}).to(this._dbProperties)
+
     cds.db = await cds.connect.to(this._dbProperties)
 
     // serve only a plain beershop
@@ -60,10 +63,6 @@ describe.each([
 
   afterAll(() => {
     delete global.console // avoid side effect
-  })
-
-  beforeEach(async () => {
-    await deploy(this._model, {}).to(this._dbProperties)
   })
 
   test('concat', async () => {
@@ -104,5 +103,33 @@ describe.each([
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+  })
+
+  test('length', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=length(name) eq 14`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(1)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
+  })
+
+  test('startswith', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=startswith(name,'Schön')`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(1)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+  })
+
+  test('substring (from)', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=substring(name,1) eq 'chönramer Hell'`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(1)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+  })
+
+  test('substring (from,to)', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=substring(name,1,3) eq 'age'`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(1)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
   })
 })
