@@ -12,6 +12,7 @@ services:
       - ./db/init:/docker-entrypoint-initdb.d/
     ports:
       - '5432:5432'
+    command: ['postgres', '-c', 'log_statement=all']
   adminer:
     image: adminer
     restart: always
