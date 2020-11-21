@@ -80,6 +80,13 @@ describe.each([
     expect(response.text.includes(expectedBeersEntitySet)).toBeTruthy()
   })
 
+  test.skip('List of entities', async () => {
+    const response = await request.get('/beershop/')
+
+    expect(response.status).toStrictEqual(200)
+    console.log(response)
+  })
+
   describe('odata: GET -> sql: SELECT', () => {
     beforeEach(async () => {
       await deploy(this._model, {}).to(this._dbProperties)
@@ -177,6 +184,16 @@ describe.each([
         name: 'Schönramer Hell',
         ibu: 20,
       })
+    })
+  })
+
+  describe('odata: GET on Draft enabled Entity -> sql: SELECT', () => {
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties)
+    })
+    test.skip('odata: entityset TypeChecksWithDraft -> sql: select all beers', async () => {
+      const response = await request.get('/beershop/TypeChecksWithDraft')
+      expect(response.status).toStrictEqual(200)
     })
   })
 
