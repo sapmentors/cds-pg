@@ -80,11 +80,11 @@ describe.each([
     expect(response.text.includes(expectedBeersEntitySet)).toBeTruthy()
   })
 
-  test.skip('List of entities', async () => {
+  test('List of entities exposed by the service', async () => {
     const response = await request.get('/beershop/')
 
     expect(response.status).toStrictEqual(200)
-    console.log(response)
+    expect(response.body.value.length).toStrictEqual(4)
   })
 
   describe('odata: GET -> sql: SELECT', () => {
