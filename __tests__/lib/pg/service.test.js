@@ -207,6 +207,20 @@ describe.each([
       expect(response.status).toStrictEqual(200)
       expect(response.body['@odata.count']).toEqual(1)
     })
+    test.skip('odata: create new entityset TypeChecksWithDraft -> create like Fiori Elements UI', async () => {
+      const response = await request
+        .post('/beershop/TypeChecksWithDraft')
+        .send(JSON.stringify({}))
+        .set('Accept', 'application/json;odata.metadata=minimal;IEEE754Compatible=true')
+        .set('Content-Type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      // Creates:
+      // sql > SELECT * FROM BeershopService_TypeChecksWithDraft_drafts ALIAS_1 WHERE ID = $1
+      // values >  [ 'c436a286-6d1e-44ad-9630-b09e55b9a61e' ]
+      // But this fails with:
+      // The key 'ID' does not exist in the given entity
+      // the column is created with lowercase id
+      expect(response.status).toStrictEqual(201)
+    })
   })
 
   describe('odata: POST -> sql: INSERT', () => {
