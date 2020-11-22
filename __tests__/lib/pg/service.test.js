@@ -191,9 +191,21 @@ describe.each([
     beforeEach(async () => {
       await deploy(this._model, {}).to(this._dbProperties)
     })
-    test('odata: entityset TypeChecksWithDraft -> sql: select all beers', async () => {
+    test('odata: entityset TypeChecksWithDraft -> select all', async () => {
       const response = await request.get('/beershop/TypeChecksWithDraft')
       expect(response.status).toStrictEqual(200)
+    })
+    test('odata: entityset TypeChecksWithDraft -> select all and count', async () => {
+      const response = await request.get('/beershop/TypeChecksWithDraft?$count=true')
+      expect(response.status).toStrictEqual(200)
+      expect(response.body['@odata.count']).toEqual(1)
+    })
+    test('odata: entityset TypeChecksWithDraft -> select like Fiori Elements UI', async () => {
+      const response = await request.get(
+        '/beershop/TypeChecksWithDraft?$count=true&$expand=DraftAdministrativeData&$filter=(IsActiveEntity%20eq%20false%20or%20SiblingEntity/IsActiveEntity%20eq%20null)&$select=HasActiveEntity,ID,IsActiveEntity,type_Boolean,type_Date,type_Int32&$skip=0&$top=30'
+      )
+      expect(response.status).toStrictEqual(200)
+      expect(response.body['@odata.count']).toEqual(1)
     })
   })
 
