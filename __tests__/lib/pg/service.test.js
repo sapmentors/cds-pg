@@ -94,14 +94,14 @@ describe.each([
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
       expect(response.status).toStrictEqual(200)
-      expect(response.body.value.length).toStrictEqual(2)
+      expect(response.body.value.length).toStrictEqual(11)
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     })
 
     test('odata: entityset Beers -> sql: select all beers and count', async () => {
       const response = await request.get('/beershop/Beers?$count=true')
       expect(response.status).toStrictEqual(200)
-      expect(response.body['@odata.count']).toEqual(2)
+      expect(response.body['@odata.count']).toEqual(11)
     })
 
     test('odata: single entity -> sql: select record', async () => {

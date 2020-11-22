@@ -159,7 +159,7 @@ describe.each([
   test('trim', async () => {
     const response = await request.get(`/beershop/Beers?$filter=trim(name) eq name`)
     expect(response.status).toStrictEqual(200)
-    expect(response.body.value.length).toBe(2)
+    expect(response.body.value.length).toBeGreaterThanOrEqual(2)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
   })
