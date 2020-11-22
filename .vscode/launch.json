@@ -23,6 +23,24 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "port": 9229
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "cds run pg",
+      "args": ["run"],
+      "cwd": "${workspaceFolder}/__tests__/__assets__/cap-proj",
+      "program": "${workspaceFolder}/node_modules/@sap/cds/bin/cds.js",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "cds run sqlite",
+      "args": ["run", "--in-memory"],
+      "cwd": "${workspaceFolder}/__tests__/__assets__/cap-proj",
+      "program": "${workspaceFolder}/node_modules/@sap/cds/bin/cds.js",
+      "console": "integratedTerminal"
     }
   ]
 }

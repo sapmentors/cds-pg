@@ -10,6 +10,7 @@
     "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up -d",
     "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
     "test:as-sqlite": "cd __tests__/__assets__/cap-proj && cds deploy -2 sqlite::memory: --no-save && cds serve all --in-memory",
+    "test:as-pg": "cd __tests__/__assets__/cap-proj && cp default-env-template.json default-env.json && cds serve all",
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'",
     "release": "standard-version"
   },

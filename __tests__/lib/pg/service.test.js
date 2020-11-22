@@ -80,6 +80,13 @@ describe.each([
     expect(response.text.includes(expectedBeersEntitySet)).toBeTruthy()
   })
 
+  test('List of entities exposed by the service', async () => {
+    const response = await request.get('/beershop/')
+
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toStrictEqual(4)
+  })
+
   describe('odata: GET -> sql: SELECT', () => {
     beforeEach(async () => {
       await deploy(this._model, {}).to(this._dbProperties)
@@ -177,6 +184,42 @@ describe.each([
         name: 'Schönramer Hell',
         ibu: 20,
       })
+    })
+  })
+
+  describe('odata: GET on Draft enabled Entity -> sql: SELECT', () => {
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties)
+    })
+    test('odata: entityset TypeChecksWithDraft -> select all', async () => {
+      const response = await request.get('/beershop/TypeChecksWithDraft')
+      expect(response.status).toStrictEqual(200)
+    })
+    test('odata: entityset TypeChecksWithDraft -> select all and count', async () => {
+      const response = await request.get('/beershop/TypeChecksWithDraft?$count=true')
+      expect(response.status).toStrictEqual(200)
+      expect(response.body['@odata.count']).toEqual(1)
+    })
+    test('odata: entityset TypeChecksWithDraft -> select like Fiori Elements UI', async () => {
+      const response = await request.get(
+        '/beershop/TypeChecksWithDraft?$count=true&$expand=DraftAdministrativeData&$filter=(IsActiveEntity%20eq%20false%20or%20SiblingEntity/IsActiveEntity%20eq%20null)&$select=HasActiveEntity,ID,IsActiveEntity,type_Boolean,type_Date,type_Int32&$skip=0&$top=30'
+      )
+      expect(response.status).toStrictEqual(200)
+      expect(response.body['@odata.count']).toEqual(1)
+    })
+    test('odata: create new entityset TypeChecksWithDraft -> create like Fiori Elements UI', async () => {
+      const response = await request
+        .post('/beershop/TypeChecksWithDraft')
+        .send(JSON.stringify({}))
+        .set('Accept', 'application/json;odata.metadata=minimal;IEEE754Compatible=true')
+        .set('Content-Type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      // Creates:
+      // sql > SELECT * FROM BeershopService_TypeChecksWithDraft_drafts ALIAS_1 WHERE ID = $1
+      // values >  [ 'c436a286-6d1e-44ad-9630-b09e55b9a61e' ]
+      // But this fails with:
+      // The key 'ID' does not exist in the given entity
+      // the column is created with lowercase id
+      expect(response.status).toStrictEqual(201)
     })
   })
 
