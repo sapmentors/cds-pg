@@ -1,0 +1,15 @@
+{
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "database"
+      },
+      "database": {
+        "impl": "../../../",
+        "model": [
+          "srv"
+        ]
+      }
+    }
+  }
+}

@@ -191,7 +191,7 @@ describe.each([
     beforeEach(async () => {
       await deploy(this._model, {}).to(this._dbProperties)
     })
-    test.skip('odata: entityset TypeChecksWithDraft -> sql: select all beers', async () => {
+    test('odata: entityset TypeChecksWithDraft -> sql: select all beers', async () => {
       const response = await request.get('/beershop/TypeChecksWithDraft')
       expect(response.status).toStrictEqual(200)
     })

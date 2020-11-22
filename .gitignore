@@ -2,5 +2,4 @@
 .eslintcache
 node_modules/
 .idea/
-__tests__/__assets__/cap-proj/package*
 *-env.json

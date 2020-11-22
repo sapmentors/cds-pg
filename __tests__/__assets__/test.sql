@@ -31,6 +31,40 @@ CREATE TABLE csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE DRAFT_DraftAdministrativeData (
+  DraftUUID VARCHAR(36) NOT NULL,
+  CreationDateTime TIMESTAMP,
+  CreatedByUser VARCHAR(256),
+  DraftIsCreatedByMe BOOLEAN,
+  LastChangeDateTime TIMESTAMP,
+  LastChangedByUser VARCHAR(256),
+  InProcessByUser VARCHAR(256),
+  DraftIsProcessedByMe BOOLEAN,
+  PRIMARY KEY(DraftUUID)
+);
+
+CREATE TABLE BeershopService_TypeChecksWithDraft_drafts (
+  ID VARCHAR(36) NOT NULL,
+  type_Boolean BOOLEAN NULL,
+  type_Int32 INTEGER NULL,
+  type_Int64 BIGINT NULL,
+  type_Decimal DECIMAL(2, 1) NULL,
+  type_Double NUMERIC(30, 15) NULL,
+  type_Date DATE NULL,
+  type_Time TIME NULL,
+  type_DateTime TIMESTAMP NULL,
+  type_Timestamp TIMESTAMP NULL,
+  type_String VARCHAR(5000) NULL,
+  type_Binary CHAR(100) NULL,
+  type_LargeBinary BYTEA NULL,
+  type_LargeString TEXT NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID VARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
 CREATE VIEW BeershopService_Beers AS SELECT
   Beers_0.ID,
   Beers_0.name,
@@ -59,4 +93,32 @@ CREATE VIEW BeershopService_TypeChecks AS SELECT
   TypeChecks_0.type_Binary,
   TypeChecks_0.type_LargeBinary,
   TypeChecks_0.type_LargeString
-FROM csw_TypeChecks AS TypeChecks_0
+FROM csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW BeershopService_TypeChecksWithDraft AS SELECT
+  TypeChecks_0.ID,
+  TypeChecks_0.type_Boolean,
+  TypeChecks_0.type_Int32,
+  TypeChecks_0.type_Int64,
+  TypeChecks_0.type_Decimal,
+  TypeChecks_0.type_Double,
+  TypeChecks_0.type_Date,
+  TypeChecks_0.type_Time,
+  TypeChecks_0.type_DateTime,
+  TypeChecks_0.type_Timestamp,
+  TypeChecks_0.type_String,
+  TypeChecks_0.type_Binary,
+  TypeChecks_0.type_LargeBinary,
+  TypeChecks_0.type_LargeString
+FROM csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW BeershopService_DraftAdministrativeData AS SELECT
+  DraftAdministrativeData.DraftUUID,
+  DraftAdministrativeData.CreationDateTime,
+  DraftAdministrativeData.CreatedByUser,
+  DraftAdministrativeData.DraftIsCreatedByMe,
+  DraftAdministrativeData.LastChangeDateTime,
+  DraftAdministrativeData.LastChangedByUser,
+  DraftAdministrativeData.InProcessByUser,
+  DraftAdministrativeData.DraftIsProcessedByMe
+FROM DRAFT_DraftAdministrativeData AS DraftAdministrativeData
