@@ -207,7 +207,7 @@ describe.each([
       expect(response.status).toStrictEqual(200)
       expect(response.body['@odata.count']).toEqual(1)
     })
-    test.skip('odata: create new entityset TypeChecksWithDraft -> create like Fiori Elements UI', async () => {
+    test('odata: create new entityset TypeChecksWithDraft -> create like Fiori Elements UI', async () => {
       const response = await request
         .post('/beershop/TypeChecksWithDraft')
         .send(JSON.stringify({}))
