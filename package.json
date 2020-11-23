@@ -14,8 +14,7 @@
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'",
     "release": "standard-version",
     "build:cf": "cd __tests__/__assets__/cap-proj && mbt build",
-    "copycds:db": "cd __tests__/__assets__/cap-proj && copyfiles -a ./db/* ./db/**/* scp-deployment",
-    "copycds:srv": "cd __tests__/__assets__/cap-proj && copyfiles -a ./srv/* ./srv/**/* scp-deployment"
+    "deploy:cf": "cd __tests__/__assets__/cap-proj && cf deploy mta_archives/cap-proj_$npm_package_version.mtar --version-rule ALL"
   },
   "repository": {
     "type": "git",

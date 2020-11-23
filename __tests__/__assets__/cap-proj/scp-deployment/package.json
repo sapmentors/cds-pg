@@ -3,17 +3,12 @@
   "engines": {
     "node": "12"
   },
-  "version": "1.0.0",
+  "version": "0.0.30",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "start:deploy": "./deploy.sh",
-    "copycds": "run-s copycds:clear:db copycds:clear:srv copycds:db copycds:srv",
-    "copycds:clear:db": "rimraf db",
-    "copycds:clear:srv": "rimraf srv",
-    "copycds:db": "copyfiles -a ../db/* ../db/**/* db",
-    "copycds:srv": "copyfiles -a ../srv/* ../srv/**/* srv"
+    "start:deploy": "./deploy.sh"
   },
   "dependencies": {
     "npm-run-all": "^4.1.5",
@@ -34,9 +29,6 @@
         "model": [
           "srv"
         ]
-      },
-      "uaa": {
-        "kind": "xsuaa"
       }
     },
     "migrations": {
