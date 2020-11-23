@@ -1,0 +1,12 @@
+---
+keys:
+  - https://dist.sapmachine.io/debian/sapmachine.old.key
+  - https://dist.sapmachine.io/debian/sapmachine.key
+repos:
+  - deb http://dist.sapmachine.io/debian/amd64/ ./
+packages:
+#  - openjdk-8-jre-headless
+#  - openjdk-11-jdk-headless
+#  - openjdk-15-jdk-headless
+#  - sapmachine-11-jdk
+  - sapmachine-11-jre

@@ -1,0 +1,57 @@
+{
+  "name": "cap-proj-db-deployer",
+  "engines": {
+    "node": "12"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:deploy": "./deploy.sh",
+    "copycds": "run-s copycds:clear:db copycds:clear:srv copycds:db copycds:srv",
+    "copycds:clear:db": "rimraf db",
+    "copycds:clear:srv": "rimraf srv",
+    "copycds:db": "copyfiles -a ../db/* ../db/**/* db",
+    "copycds:srv": "copyfiles -a ../srv/* ../srv/**/* srv"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5",
+    "cds-dbm": "mikezaschka/cds-dbm#feature/scp",
+    "cds-pg": "^0.0.30",
+    "express": "^4.17.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "database"
+      },
+      "database": {
+        "impl": "cds-pg",
+        "model": [
+          "srv"
+        ]
+      }
+    },
+    "migrations": {
+      "db": {
+        "schema": {
+          "default": "public",
+          "clone": "_cdsdbm_clone",
+          "reference": "_cdsdbm_ref"
+        },
+        "deploy": {
+          "tmpFile": "tmp/_autodeploy.json",
+          "undeployFile": "db/undeploy.json"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.0",
+    "rimraf": "^3.0.2"
+  }
+}

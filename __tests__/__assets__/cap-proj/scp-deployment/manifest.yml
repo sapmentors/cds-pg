@@ -1,0 +1,9 @@
+---
+applications:
+  - name: cap-proj-db-deployer
+    memory: 512M
+    disk_quota: 2G
+    path: .
+    buildpacks:
+      - https://github.com/cloudfoundry/apt-buildpack#v0.2.2
+      - nodejs_buildpack

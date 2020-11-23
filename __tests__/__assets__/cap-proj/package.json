@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "start": "cds run",
+    "copycds:db": "copyfiles -a ./db/* ./db/**/* scp-deployment",
+    "copycds:srv": "copyfiles -a ./srv/* ./srv/**/* scp-deployment"
+  },
   "cds": {
     "requires": {
       "db": {
