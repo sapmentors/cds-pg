@@ -9,9 +9,9 @@ For a short introduction on the background of this project you can check out [a 
 
 ## Current status
 
-This is an alpha version and **not yet ready for production usage**! _cds-pg_ is able to connect to a PostgreSQL database and execute basic CRUD statements, but there is definitly some more work to do to bring the library to a mature state.
-
-Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
+**_cds-pg_ is ready to be used!**  
+Still, there's some gaps left to fill - note the list below and  
+please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
 
 ### TODO
 
@@ -22,10 +22,18 @@ Please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute add
 - [x] map OData to PostgreSQL vocabulary
 - [x] implement basic cds deployment
 - [x] use default query builders for UPDATE/DELETE
+- [ ] add support for multitenancy (see [issue #25](https://github.com/sapmentors/cds-pg/issues/25))
+  - [x] support multiple schemas (at config time)
+  - [x] support queries with tenant info (at runtime)
+- [ ] add support for [full OData vocabulary](http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html)
+  - [x] system query options (`$filter`, `$expand`, `$select`)
+  - [x] string functions
+  - [ ] collection functions
+  - [ ] date + time functions
+  - [ ] geo functions
+  - [ ] arithmetic operators + functions
 - [ ] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
 - [ ] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
-- [ ] add support for multitenancy (see [issue #25](https://github.com/sapmentors/cds-pg/issues/25))
-- [ ] add support for full OData vocabulary
 - [ ] add more tests to make the module more robust to @sap/cds core changes
 - [ ] maybe add some PostgreSQL specific data type support
 
@@ -83,11 +91,13 @@ For local development you can provide the credentials in the file `default-env.j
 
 ### CDS deployment
 
-With the command:
+Please check `cds-dbm` at https://github.com/mikezaschka/cds-dbm for deployment including delta handling of data and models!
+
+For quick'n'dirty local deployment:
 
 `npx cds-pg deploy srv --to db`
 
-you can deploy all tables and views defined in your CDS model to the PostgreSQL DB specified in `default-env.json`. Initial data will also be filled from the provided .csv files following the approach described in [Providing Initial Data](https://cap.cloud.sap/docs/guides/databases#providing-initial-data). Be aware that the existing tables and views are deleted and then re-created according the CDS model.
+deploys all tables and views defined in your CDS model to the PostgreSQL DB specified in `default-env.json`. Initial data will also be filled from the provided .csv files following the approach described in [Providing Initial Data](https://cap.cloud.sap/docs/guides/databases#providing-initial-data). Be aware that the existing tables and views are deleted and then re-created according the CDS model.
 
 ## Projects using cds-pg
 

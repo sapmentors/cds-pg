@@ -132,4 +132,35 @@ describe.each([
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
   })
+
+  // not support by odata server yet!
+  test.skip('matchesPattern', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=matchesPattern(name,/.*Hell$/`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(2)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+  })
+
+  test('tolower', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=tolower(name) eq 'schönramer hell'`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(1)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+  })
+
+  test('toupper', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=toupper(name) eq 'SCHÖNRAMER HELL'`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(1)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+  })
+
+  test('trim', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=trim(name) eq name`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBeGreaterThanOrEqual(2)
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
+    expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+  })
 })
