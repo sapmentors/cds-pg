@@ -11,21 +11,9 @@ cds.env.requires.postgres = {
 const guidRegEx = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
 
 // construct suite data sets
-const localCredentials = {
-  host: 'localhost',
-  port: '5432',
-  database: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
+const localCredentials = require('./credentials-local.json')
 const localModel = './__tests__/__assets__/cap-proj/srv/'
-const scpPostgresCredentials = {
-  hostname: 'localhost',
-  port: '5432',
-  dbname: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
+const scpPostgresCredentials = require('./credentials-scp-pg.json')
 const scpModel = './__tests__/__assets__/cap-proj/srv/'
 
 // run test suite with different sets of data

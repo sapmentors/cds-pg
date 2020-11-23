@@ -9,21 +9,9 @@ cds.env.requires.postgres = {
 }
 
 // construct suite data sets
-const localCredentials = {
-  host: 'localhost',
-  port: '5432',
-  database: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
+const localCredentials = require('./credentials-local.json')
+const scpPostgresCredentials = require('./credentials-scp-pg.json')
 const localModel = './__tests__/__assets__/cap-proj/srv/'
-const scpPostgresCredentials = {
-  hostname: 'localhost',
-  port: '5432',
-  dbname: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
 const scpModel = './__tests__/__assets__/cap-proj/srv/'
 
 // run test suite with different sets of data
