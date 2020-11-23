@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.30 (2020-11-23)
+
+### 0.0.29 (2020-11-22)
+
+
+### Features
+
+*  early version of draft support ([#50](https://github.com/sapmentors/cds-pg/issues/50)) ([9e9af3c](https://github.com/sapmentors/cds-pg/commit/9e9af3ce9575445037900d653c0937774d00587b))
+
 ### 0.0.28 (2020-11-20)
 
 ### 0.0.27 (2020-11-17)
@@ -12,17 +21,15 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.0.24 (2020-11-17)
 
-
 ### Features
 
-* add multi schema feature ([#44](https://github.com/sapmentors/cds-pg/issues/44)) ([2eb6835](https://github.com/sapmentors/cds-pg/commit/2eb6835bcdaef2f37039eb5be5bad4f4cd5e50f2))
+- add multi schema feature ([#44](https://github.com/sapmentors/cds-pg/issues/44)) ([2eb6835](https://github.com/sapmentors/cds-pg/commit/2eb6835bcdaef2f37039eb5be5bad4f4cd5e50f2))
 
 ### 0.0.23 (2020-11-16)
 
-
 ### Features
 
-* support SAP CP CF PG Hyperscaler Service ([#43](https://github.com/sapmentors/cds-pg/issues/43)) ([c0ba1dd](https://github.com/sapmentors/cds-pg/commit/c0ba1dde81fe5c30a9e1fec9ba6b7d71c51ac3cb))
+- support SAP CP CF PG Hyperscaler Service ([#43](https://github.com/sapmentors/cds-pg/issues/43)) ([c0ba1dd](https://github.com/sapmentors/cds-pg/commit/c0ba1dde81fe5c30a9e1fec9ba6b7d71c51ac3cb))
 
 ### 0.0.22 (2020-11-13)
 
