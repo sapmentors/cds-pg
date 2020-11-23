@@ -4,7 +4,7 @@
 ## approuter=
 _schema-version: '3.1'
 ID: cap-proj
-version: 1.0.0
+version: XYZ
 description: 'deployment of cds-pg on scp hyperledger pg for testing purposes'
 parameters:
   enable-parallel-deployments: true
@@ -35,21 +35,23 @@ modules:
           memory: 512MB
     build-parameters:
       ignore: ['node_modules/']
-  # --------------------- SERVER MODULE ------------------------
+    requires:
+      - name: cap-proj-database
+
   - name: cap-proj-srv
-    # ------------------------------------------------------------
     type: nodejs
     path: gen/srv
+    parameters:
+      host: cds-pg-tests-srv
     build-parameters:
       ignore: ['node_modules/']
     provides:
       - name: srv-api # required by consumers of CAP services (e.g. approuter)
         properties:
           srv-url: ${default-url}
-    # requires:
-    #   - name: cap-proj-uaa
-# resources:
-#   - name: cap-proj-uaa
-#     # parameters:
-#     #   path: ./xs-security.json
-#     type: com.sap.xs.uaa
+    requires:
+      - name: cap-proj-database
+
+resources:
+  - name: cap-proj-database
+    type: org.cloudfoundry.existing-service

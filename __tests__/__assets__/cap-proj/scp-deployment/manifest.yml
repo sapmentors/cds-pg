@@ -7,3 +7,6 @@ applications:
     buildpacks:
       - https://github.com/cloudfoundry/apt-buildpack#v0.2.2
       - nodejs_buildpack
+    env:
+      APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE: dontWarn
+      DEBUG: true

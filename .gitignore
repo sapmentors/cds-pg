@@ -3,7 +3,7 @@
 node_modules/
 .idea/
 *-env.json
-**/*/gen/*
-**/*/mta_archives/*
+__tests__/__assets__/cap-proj/gen
+__tests__/__assets__/cap-proj/mta_archives
 __tests__/__assets__/cap-proj/scp-deployment/db
 __tests__/__assets__/cap-proj/scp-deployment/srv

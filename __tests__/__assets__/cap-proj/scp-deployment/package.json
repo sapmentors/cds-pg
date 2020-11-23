@@ -34,6 +34,9 @@
         "model": [
           "srv"
         ]
+      },
+      "uaa": {
+        "kind": "xsuaa"
       }
     },
     "migrations": {
