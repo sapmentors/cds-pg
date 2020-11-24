@@ -1,8 +1,13 @@
 {
   "scripts": {
     "start": "cds run",
-    "copycds:db": "copyfiles -a ./db/* ./db/**/* scp-deployment",
-    "copycds:srv": "copyfiles -a ./srv/* ./srv/**/* scp-deployment"
+    "clear": "rm -rf _gen; mkdir _gen",
+    "copycds:db": "npm run _copycds:db:todeployer && npm run _copycds:db:tosrv",
+    "_copycds:db:todeployer": "copyfiles -a ./db/* ./db/**/* scp-deployment",
+    "_copycds:db:tosrv": "cp -r db _gen/",
+    "copycds:srv": "npm run _copycds:srv:todeployer && npm run _copycds:srv:tosrv",
+    "_copycds:srv:todeployer": "copyfiles -a ./srv/* ./srv/**/* scp-deployment",
+    "_copycds:srv:tosrv": "cp -r srv _gen/ && cp as-scp-package.json _gen/package.json"
   },
   "dependencies": {
     "@sap/cds": "^4.3.0",
