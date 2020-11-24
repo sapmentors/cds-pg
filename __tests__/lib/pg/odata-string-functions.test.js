@@ -1,13 +1,6 @@
 const cds = require('@sap/cds')
 const deploy = require('@sap/cds/lib/srv/db/deploy')
 const path = require('path')
-const supertest = require('supertest')
-
-// eventually load a .env file for scp hyperledger connectivity
-// fails silently if there is none
-const _envPath = path.resolve(__dirname, '../../__assets__/cap-proj/.env')
-require('dotenv').config({ path: _envPath })
-const scp = process.env.scpServiceURL ? true : false
 
 // mock (package|.cds'rc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -15,19 +8,12 @@ cds.env.requires.postgres = {
   impl: './cds-pg', // hint: not really sure as to why this is, but...
 }
 
-// construct suite data sets
-const localCredentials = require('./credentials-local.json')
-const localModel = './__tests__/__assets__/cap-proj/srv/'
+// default (single) test environment is local,
+// so running against a dockerized postgres with a local cap bootstrap service
+// when there's a .env in /__tests__/__assets__/cap-proj/
+// with a scpServiceURL (see .env.example in that dir)
+const { suiteEnvironments, app } = require('./_buildSuiteEnvironments')
 
-// this for local runtime only
-const app = require('express')()
-const requestLocal = supertest(app)
-
-// note the injected supertest/$request var - it serves as http object in each test
-let suiteEnvironments = [['local', localCredentials, localModel, requestLocal]]
-if (scp) {
-  suiteEnvironments.push(['scp', {}, '', supertest(process.env.scpServiceURL)])
-}
 // run test suite with different environments (if applicable)
 describe.each(suiteEnvironments)('[%s] String + Collection functions', (
   _suitename /* translates to %s via printf */,
