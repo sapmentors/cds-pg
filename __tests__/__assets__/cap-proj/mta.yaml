@@ -21,24 +21,24 @@ build-parameters:
         - npm run copycds:srv # also copies srv files into cap-proj-(db-deployer|srv)
 
 modules:
-  - name: cap-proj-db-deployer
-    type: custom
-    path: scp-deployment
-    parameters:
-      buildpacks: [https://github.com/cloudfoundry/apt-buildpack#v0.2.2, nodejs_buildpack]
-      no-route: true
-      no-start: true
-      disk-quota: 3GB
-      memory: 512MB
-      tasks:
-        - name: deploy_to_postgresql
-          command: ./deploy.sh
-          disk-quota: 3GB
-          memory: 512MB
-    build-parameters:
-      ignore: ['node_modules/']
-    requires:
-      - name: cap-proj-database
+  # - name: cap-proj-db-deployer
+  #   type: custom
+  #   path: scp-deployment
+  #   parameters:
+  #     buildpacks: [https://github.com/cloudfoundry/apt-buildpack#v0.2.2, nodejs_buildpack]
+  #     no-route: true
+  #     no-start: true
+  #     disk-quota: 3GB
+  #     memory: 512MB
+  #     tasks:
+  #       - name: deploy_to_postgresql
+  #         command: ./deploy.sh
+  #         disk-quota: 3GB
+  #         memory: 512MB
+  #   build-parameters:
+  #     ignore: ['node_modules/']
+  #   requires:
+  #     - name: cap-proj-database
 
   - name: cap-proj-srv
     type: nodejs
