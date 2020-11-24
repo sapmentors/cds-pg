@@ -69,12 +69,6 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
     delete global.console // avoid side effect
   })
 
-  // const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-  // beforeEach(async () => {
-  //   if (_suitename === 'scp') {
-  //     await wait(200)
-  //   }
-  // })
   test('concat', async () => {
     const response = await request.get(
       `/beershop/Beers?$filter=concat(name,' ---discount!') eq 'Lagerbier Hell ---discount!'`
@@ -123,14 +117,17 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
   })
 
   test('startswith', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=startswith(name,'Schön')`)
+    // cf needs the umlauts pre-encoded
+    const response = await request.get(`/beershop/Beers?$filter=startswith(name,'${encodeURIComponent('Schön')}')`)
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
   })
 
   test('substring (from)', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=substring(name,1) eq 'chönramer Hell'`)
+    const response = await request.get(
+      `/beershop/Beers?$filter=substring(name,1) eq '${encodeURIComponent('chönramer Hell')}'`
+    )
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
@@ -153,7 +150,10 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
   })
 
   test('tolower', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=tolower(name) eq 'schönramer hell'`)
+    // cf needs the umlauts pre-encoded
+    const response = await request.get(
+      `/beershop/Beers?$filter=tolower(name) eq '${encodeURIComponent('schönramer hell')}'`
+    )
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
@@ -168,8 +168,11 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
     )
   })
 
-  test.only('toupper w/ special chars in eq', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=toupper(name) eq 'SCHÖNRAMER HELL'`)
+  test('toupper w/ special chars in eq', async () => {
+    // cf needs the umlauts pre-encoded
+    const response = await request.get(
+      `/beershop/Beers?$filter=toupper(name) eq '${encodeURIComponent('SCHÖNRAMER HELL')}'`
+    )
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
