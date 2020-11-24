@@ -30,8 +30,8 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
       debug: jest.fn(),
       error: jest.fn(),
     }
-    // only deploy when running against local test env
-    // scp hyperledger postgres has deployed db content!
+
+    // bootstrap local cap
     if (_suitename === 'local') {
       this._model = model
       this._dbProperties = {
@@ -48,6 +48,9 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
       // that matches the db content/setup in dockered pg
       const servicePath = path.resolve(this._model, 'beershop-service')
       await cds.serve('BeershopService').from(servicePath).in(app)
+    } else if (_suitename === 'scp') {
+      // "reset" aka re-deploy static content
+      await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
     }
   })
 
