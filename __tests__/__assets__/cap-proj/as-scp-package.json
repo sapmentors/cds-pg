@@ -2,7 +2,9 @@
   "scripts": {
     "start": "cds run",
     "copycds:db": "copyfiles -a ./db/* ./db/**/* scp-deployment",
-    "copycds:srv": "copyfiles -a ./srv/* ./srv/**/* scp-deployment"
+    "copycds:srv": "npm run _copycds:srv:todeployer && npm run _copycds:srv:tosrv",
+    "_copycds:srv:todeployer": "copyfiles -a ./srv/* ./srv/**/* scp-deployment",
+    "_copycds:srv:tosrv": "copyfiles srv/*.cds gen/srv/"
   },
   "dependencies": {
     "@sap/cds": "^4.3.0",

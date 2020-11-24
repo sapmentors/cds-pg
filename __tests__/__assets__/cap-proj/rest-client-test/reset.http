@@ -1,0 +1,10 @@
+POST http://localhost:4004/beershop/reset
+Content-Type: application/json
+
+{}
+
+###
+POST https://4d3dc3fctrial-dev-cap-proj-srv.cfapps.eu10.hana.ondemand.com/beershop/reset
+Content-Type: application/json
+
+{}
