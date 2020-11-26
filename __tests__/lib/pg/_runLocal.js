@@ -1,4 +1,4 @@
-const deploy = require('@sap/cds/lib/srv/db/deploy')
+const cds = require('@sap/cds')
 const path = require('path')
 
 /**
@@ -15,7 +15,7 @@ module.exports = async (model, credentials, app, deployDB = false) => {
     credentials: credentials,
   }
 
-  deployDB ? await deploy(model, {}).to(dbProperties) : null
+  deployDB ? await cds.deploy(model, {}).to(dbProperties) : null
 
   cds.db = await cds.connect.to(dbProperties)
 
