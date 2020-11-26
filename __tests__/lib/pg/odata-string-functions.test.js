@@ -1,6 +1,4 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/srv/db/deploy')
-const path = require('path')
 
 // mock (package|.cds'rc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -31,24 +29,11 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
       error: jest.fn(),
     }
 
-    // bootstrap local cap
     if (_suitename === 'local') {
-      this._model = model
-      this._dbProperties = {
-        kind: 'postgres',
-        model: this._model,
-        credentials: credentials,
-      }
-
-      await deploy(this._model, {}).to(this._dbProperties)
-
-      cds.db = await cds.connect.to(this._dbProperties)
-
-      // serve only a plain beershop
-      // that matches the db content/setup in dockered pg
-      const servicePath = path.resolve(this._model, 'beershop-service')
-      await cds.serve('BeershopService').from(servicePath).in(app)
-    } else if (_suitename === 'scp') {
+      // bootstrap local app + deploy sample data
+      await require('./_runLocal')(model, credentials, app, true)
+    } else if (_suitename == 'scp') {
+      // app is deployed, only
       // "reset" aka re-deploy static content
       await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
     }
