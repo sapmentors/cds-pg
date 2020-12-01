@@ -10,8 +10,12 @@ For a short introduction on the background of this project you can check out [a 
 ## Current status
 
 **_cds-pg_ is ready to be used!**  
-Still, there's some gaps left to fill - note the list below and  
-please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
+Still, there's some gaps left to fill - note the list below and please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
+
+Also checkout the following blogpsts on how to get started using cds-pg in your local development environment and on SAP Cloud Platform Cloud Foundry:
+
+- [Setup an example project using cds-pg](https://blogs.sap.com/2020/11/16/getting-started-with-cap-on-postgresql-node.js/)
+- [Prepare and deploy the project to SAP Cloud Platform CF](https://blogs.sap.com/2020/11/30/run-and-deploy-cap-with-postgresql-on-sap-cloud-platform-cloud-foundry-node.js/)
 
 ### TODO
 
@@ -33,7 +37,7 @@ please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute add
   - [ ] geo functions
   - [ ] arithmetic operators + functions
 - [ ] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
-- [ ] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
+- [x] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
 - [ ] add more tests to make the module more robust to @sap/cds core changes
 - [ ] maybe add some PostgreSQL specific data type support
 
@@ -91,14 +95,18 @@ For local development you can provide the credentials in the file `default-env.j
 
 ### CDS deployment
 
-Please check `cds-dbm` at https://github.com/mikezaschka/cds-dbm for deployment including delta handling of data and models!
-
-For quick'n'dirty local deployment:
+cds-pg contains the database adapter to translate the incoming requests to PostgreSQL during runtime, but also includes a _quick and dirty_ command to deploy the current data model to the PostgreSQL database specified in `default-env.json`. Initial data will also be filled from the provided .csv files following the approach described in [Providing Initial Data](https://cap.cloud.sap/docs/guides/databases#providing-initial-data). Be aware that the existing tables and views are deleted and then re-created according the CDS model, so this should **not be used in production environments**:
 
 `npx cds-pg deploy srv --to db`
 
-deploys all tables and views defined in your CDS model to the PostgreSQL DB specified in `default-env.json`. Initial data will also be filled from the provided .csv files following the approach described in [Providing Initial Data](https://cap.cloud.sap/docs/guides/databases#providing-initial-data). Be aware that the existing tables and views are deleted and then re-created according the CDS model.
+For a more sophisticated approach, please check out `cds-dbm` at https://github.com/mikezaschka/cds-dbm, which offers an advanced deployment model including delta handling of data and models!
+Please also read the following blogposts for a detailed description, on how cds-dbm can be used in combintation with cds-pg:
+
+- [Setup an example project using cds-pg](https://blogs.sap.com/2020/11/16/getting-started-with-cap-on-postgresql-node.js/)
+- [Prepare and deploy the project to SAP Cloud Platform CF](https://blogs.sap.com/2020/11/30/run-and-deploy-cap-with-postgresql-on-sap-cloud-platform-cloud-foundry-node.js/)
+
 
 ## Projects using cds-pg
 
-Example project [pg-beershop](https://github.com/gregorwolf/pg-beershop)
+- [pg-beershop](https://github.com/gregorwolf/pg-beershop) – An example project with multiple deployment scenarios (Cloud Foundery, Kyma, Azure, Google Cloud Platform)
+- [cap-devtoberfest](https://github.com/mikezaschka/cap-devtoberfest) – A simple project showcasing how to run cds-pg and cds-dbm locally and on SAP Cloud Platform Cloud Foundry
