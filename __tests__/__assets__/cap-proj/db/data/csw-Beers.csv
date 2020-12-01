@@ -1,3 +1,12 @@
 ID,name,abv,ibu,brewery_ID
 b8c3fc14-22e2-4f42-837a-e6134775a186,Lagerbier Hell,5.2,12,9c937100-d459-491f-a72d-81b2929af10f
 9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b,Schönramer Hell,5,20,fa6b959e-3a01-40ef-872e-6030ee4de4e5
+9473beeb-1a74-4589-82b8-4fdcce1d66d5,Vollbier,4.9,0,6832ba00-c20e-48b4-a685-dca4aff2ca13
+31c9bc4c-7ba3-4feb-b94c-96e396d848e0,Festbier,5.5,0,6832ba00-c20e-48b4-a685-dca4aff2ca13
+f5578f62-9ae1-4829-8cf1-b8f13e4c5dc3,Grünerla,4.9,11,d265037f-4996-4195-a1fb-b0a8ab5c6f30
+8a67be38-be68-401f-a2ee-0accd920f7c2,Hallerndorfer Landbier Hell,4.9,0,4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb
+fe9479d4-6f60-47e5-b565-a215e6292935,Hallerndorfer Hausbrauerbier,5,0,4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb
+1efd2b35-6fd4-4ac5-a73e-64dfc3fb123b,Bitter 42,5.5,42,4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb
+ba398ee9-9bfe-45b0-b586-9445af402a1a,Summer 69,5.9,12,4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb
+08d5b3fb-549c-4be7-9ac8-e039d75823e7,Dunkles Lagerbier,0,0,0465e9ca-6255-4f5c-b8ba-7439531f8d28
+3b9af296-f7d7-4436-bf49-f09f65ba3970,Leichtes Dunkel,0,0,0465e9ca-6255-4f5c-b8ba-7439531f8d28

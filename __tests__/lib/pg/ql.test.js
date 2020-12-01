@@ -32,7 +32,7 @@ describe('QL to PostgreSQL', () => {
     test('-> with from', async () => {
       const { Beers } = cds.entities('csw')
       const beers = await cds.run(SELECT.from(Beers))
-      expect(beers.length).toStrictEqual(2)
+      expect(beers.length).toStrictEqual(11)
       expect(beers).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
     })
 
