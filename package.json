@@ -10,9 +10,12 @@
     "test:pg:up": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml up -d",
     "test:pg:down": "docker-compose -f __tests__/__assets__/cap-proj/stack.yml down",
     "test:as-sqlite": "cd __tests__/__assets__/cap-proj && cds deploy -2 sqlite::memory: --no-save && cds serve all --in-memory",
-    "test:as-pg": "cd __tests__/__assets__/cap-proj && cp default-env-template.json default-env.json && cds serve all",
+    "test:as-pg": "cd __tests__/__assets__/cap-proj && cp default-env-template.json default-env.json && cp as-pg-package.json package.json && cds serve all",
     "lint": "prettier -c . && eslint '*.{js,ts,tsx}'",
-    "release": "standard-version"
+    "release": "standard-version",
+    "deploy:cf": "run-s _build:cf _deploy:cf",
+    "_build:cf": "cd __tests__/__assets__/cap-proj && cp as-scp-package.json package.json && mbt build",
+    "_deploy:cf": "cd __tests__/__assets__/cap-proj && cf deploy mta_archives/cap-proj_*.mtar --version-rule ALL"
   },
   "repository": {
     "type": "git",
@@ -44,12 +47,15 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@types/jest": "^26.0.15",
+    "copyfiles": "^2.4.0",
+    "dotenv": "^8.2.0",
     "eslint": "^7.12.1",
     "eslint-plugin-jest": "^24.1.0",
     "express": "^4.17.1",
     "husky": "^4.3.0",
     "jest": "^26.6.1",
     "lint-staged": "^10.5.0",
+    "mbt": "^1.0.16",
     "npm-run-all": "^4.1.5",
     "prettier": "2.1.2",
     "sqlite3": "^5.0.0",
@@ -75,6 +81,7 @@
       "/node_modules/",
       "<rootDir>/__tests__/__assets__/"
     ],
+    "testRegex": "/__tests__/.*(\\.|/)(test|spec)\\.[jt]sx?$",
     "testTimeout": 10000
   },
   "prettier": {

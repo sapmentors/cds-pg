@@ -3,3 +3,13 @@
 node_modules/
 .idea/
 *-env.json
+.env
+Makefile*.mta
+__tests__/__assets__/cap-proj/_gen
+__tests__/__assets__/cap-proj/gen
+__tests__/__assets__/cap-proj/mta_archives
+__tests__/__assets__/cap-proj/scp-deployment/db
+__tests__/__assets__/cap-proj/scp-deployment/srv
+
+# this only b/c we change it dynamically at deploy-/test-time
+__tests__/__assets__/cap-proj/package.json

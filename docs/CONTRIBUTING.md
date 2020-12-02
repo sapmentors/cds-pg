@@ -26,6 +26,7 @@ The idea is to grab any not-yet-implemented (`test.todo(..)`) or incomplete (`te
     - [OData queries](#odata-queries)
     - [Debugging](#debugging)
   - [comparison possibility with sqlite](#comparison-possibility-with-sqlite)
+  - [run tests agains SCP cf PostgreSQL, hyperledger service](#run-tests-agains-scp-cf-postgresql-hyperledger-service)
 - [other thingies](#other-thingies)
 - [Collaboration](#collaboration)
 
@@ -85,6 +86,8 @@ Choose `PostgreSQL` as `System`,
 
 Upon successful login, you'll see the `beershop` db, w00t 🍺
 ![postgresql beershop database](./images/postgres-beershop.png)
+
+Finally, rename `__tests__/__assets__/cap-proj/default-env-template.json` to `__tests__/__assets__/cap-proj/default-env.json` for having the sample CAP project authenticate locally against the dockerized PostgreSQL.
 
 ### runnable queries and runtime debug capabilites
 
@@ -162,6 +165,74 @@ $> npm run test:as-sqlite
 ```
 
 As stated above, the SQLite-based app is accessible via http://localhost:4004
+
+### run tests agains SCP cf PostgreSQL, hyperledger service
+
+SAP offers a [managed PostgreSQL instance on CF](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option) now. It is also possible to deploy the sample project included here in cds-pg (`__tests__/__assets__/cap-proj`) to SAP CP and connect it to the cf-based hyperscaler PostgreSQL service.
+
+_Note:_ all of the below will work in local \*nix-like environments only (Linux, macOS, WSL on Windows), not on Windows `cmd` or `powershell`.
+
+First, create an instance `cap-proj-database` of the hyperscaler PostgreSQL service
+
+```js
+# using the "trial" plan here
+# and targeting PostgreSQL 11
+$> cf create-service postgresql-db trial cap-proj-database -c "{\"engine_version\":\"11\" }"
+# this takes some time -
+# check status via
+# $> cf service cap-proj-database
+```
+
+Then, on a shell, log into the target org and space via `cf login`.
+
+In the same shell, build + deploy the sample CAP project:
+
+```js
+# always try to use the target node.js version
+$> nvm use
+Found '/Users/you/cds-pg/.nvmrc' with version <lts/erbium>
+Now using node v12.19.0 (npm v6.14.9)
+
+$> npm run deploy:cf
+# ... builds an mta archive consisting of a single app "cap-proj-srv"
+# ... and deploys to to your cf target org + space
+# ... binding it to the "cap-proj-database"
+# ... also deploys the sample data!
+Staging application "cap-proj-srv"...
+Application "cap-proj-srv" staged
+Starting application "cap-proj-srv"...
+Application "cap-proj-srv" started and available at "<yourspace>-cap-proj-srv.cfapps.eu10.hana.ondemand.com"
+```
+
+Rename `/__tests__/__assets__/cap-proj/.env.example` into `__tests__/__assets__/cap-proj/.env` and put the above `<yourspace>-cap-proj-srv.cfapps.eu10.hana.ondemand.com` into there:
+
+```bash
+# content of .env
+scpServiceURL = https://<yourspace>-cap-proj-srv.cfapps.eu10.hana.ondemand.com
+```
+
+That's it!
+
+Now the test environment of `cds-pg` picks up the environment variable and will run the relevant test-suites against your hyperscaler PostgreSQL service (via the deployed `cap-proj-srv` application), denoted by a `[scp]` prefix.
+
+```js
+$> yarn jest service.test.js --verbose
+# ...
+  [local] OData to Postgres dialect
+    ✓ $metadata document (52 ms)
+    ✓ List of entities exposed by the service (6 ms)
+    odata: GET -> sql: SELECT
+      ✓ odata: entityset Beers -> sql: select all beers (369 ms)
+# ...
+  [scp] OData to Postgres dialect
+    ✓ $metadata document (202 ms)
+    ✓ List of entities exposed by the service (135 ms)
+    odata: GET -> sql: SELECT
+      ✓ odata: entityset Beers -> sql: select all beers (2552 ms)
+# ...
+```
+
+🥳
 
 ## other thingies
 

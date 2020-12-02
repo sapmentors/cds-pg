@@ -1,0 +1,11 @@
+# @fqdn = http://localhost:4004
+###
+# "reset" aka redeploy from csv
+POST {{$dotenv scpServiceURL}}/beershop/reset
+Content-Type: application/json
+
+{}
+
+###
+# delete a brewery
+DELETE {{$dotenv scpServiceURL}}/beershop/Breweries(0465e9ca-6255-4f5c-b8ba-7439531f8d28)

@@ -1,0 +1,43 @@
+## Generated mta.yaml based on template version 0.4.0
+## appName = cap-proj
+## language=nodejs; multiTenant=false
+## approuter=
+_schema-version: '3.1'
+ID: cap-proj
+version: 0.0.36
+description: 'deployment of cds-pg on scp hyperledger pg for testing purposes'
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        # no real "build" here as we deploy the as-is sources
+        # > /srv and /db are copied into /_gen and used as cap-proj-srv
+        - npm run clear
+        - npm i
+        - npm run copycds:db # also copies db files into cap-proj-srv
+        - npm run copycds:srv # also copies srv files into cap-proj-srv
+
+modules:
+  - name: cap-proj-srv
+    type: nodejs
+    path: _gen
+    ### results in a unique domain name <host>.cfapps.*.hana.ondemand.com
+    # parameters:
+    #   host: cds-pg-tests-srv
+    build-parameters:
+      ignore: ['node_modules/']
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: cap-proj-database
+
+# this is the instance name
+# of the managed hyperscaler service on sap cp!
+resources:
+  - name: cap-proj-database
+    type: org.cloudfoundry.existing-service

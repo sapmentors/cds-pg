@@ -6,9 +6,7 @@
       },
       "database": {
         "impl": "../../../",
-        "model": [
-          "srv"
-        ]
+        "model": ["srv"]
       }
     }
   }
