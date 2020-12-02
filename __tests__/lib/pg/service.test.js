@@ -50,15 +50,6 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
     delete global.console // avoid side effect
   })
 
-  beforeEach(async () => {
-    // "reset" aka re-deploy static content
-    if (_suitename === 'local') {
-      await deploy(this._model, {}).to(this._dbProperties)
-    } else if (_suitename === 'scp') {
-      await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
-    }
-  })
-
   // making sure we're running the beershop
   // no db connection required
   test('$metadata document', async () => {
