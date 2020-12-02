@@ -11,7 +11,7 @@ entity Beers : cuid, managed {
 
 entity Brewery : cuid, managed {
   name  : String(150);
-  beers : Association to many Beers
+  beers : Composition of many Beers
             on beers.brewery = $self;
 }
 

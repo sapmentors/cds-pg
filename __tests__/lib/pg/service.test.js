@@ -29,11 +29,20 @@ const scpPostgresCredentials = {
   password: 'postgres',
 }
 const scpModel = './__tests__/__assets__/cap-proj/srv/'
-
+const localSchemaCredentials = {
+  hostname: 'localhost',
+  port: '5432',
+  dbname: 'beershop',
+  username: 'postgres',
+  password: 'postgres',
+  schema: 'superbeer',
+}
+const localSchemaModel = './__tests__/__assets__/cap-proj/srv/'
 // run test suite with different sets of data
 describe.each([
   ['local', localCredentials, localModel],
   ['scp', scpPostgresCredentials, scpModel],
+  ['local-with-schema', localSchemaCredentials, localSchemaModel],
 ])('[%s] OData to Postgres dialect', (_suitename /* translates to %s via printf */, credentials, model) => {
   const app = require('express')()
   const request = require('supertest')(app)
@@ -262,6 +271,41 @@ describe.each([
       expect(response.body.modifiedAt).toBeTruthy()
       expect(response.body.createdBy).toBeTruthy()
       expect(response.body.modifiedBy).toBeTruthy()
+      expect(response.status).toStrictEqual(201)
+    })
+  })
+
+  describe('odata: POST -> DEEP INSERT', () => {
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties)
+    })
+
+    test('odata: deep insert Brewery and beers -> sql: deep insert into Breweries', async () => {
+      const response = await request
+        .post('/beershop/Breweries')
+        .send({
+          name: 'Gluck Fabrik',
+          beers: [
+            {
+              name: 'Glucks Pils',
+              ibu: 101,
+              abv: '5.2',
+            },
+            {
+              name: 'Glucks Pils Herb',
+              ibu: 101,
+              abv: '6.2',
+            },
+          ],
+        })
+        .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      expect(response.body.createdAt).toBeTruthy()
+      expect(response.body.modifiedAt).toBeTruthy()
+      expect(response.body.createdBy).toBeTruthy()
+      expect(response.body.modifiedBy).toBeTruthy()
+      expect(response.body.beers.length).toBe(2)
+      expect(response.body.beers[0].name).toStrictEqual('Glucks Pils')
+      expect(response.body.beers[1].name).toStrictEqual('Glucks Pils Herb')
       expect(response.status).toStrictEqual(201)
     })
   })
