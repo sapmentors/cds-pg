@@ -4,7 +4,7 @@
 ## approuter=
 _schema-version: '3.1'
 ID: cap-proj
-version: 0.0.30
+version: 0.0.36
 description: 'deployment of cds-pg on scp hyperledger pg for testing purposes'
 parameters:
   enable-parallel-deployments: true

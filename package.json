@@ -15,7 +15,7 @@
     "release": "standard-version",
     "deploy:cf": "run-s _build:cf _deploy:cf",
     "_build:cf": "cd __tests__/__assets__/cap-proj && cp as-scp-package.json package.json && mbt build",
-    "_deploy:cf": "cd __tests__/__assets__/cap-proj && cf deploy mta_archives/cap-proj_$npm_package_version.mtar --version-rule ALL"
+    "_deploy:cf": "cd __tests__/__assets__/cap-proj && cf deploy mta_archives/cap-proj_*.mtar --version-rule ALL"
   },
   "repository": {
     "type": "git",
