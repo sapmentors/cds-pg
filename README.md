@@ -32,7 +32,7 @@ please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute add
   - [ ] date + time functions
   - [ ] geo functions
   - [ ] arithmetic operators + functions
-- [ ] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
+- [x] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
 - [ ] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
 - [ ] add more tests to make the module more robust to @sap/cds core changes
 - [ ] maybe add some PostgreSQL specific data type support
