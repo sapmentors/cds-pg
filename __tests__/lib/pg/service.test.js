@@ -11,9 +11,10 @@ cds.env.requires.postgres = {
 const guidRegEx = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
 
 // default (single) test environment is local,
-// so running against a dockerized postgres with a local cap bootstrap service
+// so running against a dockerized postgres with a local cap bootstrap service.
 // when there's a .env in /__tests__/__assets__/cap-proj/
 // with a scpServiceURL (see .env.example in that dir)
+// tests are also run against a deployed service url (cf hyperscaler postgres)
 const { suiteEnvironments, app } = require('./_buildSuiteEnvironments')
 
 // run test suite with different sets of data
