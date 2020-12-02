@@ -3,7 +3,9 @@ const deploy = require('@sap/cds/lib/srv/db/deploy')
 // const path = require('path')
 
 // mock (package|.cds'rc).json entries
-cds.env.requires.db = { kind: 'postgres' }
+cds.env.requires.db = {
+  kind: 'postgres',
+}
 cds.env.requires.postgres = {
   impl: './cds-pg', // hint: not really sure as to why this is, but...
 }
@@ -83,7 +85,13 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       const response = await request.get('/beershop/Beers')
       expect(response.status).toStrictEqual(200)
       expect(response.body.value.length).toStrictEqual(11)
-      expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
+      expect(response.body.value).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            name: 'Lagerbier Hell',
+          }),
+        ])
+      )
     })
 
     test('odata: entityset Beers -> sql: select all beers and count', async () => {
@@ -115,7 +123,13 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
 
       expect(response.status).toStrictEqual(200)
       expect(response.body.value.length).toStrictEqual(1)
-      expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Lagerbier Hell' })]))
+      expect(response.body.value).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            name: 'Lagerbier Hell',
+          }),
+        ])
+      )
     })
     test('odata: $expand single entity on 1:1 rel -> sql: sub-select single record from expand-target table', async () => {
       const response = await request.get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b?$expand=brewery')
@@ -156,7 +170,13 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       expect(augustiner.beers.length).toStrictEqual(0) // Augustiner doesn't produce Schönramer Hell
       const schoenram = data.find((brewery) => brewery.name.includes('Private Landbrauerei'))
       expect(schoenram.beers.length).toStrictEqual(1) // that's where Schönramer Hell is produced
-      expect(schoenram.beers).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
+      expect(schoenram.beers).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            name: 'Schönramer Hell',
+          }),
+        ])
+      )
     })
     test('odata: multiple $ combined: $expand, $filter, $select -> sql: sub-select only selected fields matching records from expand-target table', async () => {
       const response = await request.get(
@@ -238,6 +258,10 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
         })
         .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
 
+      expect(response.body.createdAt).toBeTruthy()
+      expect(response.body.modifiedAt).toBeTruthy()
+      expect(response.body.createdBy).toBeTruthy()
+      expect(response.body.modifiedBy).toBeTruthy()
       expect(response.status).toStrictEqual(201)
     })
   })
@@ -263,7 +287,12 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       expect(response.status).toStrictEqual(200)
 
       const getResponse = await request.get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b').send()
-      expect(getResponse.body).toEqual(expect.objectContaining({ name: 'Changed name', ibu: 10 }))
+      expect(getResponse.body).toEqual(
+        expect.objectContaining({
+          name: 'Changed name',
+          ibu: 10,
+        })
+      )
     })
   })
 

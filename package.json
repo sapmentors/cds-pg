@@ -1,6 +1,6 @@
 {
   "name": "cds-pg",
-  "version": "0.0.30",
+  "version": "0.0.36",
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "main": "index.js",
   "scripts": {
@@ -60,7 +60,7 @@
     "prettier": "2.1.2",
     "sqlite3": "^5.0.0",
     "standard-version": "^9.0.0",
-    "supertest": "^5.0.0",
+    "supertest": "^6.0.1",
     "uuidv4": "^6.2.4"
   },
   "husky": {
