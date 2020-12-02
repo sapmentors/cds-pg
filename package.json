@@ -81,6 +81,7 @@
       "/node_modules/",
       "<rootDir>/__tests__/__assets__/"
     ],
+    "testRegex": "/__tests__/.*(\\.|/)(test|spec)\\.[jt]sx?$",
     "testTimeout": 10000
   },
   "prettier": {
