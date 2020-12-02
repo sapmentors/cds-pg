@@ -172,7 +172,16 @@ SAP offers a [managed PostgreSQL instance on CF](https://discovery-center.cloud.
 
 _Note:_ all of the below will work in local \*nix-like environments only (Linux, macOS, WSL on Windows), not on Windows `cmd` or `powershell`.
 
-First, create an instance `cap-proj-database` of the hyperscaler PostgreSQL service.
+First, create an instance `cap-proj-database` of the hyperscaler PostgreSQL service
+
+```js
+# using the "trial" plan here
+# and targeting PostgreSQL 11
+$> cf create-service postgresql-db trial cap-proj-database -c "{\"engine_version\":\"11\" }"
+# this takes some time -
+# check status via
+# $> cf service cap-proj-database
+```
 
 Then, on a shell, log into the target org and space via `cf login`.
 
