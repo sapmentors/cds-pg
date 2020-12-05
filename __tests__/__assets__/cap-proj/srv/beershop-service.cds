@@ -9,3 +9,7 @@ service BeershopService {
   @odata.draft.enabled
   entity TypeChecksWithDraft as projection on csw.TypeChecks;
 }
+
+extend service BeershopService with {
+  action reset();
+}

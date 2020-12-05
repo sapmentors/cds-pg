@@ -1,5 +1,9 @@
 CREATE TABLE csw_Beers (
   ID VARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy VARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy VARCHAR(255),
   name VARCHAR(100),
   abv DECIMAL(3, 1),
   ibu INTEGER,
@@ -9,6 +13,10 @@ CREATE TABLE csw_Beers (
 
 CREATE TABLE csw_Brewery (
   ID VARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy VARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy VARCHAR(255),
   name VARCHAR(150),
   PRIMARY KEY(ID)
 );
@@ -67,6 +75,10 @@ CREATE TABLE BeershopService_TypeChecksWithDraft_drafts (
 
 CREATE VIEW BeershopService_Beers AS SELECT
   Beers_0.ID,
+  Beers_0.createdAt,
+  Beers_0.createdBy,
+  Beers_0.modifiedAt,
+  Beers_0.modifiedBy,
   Beers_0.name,
   Beers_0.abv,
   Beers_0.ibu,
@@ -75,6 +87,10 @@ FROM csw_Beers AS Beers_0;
 
 CREATE VIEW BeershopService_Breweries AS SELECT
   Brewery_0.ID,
+  Brewery_0.createdAt,
+  Brewery_0.createdBy,
+  Brewery_0.modifiedAt,
+  Brewery_0.modifiedBy,
   Brewery_0.name
 FROM csw_Brewery AS Brewery_0;
 

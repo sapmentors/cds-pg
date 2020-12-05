@@ -1,6 +1,4 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/srv/db/deploy')
-const path = require('path')
 
 // mock (package|.cds'rc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -8,32 +6,19 @@ cds.env.requires.postgres = {
   impl: './cds-pg', // hint: not really sure as to why this is, but...
 }
 
-// construct suite data sets
-const localCredentials = {
-  host: 'localhost',
-  port: '5432',
-  database: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
-const localModel = './__tests__/__assets__/cap-proj/srv/'
-const scpPostgresCredentials = {
-  hostname: 'localhost',
-  port: '5432',
-  dbname: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
-const scpModel = './__tests__/__assets__/cap-proj/srv/'
+// default (single) test environment is local,
+// so running against a dockerized postgres with a local cap bootstrap service
+// when there's a .env in /__tests__/__assets__/cap-proj/
+// with a scpServiceURL (see .env.example in that dir)
+const { suiteEnvironments, app } = require('./_buildSuiteEnvironments')
 
-// run test suite with different sets of data
-describe.each([
-  ['local', localCredentials, localModel],
-  ['scp', scpPostgresCredentials, scpModel],
-])('[%s] String + Collection functions', (_suitename /* translates to %s via printf */, credentials, model) => {
-  const app = require('express')()
-  const request = require('supertest')(app)
-
+// run test suite with different environments (if applicable)
+describe.each(suiteEnvironments)('[%s] String + Collection functions', (
+  _suitename /* translates to %s via printf */,
+  credentials,
+  model,
+  request
+) => {
   beforeAll(async () => {
     // mock console.*
     // in order not to pollute test logs
@@ -44,21 +29,14 @@ describe.each([
       error: jest.fn(),
     }
 
-    this._model = model
-    this._dbProperties = {
-      kind: 'postgres',
-      model: this._model,
-      credentials: credentials,
+    if (_suitename === 'local') {
+      // bootstrap local app + deploy sample data
+      await require('./_runLocal')(model, credentials, app, true)
+    } else if (_suitename == 'scp') {
+      // app is deployed, only
+      // "reset" aka re-deploy static content
+      await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
     }
-
-    await deploy(this._model, {}).to(this._dbProperties)
-
-    cds.db = await cds.connect.to(this._dbProperties)
-
-    // serve only a plain beershop
-    // that matches the db content/setup in dockered pg
-    const servicePath = path.resolve(this._model, 'beershop-service')
-    await cds.serve('BeershopService').from(servicePath).in(app)
   })
 
   afterAll(() => {
@@ -113,14 +91,17 @@ describe.each([
   })
 
   test('startswith', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=startswith(name,'Schön')`)
+    // cf needs the umlauts pre-encoded
+    const response = await request.get(`/beershop/Beers?$filter=startswith(name,'${encodeURIComponent('Schön')}')`)
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
   })
 
   test('substring (from)', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=substring(name,1) eq 'chönramer Hell'`)
+    const response = await request.get(
+      `/beershop/Beers?$filter=substring(name,1) eq '${encodeURIComponent('chönramer Hell')}'`
+    )
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
@@ -143,14 +124,29 @@ describe.each([
   })
 
   test('tolower', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=tolower(name) eq 'schönramer hell'`)
+    // cf needs the umlauts pre-encoded
+    const response = await request.get(
+      `/beershop/Beers?$filter=tolower(name) eq '${encodeURIComponent('schönramer hell')}'`
+    )
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))
   })
 
-  test('toupper', async () => {
-    const response = await request.get(`/beershop/Beers?$filter=toupper(name) eq 'SCHÖNRAMER HELL'`)
+  test('toupper w/o special chars in eq', async () => {
+    const response = await request.get(`/beershop/Beers?$filter=toupper(name) eq 'HALLERNDORFER LANDBIER HELL'`)
+    expect(response.status).toStrictEqual(200)
+    expect(response.body.value.length).toBe(1)
+    expect(response.body.value).toEqual(
+      expect.arrayContaining([expect.objectContaining({ name: 'Hallerndorfer Landbier Hell' })])
+    )
+  })
+
+  test('toupper w/ special chars in eq', async () => {
+    // cf needs the umlauts pre-encoded
+    const response = await request.get(
+      `/beershop/Beers?$filter=toupper(name) eq '${encodeURIComponent('SCHÖNRAMER HELL')}'`
+    )
     expect(response.status).toStrictEqual(200)
     expect(response.body.value.length).toBe(1)
     expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })]))

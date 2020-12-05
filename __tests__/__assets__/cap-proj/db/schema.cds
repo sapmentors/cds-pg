@@ -1,15 +1,15 @@
 namespace csw;
 
-using {cuid} from '@sap/cds/common';
+using {cuid,managed} from '@sap/cds/common';
 
-entity Beers : cuid {
+entity Beers : cuid, managed {
   name    : String(100);
   abv     : Decimal(3, 1);
   ibu     : Integer;
   brewery : Association to one Brewery;
 }
 
-entity Brewery : cuid {
+entity Brewery : cuid, managed {
   name  : String(150);
   beers : Association to many Beers
             on beers.brewery = $self;
