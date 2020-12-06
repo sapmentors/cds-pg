@@ -36,7 +36,7 @@ Also checkout the following blogpsts on how to get started using cds-pg in your 
   - [ ] date + time functions
   - [ ] geo functions
   - [ ] arithmetic operators + functions
-- [ ] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
+- [x] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
 - [x] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
 - [ ] add more tests to make the module more robust to @sap/cds core changes
 - [ ] maybe add some PostgreSQL specific data type support
@@ -104,7 +104,6 @@ Please also read the following blogposts for a detailed description, on how cds-
 
 - [Setup an example project using cds-pg](https://blogs.sap.com/2020/11/16/getting-started-with-cap-on-postgresql-node.js/)
 - [Prepare and deploy the project to SAP Cloud Platform CF](https://blogs.sap.com/2020/11/30/run-and-deploy-cap-with-postgresql-on-sap-cloud-platform-cloud-foundry-node.js/)
-
 
 ## Projects using cds-pg
 

@@ -1,0 +1,29 @@
+{
+  "scripts": {
+    "start": "cds run",
+    "clear": "rm -rf _gen/*; mkdir _gen; cp as-scp-package.json _gen/package.json",
+    "copycds:db": "cp -r db _gen/",
+    "copycds:srv": "copyfiles srv/**/* _gen"
+  },
+  "dependencies": {
+    "@sap/cds": "^4.3.0",
+    "@sap/cds-dk": "^3.2.0",
+    "@sap/xsenv": "^3.1.0",
+    "@sap/xssec": "^3.0.10",
+    "cds-pg": "^0.0.30",
+    "express": "^4.17.1",
+    "passport": "^0.4.1",
+    "pg": "^8.5.1"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "database"
+      },
+      "database": {
+        "impl": "cds-pg",
+        "model": ["srv"]
+      }
+    }
+  }
+}

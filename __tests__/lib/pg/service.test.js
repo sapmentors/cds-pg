@@ -1,6 +1,6 @@
 const cds = require('@sap/cds')
 const deploy = require('@sap/cds/lib/srv/db/deploy')
-const path = require('path')
+// const path = require('path')
 
 // mock (package|.cds'rc).json entries
 cds.env.requires.db = {
@@ -12,41 +12,20 @@ cds.env.requires.postgres = {
 
 const guidRegEx = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
 
-// construct suite data sets
-const localCredentials = {
-  host: 'localhost',
-  port: '5432',
-  database: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
-const localModel = './__tests__/__assets__/cap-proj/srv/'
-const scpPostgresCredentials = {
-  hostname: 'localhost',
-  port: '5432',
-  dbname: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-}
-const scpModel = './__tests__/__assets__/cap-proj/srv/'
-const localSchemaCredentials = {
-  hostname: 'localhost',
-  port: '5432',
-  dbname: 'beershop',
-  username: 'postgres',
-  password: 'postgres',
-  schema: 'superbeer',
-}
-const localSchemaModel = './__tests__/__assets__/cap-proj/srv/'
-// run test suite with different sets of data
-describe.each([
-  ['local', localCredentials, localModel],
-  ['scp', scpPostgresCredentials, scpModel],
-  ['local-with-schema', localSchemaCredentials, localSchemaModel],
-])('[%s] OData to Postgres dialect', (_suitename /* translates to %s via printf */, credentials, model) => {
-  const app = require('express')()
-  const request = require('supertest')(app)
+// default (single) test environment is local,
+// so running against a dockerized postgres with a local cap bootstrap service.
+// when there's a .env in /__tests__/__assets__/cap-proj/
+// with a scpServiceURL (see .env.example in that dir)
+// tests are also run against a deployed service url (cf hyperscaler postgres)
+const { suiteEnvironments, app } = require('./_buildSuiteEnvironments')
 
+// run test suite with different sets of data
+describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
+  _suitename /* translates to %s via printf */,
+  credentials,
+  model,
+  request
+) => {
   beforeAll(async () => {
     // mock console.*
     // in order not to pollute test logs
@@ -63,20 +42,15 @@ describe.each([
       model: this._model,
       credentials: credentials,
     }
-    cds.db = await cds.connect.to(this._dbProperties)
 
-    // serve only a plain beershop
-    // that matches the db content/setup in dockered pg
-    const servicePath = path.resolve(this._model, 'beershop-service')
-    await cds.serve('BeershopService').from(servicePath).in(app)
+    // only bootstrap in local mode as scp app is deployed and running
+    if (_suitename === 'local') {
+      await require('./_runLocal')(model, credentials, app, false) // don't deploy content initially
+    }
   })
 
   afterAll(() => {
     delete global.console // avoid side effect
-  })
-
-  beforeEach(async () => {
-    await deploy(this._model, {}).to(this._dbProperties)
   })
 
   // making sure we're running the beershop
@@ -100,7 +74,12 @@ describe.each([
 
   describe('odata: GET -> sql: SELECT', () => {
     beforeEach(async () => {
-      await deploy(this._model, {}).to(this._dbProperties)
+      // "reset" aka re-deploy static content
+      if (_suitename === 'local') {
+        await deploy(this._model, {}).to(this._dbProperties)
+      } else if (_suitename === 'scp') {
+        await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
+      }
     })
     test('odata: entityset Beers -> sql: select all beers', async () => {
       const response = await request.get('/beershop/Beers')
@@ -182,7 +161,9 @@ describe.each([
       })
     })
     test('odata: $filter on $expand (1:n) -> sql: sub-select matching records from expand-target table', async () => {
-      const response = await request.get("/beershop/Breweries?$expand=beers($filter=name eq 'Schönramer Hell')")
+      const response = await request.get(
+        `/beershop/Breweries?$expand=beers($filter=name eq '${encodeURIComponent('Schönramer Hell')}')`
+      )
       expect(response.status).toStrictEqual(200)
       const data = response.body.value
       const augustiner = data.find((brewery) => brewery.name.includes('Augustiner'))
@@ -199,7 +180,7 @@ describe.each([
     })
     test('odata: multiple $ combined: $expand, $filter, $select -> sql: sub-select only selected fields matching records from expand-target table', async () => {
       const response = await request.get(
-        "/beershop/Breweries?$expand=beers($filter=name eq 'Schönramer Hell';$select=name,ibu)"
+        `/beershop/Breweries?$expand=beers($filter=name eq '${encodeURIComponent('Schönramer Hell')}';$select=name,ibu)`
       )
       expect(response.status).toStrictEqual(200)
       const data = response.body.value
@@ -218,7 +199,12 @@ describe.each([
 
   describe('odata: GET on Draft enabled Entity -> sql: SELECT', () => {
     beforeEach(async () => {
-      await deploy(this._model, {}).to(this._dbProperties)
+      // "reset" aka re-deploy static content
+      if (_suitename === 'local') {
+        await deploy(this._model, {}).to(this._dbProperties)
+      } else if (_suitename === 'scp') {
+        await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
+      }
     })
     test('odata: entityset TypeChecksWithDraft -> select all', async () => {
       const response = await request.get('/beershop/TypeChecksWithDraft')
@@ -254,7 +240,12 @@ describe.each([
 
   describe('odata: POST -> sql: INSERT', () => {
     beforeEach(async () => {
-      await deploy(this._model, {}).to(this._dbProperties)
+      // "reset" aka re-deploy static content
+      if (_suitename === 'local') {
+        await deploy(this._model, {}).to(this._dbProperties)
+      } else if (_suitename === 'scp') {
+        await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
+      }
     })
 
     test('odata: entityset Beers -> sql: insert into beers', async () => {
@@ -312,7 +303,12 @@ describe.each([
 
   describe('odata: PUT -> sql: UPDATE', () => {
     beforeEach(async () => {
-      await deploy(this._model, {}).to(this._dbProperties)
+      // "reset" aka re-deploy static content
+      if (_suitename === 'local') {
+        await deploy(this._model, {}).to(this._dbProperties)
+      } else if (_suitename === 'scp') {
+        await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
+      }
     })
 
     test('odata: entityset Beers -> sql: update beers', async () => {
@@ -344,6 +340,20 @@ describe.each([
       // make sure the deleted beer doesn't exist anymore
       const subsequentResponse = await request.get(`/beershop/Beers(${guid})`)
       expect(subsequentResponse.status).toStrictEqual(404)
+    })
+    // reinsert deleted entry to allow further test to run
+    afterEach(async () => {
+      await request
+        .post(`/beershop/Beers`)
+        .send({
+          ID: '9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b',
+          name: 'Schönramer Hell',
+          abv: '5.0',
+          ibu: 20,
+          brewery_ID: 'fa6b959e-3a01-40ef-872e-6030ee4de4e5',
+        })
+        .set('Accept', 'application/json;odata.metadata=minimal;IEEE754Compatible=true')
+        .set('Content-Type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
     })
   })
 })
