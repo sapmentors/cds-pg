@@ -132,12 +132,14 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       )
     })
     test('odata: $expand single entity on 1:1 rel -> sql: sub-select single record from expand-target table', async () => {
-      const response = await request.get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b?$expand=brewery')
+      const response = await request.get(
+        '/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b?$expand=brewery($select=ID,name)'
+      )
       expect(response.status).toStrictEqual(200)
       expect(response.body.brewery.ID).toStrictEqual('fa6b959e-3a01-40ef-872e-6030ee4de4e5')
     })
     test('odata: $expand entityset on 1:1 rel -> sql: sub-select from expand-target table', async () => {
-      const response = await request.get('/beershop/Beers?$expand=brewery')
+      const response = await request.get('/beershop/Beers?$expand=brewery($select=ID,name)')
       expect(response.status).toStrictEqual(200)
       expect(response.body.value).toEqual(
         expect.arrayContaining([
