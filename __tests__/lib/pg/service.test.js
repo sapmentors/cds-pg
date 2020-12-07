@@ -1,5 +1,5 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/srv/db/deploy')
+const deploy = require('@sap/cds/lib/db/deploy')
 // const path = require('path')
 
 // mock (package|.cds'rc).json entries
