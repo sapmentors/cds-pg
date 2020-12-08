@@ -9,9 +9,9 @@ const scp = process.env.scpServiceURL ? true : false
 
 // construct suite data sets
 const localCredentials = require('./credentials-local.json')
+const localCredentialsWithSchema = require('./credentials-local-w-schema.json')
 const localModel = './__tests__/__assets__/cap-proj/srv/'
 
-const localCredentialsWithSchema = require('./credentials-local.json')
 // this for local runtime only
 const app = require('express')()
 const requestLocal = supertest(app)
