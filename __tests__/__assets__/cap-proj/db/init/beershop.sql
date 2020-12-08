@@ -156,7 +156,7 @@ AS
     Beers_0.createdBy,
     Beers_0.modifiedAt,
     Beers_0.modifiedBy
-  FROM csw_Beers AS Beers_0;
+  FROM superbeer.csw_Beers AS Beers_0;
 
 CREATE VIEW superbeer.BeershopService_Breweries
 AS
@@ -167,7 +167,7 @@ AS
     Brewery_0.createdBy,
     Brewery_0.modifiedAt,
     Brewery_0.modifiedBy
-  FROM csw_Brewery AS Brewery_0;
+  FROM superbeer.csw_Brewery AS Brewery_0;
 
 CREATE VIEW superbeer.BeershopService_TypeChecks
 AS
@@ -186,7 +186,7 @@ AS
     TypeChecks_0.type_Binary,
     TypeChecks_0.type_LargeBinary,
     TypeChecks_0.type_LargeString
-  FROM csw_TypeChecks AS TypeChecks_0;
+  FROM superbeer.csw_TypeChecks AS TypeChecks_0;
 
 COPY superbeer.csw_Beers
 (ID, name, abv, ibu, brewery_ID) FROM '/tmp/data/csw-Beers.csv' DELIMITER ',' CSV HEADER;
