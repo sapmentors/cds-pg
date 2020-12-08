@@ -29,7 +29,7 @@ describe.each(suiteEnvironments)('[%s] String + Collection functions', (
       error: jest.fn(),
     }
 
-    if (_suitename === 'local') {
+    if (_suitename.startsWith('local')) {
       // bootstrap local app + deploy sample data
       await require('./_runLocal')(model, credentials, app, true)
     } else if (_suitename == 'scp') {

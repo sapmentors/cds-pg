@@ -29,14 +29,14 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
     }
 
     // only bootstrap in local mode as scp app is deployed and running
-    if (_suitename === 'local') {
+    if (_suitename.startsWith('local')) {
       await require('./_runLocal')(model, credentials, app, false) // don't deploy content initially
     }
   })
 
   beforeEach(async () => {
     // "reset" aka re-deploy static content
-    if (_suitename === 'local') {
+    if (_suitename.startsWith('local')) {
       await deploy(this._model, {}).to(this._dbProperties)
     } else if (_suitename === 'scp') {
       await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
