@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.38 (2020-12-08)
+
+
+### Features
+
+* **cds:** support for 4.4 ([#77](https://github.com/sapmentors/cds-pg/issues/77)) ([b23cb92](https://github.com/sapmentors/cds-pg/commit/b23cb9231bb5c1496005965e966f4abee31b3eb8))
+
 ### 0.0.37 (2020-12-02)
 
 ### 0.0.36 (2020-12-02)
