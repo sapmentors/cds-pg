@@ -44,7 +44,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
     }
 
     // only bootstrap in local mode as scp app is deployed and running
-    if (_suitename === 'local') {
+    if (_suitename.startsWith('local')) {
       await require('./_runLocal')(model, credentials, app, false) // don't deploy content initially
     }
   })
@@ -75,7 +75,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
   describe('odata: GET -> sql: SELECT', () => {
     beforeEach(async () => {
       // "reset" aka re-deploy static content
-      if (_suitename === 'local') {
+      if (_suitename.startsWith('local')) {
         await deploy(this._model, {}).to(this._dbProperties)
       } else if (_suitename === 'scp') {
         await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
@@ -202,7 +202,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
   describe('odata: GET on Draft enabled Entity -> sql: SELECT', () => {
     beforeEach(async () => {
       // "reset" aka re-deploy static content
-      if (_suitename === 'local') {
+      if (_suitename.startsWith('local')) {
         await deploy(this._model, {}).to(this._dbProperties)
       } else if (_suitename === 'scp') {
         await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
@@ -243,7 +243,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
   describe('odata: POST -> sql: INSERT', () => {
     beforeEach(async () => {
       // "reset" aka re-deploy static content
-      if (_suitename === 'local') {
+      if (_suitename.startsWith('local')) {
         await deploy(this._model, {}).to(this._dbProperties)
       } else if (_suitename === 'scp') {
         await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
@@ -268,10 +268,45 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
     })
   })
 
+  describe('odata: POST -> DEEP INSERT', () => {
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties)
+    })
+
+    test('odata: deep insert Brewery and beers -> sql: deep insert into Breweries', async () => {
+      const response = await request
+        .post('/beershop/Breweries')
+        .send({
+          name: 'Gluck Fabrik',
+          beers: [
+            {
+              name: 'Glucks Pils',
+              ibu: 101,
+              abv: '5.2',
+            },
+            {
+              name: 'Glucks Pils Herb',
+              ibu: 101,
+              abv: '6.2',
+            },
+          ],
+        })
+        .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      expect(response.body.createdAt).toBeTruthy()
+      expect(response.body.modifiedAt).toBeTruthy()
+      expect(response.body.createdBy).toBeTruthy()
+      expect(response.body.modifiedBy).toBeTruthy()
+      expect(response.body.beers.length).toBe(2)
+      expect(response.body.beers[0].name).toStrictEqual('Glucks Pils')
+      expect(response.body.beers[1].name).toStrictEqual('Glucks Pils Herb')
+      expect(response.status).toStrictEqual(201)
+    })
+  })
+
   describe('odata: PUT -> sql: UPDATE', () => {
     beforeEach(async () => {
       // "reset" aka re-deploy static content
-      if (_suitename === 'local') {
+      if (_suitename.startsWith('local')) {
         await deploy(this._model, {}).to(this._dbProperties)
       } else if (_suitename === 'scp') {
         await request.post(`/beershop/reset`).send({}).set('content-type', 'application/json')
@@ -307,6 +342,20 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       // make sure the deleted beer doesn't exist anymore
       const subsequentResponse = await request.get(`/beershop/Beers(${guid})`)
       expect(subsequentResponse.status).toStrictEqual(404)
+    })
+    // reinsert deleted entry to allow further test to run
+    afterEach(async () => {
+      await request
+        .post(`/beershop/Beers`)
+        .send({
+          ID: '9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b',
+          name: 'Schönramer Hell',
+          abv: '5.0',
+          ibu: 20,
+          brewery_ID: 'fa6b959e-3a01-40ef-872e-6030ee4de4e5',
+        })
+        .set('Accept', 'application/json;odata.metadata=minimal;IEEE754Compatible=true')
+        .set('Content-Type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
     })
   })
 })
