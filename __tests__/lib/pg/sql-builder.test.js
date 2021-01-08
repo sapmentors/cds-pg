@@ -1,20 +1,42 @@
-const CustomBuilder = require('../../../lib/pg/sql-builder')
+const {
+  PGSelectBuilder,
+  PGResourceBuilder,
+  PGExpressionBuilder,
+  PGFunctionBuilder,
+} = require('../../../lib/pg/sql-builder')
 const { sqlFactory } = require('@sap/cds-runtime/lib/db/sql-builder')
+
+const loadModel = async () => {
+  const model = await cds.load('./__tests__/__assets__/cap-proj/db/schema.cds')
+  for (const definition of Object.values(model.definitions)) {
+    if (definition.elements) {
+      for (const [name, element] of Object.entries(definition.elements)) {
+        element.name = name
+      }
+    }
+  }
+  return model
+}
 
 describe('CQN to PostgreSQL', () => {
   beforeAll(async () => {
-    this.csn = await cds.load('./__tests__/__assets__/cap-proj/db/schema.cds')
+    this.csn = await loadModel()
 
     // Helper function
     this.runQuery = (query) =>
       sqlFactory(
         query,
         {
-          user: cds.user,
-          customBuilder: CustomBuilder,
+          user: cds.user || 'ANONYMOUS',
+          customBuilder: {
+            SelectBuilder: PGSelectBuilder,
+            ResourceBuilder: PGResourceBuilder,
+            ExpressionBuilder: PGExpressionBuilder,
+            FunctionBuilder: PGFunctionBuilder,
+          },
           now: { sql: "strftime('%Y-%m-%dT%H:%M:%fZ','now')" }, // '2012-12-03T07:16:23.574Z'
         },
-        cds.model
+        this.csn
       )
   })
 
@@ -44,7 +66,7 @@ describe('CQN to PostgreSQL', () => {
 
       const { sql, values = [] } = this.runQuery(query)
 
-      expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers')
+      expect(sql).toMatch('SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers')
       expect(values).toEqual([])
     })
 
@@ -59,10 +81,11 @@ describe('CQN to PostgreSQL', () => {
         },
       }
 
-      const { sql, values = [] } = this.runQuery(query)
+      const { sql } = this.runQuery(query)
 
-      expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers ORDER BY ID ASC LIMIT 1 OFFSET 1')
-      //expect(values).toEqual([1, 1])
+      expect(sql).toMatch(
+        'SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers ORDER BY "ID" ASC LIMIT 1 OFFSET 1'
+      )
     })
 
     test('+ should return valid SELECT statement with given from, columns, groupBy', async () => {
@@ -77,7 +100,7 @@ describe('CQN to PostgreSQL', () => {
 
       const { sql, values = [] } = this.runQuery(query)
 
-      expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers GROUP BY ID, name')
+      expect(sql).toMatch('SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers GROUP BY ID, name')
       expect(values).toEqual([])
     })
 
@@ -93,10 +116,11 @@ describe('CQN to PostgreSQL', () => {
         },
       }
 
-      const { sql, values = [] } = this.runQuery(query)
+      const { sql } = this.runQuery(query)
 
-      expect(sql).toMatch('SELECT ID, name FROM BeershopService_Beers WHERE ID = 111 ORDER BY ID ASC LIMIT 1 OFFSET 1')
-      //expect(values).toEqual([111, 1, 1])
+      expect(sql).toMatch(
+        'SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers WHERE ID = 111 ORDER BY "ID" ASC LIMIT 1 OFFSET 1'
+      )
     })
 
     test('+ should create a valid count statement', async () => {
@@ -108,7 +132,7 @@ describe('CQN to PostgreSQL', () => {
           columns: [{ func: 'count', args: [{ ref: ['1'] }], as: 'counted' }],
         },
       }
-      const { sql, values = [] } = this.runQuery(query)
+      const { sql } = this.runQuery(query)
 
       expect(sql).toMatch('SELECT count ( 1 ) AS "counted" FROM BeershopService_Beers')
     })
@@ -117,7 +141,7 @@ describe('CQN to PostgreSQL', () => {
   // Examples taken from: https://cap.cloud.sap/docs/cds/cqn#insert
   describe('InsertBuilder', () => {
     beforeAll(async () => {
-      this.csn = await cds.load('./__tests__/__assets__/cap-proj/db/schema.cds')
+      this.csn = await loadModel()
     })
 
     it('should return a valid INSERT statement with given columns and values', () => {
@@ -132,8 +156,10 @@ describe('CQN to PostgreSQL', () => {
 
       const { sql, values = [] } = this.runQuery(query)
 
-      expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( ?, ? )`)
-      expect(values).toEqual([201, 'MyBeer'])
+      expect(sql).toMatch(
+        `INSERT INTO csw_Beers ( ID, name , createdAt, createdBy, modifiedAt, modifiedBy ) VALUES ( ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'), ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'), ? )`
+      )
+      expect(values).toEqual([201, 'MyBeer', 'ANONYMOUS', 'ANONYMOUS'])
     })
 
     it('should return a valid INSERT statement with given columns and rows', () => {
@@ -151,10 +177,12 @@ describe('CQN to PostgreSQL', () => {
 
       const { sql, values = [] } = this.runQuery(query)
 
-      expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( ?, ? )`)
+      expect(sql).toMatch(
+        `INSERT INTO csw_Beers ( ID, name , createdAt, createdBy, modifiedAt, modifiedBy ) VALUES ( ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'), ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'), ? )`
+      )
       expect(values).toEqual([
-        [201, 'MyBeer'],
-        [202, 'MyOtherBeer'],
+        [201, 'MyBeer', 'ANONYMOUS', 'ANONYMOUS'],
+        [202, 'MyOtherBeer', 'ANONYMOUS', 'ANONYMOUS'],
       ])
     })
 
@@ -172,10 +200,12 @@ describe('CQN to PostgreSQL', () => {
 
       const { sql, values = [] } = this.runQuery(query)
 
-      expect(sql).toMatch(`INSERT INTO csw_Beers ( ID, name ) VALUES ( ?, ? )`)
+      expect(sql).toMatch(
+        `INSERT INTO csw_Beers ( ID, name, createdAt, createdBy, modifiedAt, modifiedBy ) VALUES ( ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'), ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'), ? )`
+      )
       expect(values).toEqual([
-        [201, 'MyBeer'],
-        [202, 'MyOtherBeer'],
+        [201, 'MyBeer', 'ANONYMOUS', 'ANONYMOUS'],
+        [202, 'MyOtherBeer', 'ANONYMOUS', 'ANONYMOUS'],
       ])
     })
   })
