@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.41 (2021-01-08)
+
+
+### Bug Fixes
+
+* **core:** Remove Composition from Select ([#86](https://github.com/sapmentors/cds-pg/issues/86)) ([329e44a](https://github.com/sapmentors/cds-pg/commit/329e44a9e516681f2b0f316c2fa504840fe4cf61))
+
 ### 0.0.40 (2020-12-22)
 
 ### 0.0.39 (2020-12-08)
