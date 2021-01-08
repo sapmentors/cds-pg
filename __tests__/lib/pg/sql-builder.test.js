@@ -136,6 +136,21 @@ describe('CQN to PostgreSQL', () => {
 
       expect(sql).toMatch('SELECT count ( 1 ) AS "counted" FROM BeershopService_Beers')
     })
+
+    test('+ should ignore composition fields in select', async () => {
+      const query = {
+        cmd: 'SELECT',
+        SELECT: {
+          from: { ref: ['csw.Brewery'] },
+        },
+      }
+
+      const { sql } = this.runQuery(query)
+      expect(sql.includes('beer')).toBeFalsy()
+      expect(sql).toMatch(
+        'SELECT ID AS "ID", createdAt AS "createdAt", createdBy AS "createdBy", modifiedAt AS "modifiedAt", modifiedBy AS "modifiedBy", name AS "name" FROM csw_Brewery'
+      )
+    })
   })
 
   // Examples taken from: https://cap.cloud.sap/docs/cds/cqn#insert
