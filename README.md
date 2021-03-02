@@ -12,7 +12,7 @@ For a short introduction on the background of this project you can check out [a 
 **_cds-pg_ is ready to be used!**  
 Still, there's some gaps left to fill - note the list below and please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
 
-Also checkout the following blogpsts on how to get started using `cds-pg` in your local development environment and on SAP Business Technology Platform (BTP), Cloud Foundry:
+Also checkout the following blog posts on how to get started using `cds-pg` in your local development environment and on SAP Business Technology Platform (BTP), Cloud Foundry:
 
 - [Setup an example project using `cds-pg`](https://blogs.sap.com/2020/11/16/getting-started-with-cap-on-postgresql-node.js/)
 - [Prepare and deploy the project to SAP BTP CF](https://blogs.sap.com/2020/11/30/run-and-deploy-cap-with-postgresql-on-sap-cloud-platform-cloud-foundry-node.js/)
