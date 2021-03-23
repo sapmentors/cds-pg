@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.44 (2021-03-23)
+
+
+### Bug Fixes
+
+* bump dependencies and fix failing testrun ([#103](https://github.com/sapmentors/cds-pg/issues/103)) ([f74fdec](https://github.com/sapmentors/cds-pg/commit/f74fdec888ca29c008f755984bb604852b5557fa)), closes [#102](https://github.com/sapmentors/cds-pg/issues/102)
+
 ### 0.0.43 (2021-03-22)
 
 ### 0.0.42 (2021-03-02)
