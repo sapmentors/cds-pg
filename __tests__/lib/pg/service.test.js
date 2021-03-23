@@ -33,6 +33,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       log: jest.fn(),
       info: jest.fn(),
       debug: jest.fn(),
+      warn: jest.fn(),
       error: jest.fn(),
     }
 
