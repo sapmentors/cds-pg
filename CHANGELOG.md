@@ -1,6 +1,11 @@
 # Changelog
 
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### 0.0.45 (2021-04-26)
+
+- allow for schema dynamic switching from event handler (see [issue #25](https://github.com/sapmentors/cds-pg/issues/25#issuecomment-827028305))
 
 ### 0.0.44 (2021-03-23)
 
