@@ -9,4 +9,9 @@ module.exports = (srv) => {
     }
     await cds.deploy('./srv/', {}).to(db)
   })
+  srv.before('READ', '*', async (req) => {
+    if (req.headers.schema) {
+      req.user.schema = req.headers.schema;
+    }
+  })
 }
