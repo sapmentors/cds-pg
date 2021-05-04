@@ -5,6 +5,7 @@ service BeershopService {
   entity Beers               as projection on csw.Beers;
   entity Breweries           as projection on csw.Brewery;
   entity TypeChecks          as projection on csw.TypeChecks;
+  entity Students            as projection on csw.Students; 
 
   @odata.draft.enabled
   entity TypeChecksWithDraft as projection on csw.TypeChecks;

@@ -9,3 +9,38 @@ Content-Type: application/json
 ###
 # delete a brewery
 DELETE {{$dotenv scpServiceURL}}/beershop/Breweries(0465e9ca-6255-4f5c-b8ba-7439531f8d28)
+
+
+
+
+###
+Post http://localhost:4004/beershop/Students
+Content-Type: application/json
+
+{
+  "id": "12",
+  "name":"123",
+  "texts" : [
+      {
+        "locale": "EN",
+        "title": "samplee"
+      }
+    ]
+}
+
+
+###
+
+PUT http://localhost:4004/beershop/Students('12')
+Content-Type: application/json
+
+{
+  "id": "12",
+  "name":"1234",
+  "texts" : [
+      {
+        "locale": "EN",
+        "title": "samplees"
+      }
+    ]
+}
