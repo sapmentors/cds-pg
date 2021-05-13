@@ -397,7 +397,6 @@ describe.each(suiteEnvironments)(
         }
       })
     })
-
     describe('odata: POST -> DEEP INSERT', () => {
       beforeEach(async () => {
         await deploy(this._model, {}).to(this._dbProperties)
