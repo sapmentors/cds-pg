@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/sapmentors/cds-pg#readme",
   "dependencies": {
-    "@sap/cds": "~4.6.6",
+    "@sap/cds": "~5.1.4",
     "pg": "^8.6.0",
     "pg-format": "^1.0.4",
     "moment": "^2.29.1"
