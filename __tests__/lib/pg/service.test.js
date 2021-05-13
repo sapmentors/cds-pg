@@ -399,7 +399,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
     })
   })
   describe('odata: PATCH -> DEEP UPDATE', () => {
-    test('odata: deep update Brewery and beers -> sql: deep update into Breweries', async () => {
+    test.skip('odata: deep update Brewery and beers -> sql: deep update into Breweries', async () => {
       const response = await request
         .patch('/beershop/Breweries/4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb')
         .send({
