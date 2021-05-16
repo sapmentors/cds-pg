@@ -5,7 +5,7 @@ const [, , action, model, to, db] = process.argv
 
 const deploy = async () => {
   const cds = require('@sap/cds')
-  const cds_deploy = require('@sap/cds/lib/db/deploy')
+  const cds_deploy = require('@sap/cds/lib/deploy')
 
   await cds.connect()
   await cds_deploy(model, {}).to(db)
