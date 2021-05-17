@@ -1,4 +1,5 @@
 .DS_Store
+.npmrc
 .eslintcache
 node_modules/
 .idea/

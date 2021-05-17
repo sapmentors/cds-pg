@@ -1,0 +1,27 @@
+### Read Entities
+GET http://localhost:4004/beershop/
+### Read Beers
+GET http://localhost:4004/beershop/Beers
+### Create Beer with POST
+# @name create
+POST http://localhost:4004/beershop/Beers
+Content-Type: application/json
+
+{
+    "ID": "{{$guid}}",
+    "name": "Testbier with POST"
+}
+###
+@id = {{create.response.body.ID}}
+### Read Beer
+GET  http://localhost:4004/beershop/Beers({{id}})
+### Delete Beer
+DELETE  http://localhost:4004/beershop/Beers({{id}})
+
+### Create Beer with PUT
+PUT http://localhost:4004/beershop/Beers({{id}})
+Content-Type: application/json
+
+{
+    "name": "Testbier with PUT"
+}

@@ -1,5 +1,5 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/db/deploy')
+const deploy = require('@sap/cds/lib/deploy')
 // const path = require('path')
 
 // mock (package|.cds'rc).json entries
@@ -332,6 +332,27 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
         })
       )
     })
+
+    test('odata: entityset Beers -> sql: create beer', async () => {
+      const response = await request
+        .put('/beershop/Beers/e0c571af-7745-4f1a-88bc-d7620aff6a39')
+        .send({
+          name: 'Testbier created with PUT',
+          ibu: 15,
+        })
+        .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      expect(response.status).toStrictEqual(200)
+
+      const getResponse = await request.get('/beershop/Beers/e0c571af-7745-4f1a-88bc-d7620aff6a39').send()
+      expect(getResponse.body).toEqual(
+        expect.objectContaining({
+          name: 'Testbier created with PUT',
+          ibu: 15,
+        })
+      )
+      // Cleanup created entry
+      await request.delete('/beershop/Beers/e0c571af-7745-4f1a-88bc-d7620aff6a39').send()
+    })
   })
 
   describe('odata: DELETE -> sql: DELETE', () => {
@@ -361,9 +382,9 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
   })
   describe('odata: SCHEMAS -> Test user-defined-schema functionality', () => {
     test('odata: entityset Beers -> sql: delete 1 entry from superbeers & confirm 11 entryies in public schema', async () => {
-      const suiteEnvironments = { suitename: _suitename, credentials: credentials, model: model, request: request };
+      const suiteEnvironments = { suitename: _suitename, credentials: credentials, model: model, request: request }
       if (suiteEnvironments.suitename === 'local-with-schema') {
-        const guid = '1efd2b35-6fd4-4ac5-a73e-64dfc3fb123b';
+        const guid = '1efd2b35-6fd4-4ac5-a73e-64dfc3fb123b'
         var response = await request.delete(`/beershop/Beers(${guid})`).set('schema', 'superbeer')
         expect(response.status).toStrictEqual(204)
 
@@ -374,8 +395,25 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
         var response = await request.get(`/beershop/Beers?$count=true`).set('schema', 'public')
         expect(response.status).toStrictEqual(200)
         expect(response.body['@odata.count']).toEqual(11)
-
       }
+    })
+  })
+  describe('odata: PATCH -> DEEP UPDATE', () => {
+    test.skip('odata: deep update Brewery and beers -> sql: deep update into Breweries', async () => {
+      const response = await request
+        .patch('/beershop/Breweries/4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb')
+        .send({
+          name: 'Rittmayer Hallerndorfz',
+          beers: [
+            {
+              name: 'Weissen',
+              ibu: 55,
+              abv: '5.2',
+            },
+          ],
+        })
+        .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      expect(response.status).toStrictEqual(200)
     })
   })
 })
