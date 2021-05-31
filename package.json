@@ -2,6 +2,9 @@
   "name": "cds-pg",
   "version": "0.0.51",
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
+  "engines": {
+    "node": ">=12"
+  },
   "main": "index.js",
   "scripts": {
     "test": "run-s test:pg:up jest test:pg:down",
