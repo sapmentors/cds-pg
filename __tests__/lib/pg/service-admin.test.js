@@ -40,7 +40,7 @@ describe.each(suiteEnvironments)(
     })
 
     describe('OData admin: CREATE', () => {
-      test.todo('odata: entityset Beers -> sql: insert into beers', async () => {
+      test.skip('odata: entityset Beers -> sql: insert into beers', async () => {
         const response = await request
           .post('/beershop-admin/Beers')
           .send({
