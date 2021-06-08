@@ -17,6 +17,15 @@ describe.each(suiteEnvironments)(
   '[%s] OData to Postgres dialect',
   (_suitename /* translates to %s via printf */, credentials, model, request) => {
     beforeAll(async () => {
+      // mock console.*
+      // in order not to pollute test logs
+      global.console = {
+        log: jest.fn(),
+        info: jest.fn(),
+        debug: jest.fn(),
+        warn: jest.fn(),
+        error: jest.fn(),
+      }
       this._model = model
       this._dbProperties = {
         kind: 'postgres',
@@ -39,8 +48,26 @@ describe.each(suiteEnvironments)(
       }
     })
 
+    afterAll(() => {
+      delete global.console // avoid side effect
+    })
+
+    test('List of entities exposed by the service', async () => {
+      const response = await request.get('/beershop-admin/').set('Authorization', 'Basic Ym9iOg==')
+
+      expect(response.status).toStrictEqual(200)
+      expect(response.body.value.length).toStrictEqual(3)
+    })
+
+    test('List of entities exposed by the service', async () => {
+      const response = await request.get('/beershop/')
+
+      expect(response.status).toStrictEqual(200)
+      expect(response.body.value.length).toStrictEqual(4)
+    })
+
     describe('OData admin: CREATE', () => {
-      test.skip('odata: entityset Beers -> sql: insert into beers', async () => {
+      test('odata: entityset Beers -> sql: insert into beers', async () => {
         const response = await request
           .post('/beershop-admin/Beers')
           .send({
@@ -53,8 +80,8 @@ describe.each(suiteEnvironments)(
 
         expect(response.body.createdAt).toBeTruthy()
         expect(response.body.modifiedAt).toBeTruthy()
-        //expect(response.body.createdBy).toStrictEqual('bob')
-        // expect(response.body.modifiedBy).toStrictEqual('bob')
+        expect(response.body.createdBy).toStrictEqual('bob')
+        expect(response.body.modifiedBy).toStrictEqual('bob')
         expect(response.status).toStrictEqual(201)
       })
     })

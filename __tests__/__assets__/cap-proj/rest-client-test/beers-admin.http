@@ -9,7 +9,7 @@ GET http://localhost:4004/beershop-admin/Beers
 Authorization: Basic bob:
 ### Create Beer with POST
 # @name create
-POST http://localhost:4004/beershop/Beers
+POST http://localhost:4004/beershop-admin/Beers
 Content-Type: application/json
 Authorization: Basic bob:
 

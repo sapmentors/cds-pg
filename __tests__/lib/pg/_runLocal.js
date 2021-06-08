@@ -23,4 +23,6 @@ module.exports = async (model, credentials, app, deployDB = false) => {
   // that matches the db content/setup in dockered pg
   const servicePath = path.resolve(model, 'beershop-service')
   await cds.serve('BeershopService').from(servicePath).in(app)
+  const adminServicePath = path.resolve(model, 'beershop-admin-service')
+  await cds.serve('BeershopAdminService').from(adminServicePath).in(app)
 }
