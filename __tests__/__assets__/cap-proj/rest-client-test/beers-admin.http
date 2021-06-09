@@ -1,0 +1,33 @@
+### Read Entities
+GET http://localhost:4004/beershop-admin/
+Authorization: Basic bob:
+### Read UserScopes
+GET http://localhost:4004/beershop-admin/UserScopes
+Authorization: Basic bob:
+### Read Beers
+GET http://localhost:4004/beershop-admin/Beers
+Authorization: Basic bob:
+### Create Beer with POST
+# @name create
+POST http://localhost:4004/beershop-admin/Beers
+Content-Type: application/json
+Authorization: Basic bob:
+
+{
+    "ID": "{{$guid}}",
+    "name": "Testbier with POST"
+}
+###
+@id = {{create.response.body.ID}}
+### Read Beer
+GET  http://localhost:4004/beershop/Beers({{id}})
+### Delete Beer
+DELETE  http://localhost:4004/beershop/Beers({{id}})
+
+### Create Beer with PUT
+PUT http://localhost:4004/beershop/Beers({{id}})
+Content-Type: application/json
+
+{
+    "name": "Testbier with PUT"
+}

@@ -4,6 +4,12 @@ postgres;
 
  \c beershop
 
+CREATE TABLE BeershopAdminService_UserScopes (
+  username VARCHAR(5000) NOT NULL,
+  is_admin BOOLEAN,
+  PRIMARY KEY(username)
+);
+
 CREATE TABLE csw_Beers
 (
   ID VARCHAR(36) NOT NULL,
@@ -187,6 +193,27 @@ AS
     TypeChecks_0.type_LargeBinary,
     TypeChecks_0.type_LargeString
   FROM superbeer.csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW BeershopAdminService_Beers AS SELECT
+  Beers_0.ID,
+  Beers_0.createdAt,
+  Beers_0.createdBy,
+  Beers_0.modifiedAt,
+  Beers_0.modifiedBy,
+  Beers_0.name,
+  Beers_0.abv,
+  Beers_0.ibu,
+  Beers_0.brewery_ID
+FROM csw_Beers AS Beers_0;
+
+CREATE VIEW BeershopAdminService_Breweries AS SELECT
+  Brewery_0.ID,
+  Brewery_0.createdAt,
+  Brewery_0.createdBy,
+  Brewery_0.modifiedAt,
+  Brewery_0.modifiedBy,
+  Brewery_0.name
+FROM csw_Brewery AS Brewery_0
 
 COPY superbeer.csw_Beers
 (ID, name, abv, ibu, brewery_ID) FROM '/tmp/data/csw-Beers.csv' DELIMITER ',' CSV HEADER;

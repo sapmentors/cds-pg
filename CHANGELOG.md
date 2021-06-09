@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.2 (2021-06-09)
+
+
+### Features
+
+* fill managed fields with username  ([#154](https://github.com/sapmentors/cds-pg/issues/154)) ([0640e13](https://github.com/sapmentors/cds-pg/commit/0640e136cb25743f0171bb9a957d2fe4f9f897c9)), closes [#153](https://github.com/sapmentors/cds-pg/issues/153)
+
+### 0.1.1 (2021-05-31)
+
+## 0.1.0 (2021-05-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* no more node <12 support!
+
+* require node 12+ for cds5 ([#141](https://github.com/sapmentors/cds-pg/issues/141)) ([14077be](https://github.com/sapmentors/cds-pg/commit/14077be8a50bfe5b922f1e49cb7a3390dd7ce9d0))
+
 ### 0.0.51 (2021-05-16)
 
 ### 0.0.50 (2021-05-13)
