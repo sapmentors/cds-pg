@@ -53,7 +53,7 @@ describe.each(suiteEnvironments)(
     })
 
     test('List of entities exposed by the service', async () => {
-      const response = await request.get('/beershop-admin/').set('Authorization', 'Basic Ym9iOg==')
+      const response = await request.get('/beershop-admin/').auth('bob', '')
 
       expect(response.status).toStrictEqual(200)
       expect(response.body.value.length).toStrictEqual(3)
@@ -76,13 +76,19 @@ describe.each(suiteEnvironments)(
             abv: '16.2',
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
-          .set('Authorization', 'Basic Ym9iOg==')
+          .auth('bob', '')
 
         expect(response.body.createdAt).toBeTruthy()
         expect(response.body.modifiedAt).toBeTruthy()
         expect(response.body.createdBy).toStrictEqual('bob')
         expect(response.body.modifiedBy).toStrictEqual('bob')
         expect(response.status).toStrictEqual(201)
+
+        const responseGet = await request.get(`/beershop-admin/Beers(${response.body.ID})`).auth('bob', '')
+
+        expect(responseGet.status).toStrictEqual(200)
+        expect(responseGet.body.createdBy).toStrictEqual('bob')
+        expect(responseGet.body.modifiedBy).toStrictEqual('bob')
       })
     })
   }
