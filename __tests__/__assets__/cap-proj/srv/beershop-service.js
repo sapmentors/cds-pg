@@ -1,3 +1,5 @@
+const cds = require('@sap/cds')
+
 module.exports = (srv) => {
   srv.on('reset', async () => {
     let db
