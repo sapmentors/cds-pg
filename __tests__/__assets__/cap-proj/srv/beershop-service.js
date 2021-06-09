@@ -1,4 +1,3 @@
-const cds = require('@sap/cds')
 module.exports = (srv) => {
   srv.on('reset', async () => {
     let db
@@ -11,7 +10,7 @@ module.exports = (srv) => {
   })
   srv.before('READ', '*', async (req) => {
     if (req.headers.schema) {
-      req.user.schema = req.headers.schema;
+      req.user.schema = req.headers.schema
     }
   })
 }
