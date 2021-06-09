@@ -52,14 +52,14 @@ describe.each(suiteEnvironments)(
       delete global.console // avoid side effect
     })
 
-    test('List of entities exposed by the service', async () => {
+    test('OData: List of entities exposed by the admin service', async () => {
       const response = await request.get('/beershop-admin/').auth('bob', '')
 
       expect(response.status).toStrictEqual(200)
       expect(response.body.value.length).toStrictEqual(3)
     })
 
-    test('List of entities exposed by the service', async () => {
+    test('OData: List of entities exposed by the service', async () => {
       const response = await request.get('/beershop/')
 
       expect(response.status).toStrictEqual(200)
