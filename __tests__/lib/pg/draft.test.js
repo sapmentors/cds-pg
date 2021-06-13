@@ -41,7 +41,7 @@ describe.each(suiteEnvironments)(
     })
 
     describe('OData draft', () => {
-      test.skip(' ->  switch entity to edit mode', async () => {
+      test(' ->  switch entity to edit mode', async () => {
         const response = await request
           .post(
             '/beershop/TypeChecksWithDraft(ID=5e4ca9ef-7c4c-4b22-8e85-7cadefa02c94,IsActiveEntity=true)/BeershopService.draftEdit?$expand=DraftAdministrativeData($select=DraftUUID,InProcessByUser)'
