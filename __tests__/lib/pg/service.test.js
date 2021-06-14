@@ -101,6 +101,12 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       expect(response.body['@odata.count']).toEqual(11)
     })
 
+    test.skip('odata: entityset Beers -> count only', async () => {
+      const response = await request.get('/beershop/Beers/$count')
+      expect(response.status).toStrictEqual(200)
+      expect(response.body).toEqual(11)
+    })
+
     test('odata: single entity -> sql: select record', async () => {
       const response = await request.get('/beershop/Beers(9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b)')
       // http response code
