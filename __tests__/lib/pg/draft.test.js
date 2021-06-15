@@ -41,15 +41,19 @@ describe.each(suiteEnvironments)(
     })
 
     describe('OData draft', () => {
-      test(' ->  switch entity to edit mode', async () => {
+      test(' ->  switch entity to edit mode and check that active entity can still be read', async () => {
+        const basepath = '/beershop/TypeChecksWithDraft(ID=5e4ca9ef-7c4c-4b22-8e85-7cadefa02c94,IsActiveEntity=true)'
         const response = await request
           .post(
-            '/beershop/TypeChecksWithDraft(ID=5e4ca9ef-7c4c-4b22-8e85-7cadefa02c94,IsActiveEntity=true)/BeershopService.draftEdit?$expand=DraftAdministrativeData($select=DraftUUID,InProcessByUser)'
+            `${basepath}/BeershopService.draftEdit?$expand=DraftAdministrativeData($select=DraftUUID,InProcessByUser)`
           )
           .send({
             PreserveChanges: true,
           })
         expect(response.status).toStrictEqual(201)
+
+        const responseGet = await request.get(basepath)
+        expect(responseGet.status).toStrictEqual(200)
       })
     })
   }
