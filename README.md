@@ -3,6 +3,10 @@
 
 # `cds-pg` - PostgreSQL adapter for SAP CDS (CAP)
 
+First a big thank you to our contributors:
+
+[![Contributors Display](https://badges.pufler.dev/contributors/sapmentors/cds-pg?size=50&padding=5&bots=false)](https://github.com/sapmentors/cds-pg/graphs/contributors)
+
 This node module provides an adapter to the PostgreSQL database.
 
 For a short introduction on the background of this project you can check out [a short video](https://www.youtube.com/watch?v=b9sPczwYN5Q&t=2310s) that has been captured as part of the SAP devtoberfest.
