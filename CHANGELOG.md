@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.6 (2021-06-29)
+
+### 0.1.5 (2021-06-16)
+
+
+### Bug Fixes
+
+* draft support ([#159](https://github.com/sapmentors/cds-pg/issues/159)) ([f60c391](https://github.com/sapmentors/cds-pg/commit/f60c3911597908354cb467c1fd110bad0f9ccc08)), closes [#79](https://github.com/sapmentors/cds-pg/issues/79)
+
+### 0.1.4 (2021-06-14)
+
+### 0.1.3 (2021-06-11)
+
 ### 0.1.2 (2021-06-09)
 
 

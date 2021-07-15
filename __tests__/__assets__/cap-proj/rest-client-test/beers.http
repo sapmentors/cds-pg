@@ -1,5 +1,12 @@
 ### Read Entities
 GET http://localhost:4004/beershop/
+
+### $count=true
+GET http://localhost:4004/beershop/Beers?$count=true
+
+### $count
+GET http://localhost:4004/beershop/Beers/$count
+
 ### Read Beers
 GET http://localhost:4004/beershop/Beers
 ### Create Beer with POST
