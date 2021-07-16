@@ -30,3 +30,9 @@ entity TypeChecks : cuid {
   type_LargeBinary : LargeBinary;
   type_LargeString : LargeString;
 }
+
+entity Students {
+  key id    : String(10);
+      name  : String(30);
+      title : localized String(40);
+}
