@@ -100,5 +100,21 @@ describe('QL to PostgreSQL', () => {
       const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test' }))
       expect(beer).toHaveProperty('name', 'Test')
     })
+
+    test('-> by using Array', async () => {
+      const { Notifications } = cds.entities('csw')
+      const notifications = await cds.run(INSERT.into(Notifications).entries([{ 
+        "id": 2,
+        "Notifications": [{
+             "description": "New settings",
+             "frequency": 1,
+             "message": "String"
+        }] 
+      }]))
+      expect(notifications.affectedRows).toStrictEqual(1)
+      const notification = await cds.run(SELECT.one(Notifications).where({ id: 2 }))
+      expect(notification).toHaveProperty('Notifications', '[{"description":"New settings","frequency":1,"message":"String"}]')
+    })    
+
   })
 })

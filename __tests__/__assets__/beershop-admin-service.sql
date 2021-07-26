@@ -27,6 +27,12 @@ CREATE TABLE csw_Brewery (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE csw_Notifications (
+  id INTEGER NOT NULL,
+  Notifications TEXT,
+  PRIMARY KEY(id)
+);
+
 CREATE TABLE csw_TypeChecks (
   ID VARCHAR(36) NOT NULL,
   type_Boolean BOOLEAN,

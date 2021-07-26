@@ -70,7 +70,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
     const response = await request.get('/beershop/')
 
     expect(response.status).toStrictEqual(200)
-    expect(response.body.value.length).toStrictEqual(4)
+    expect(response.body.value.length).toStrictEqual(5)
   })
 
   describe('odata: GET -> sql: SELECT', () => {
@@ -306,6 +306,32 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
       expect(response.body.beers.length).toBe(2)
       expect(response.body.beers[0].name).toStrictEqual('Glucks Pils')
       expect(response.body.beers[1].name).toStrictEqual('Glucks Pils Herb')
+      expect(response.status).toStrictEqual(201)
+    })
+  })
+
+  describe('odata: POST -> Arrayed', () => {
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties)
+    })
+
+    test('odata: insert arrayed Notifications -> sql: insert into Notifications', async () => {
+      const response = await request
+        .post('/beershop/Notifications')
+        .send({
+          id: 2,
+          Notifications: [
+            {
+              description: 'New settings',
+              frequency: 1,
+              message: 'String'
+            }
+          ]
+        })
+        .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+      expect(response.body.Notifications.length).toBe(1)
+      expect(response.body.Notifications[0].description).toStrictEqual('New settings')
+      expect(response.body.Notifications[0].message).toStrictEqual('String')
       expect(response.status).toStrictEqual(201)
     })
   })

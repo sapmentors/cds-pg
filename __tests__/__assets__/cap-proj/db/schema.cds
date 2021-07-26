@@ -30,3 +30,16 @@ entity TypeChecks : cuid {
   type_LargeBinary : LargeBinary;
   type_LargeString : LargeString;
 }
+
+entity Notifications {
+        key id: Integer;
+        Notifications: Array of {
+            description: String;
+            frequency: Integer enum {
+                daily = 1;
+                weekly = 2;
+                monthly = 3;
+            };
+            message: String;
+        }
+}
