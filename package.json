@@ -41,10 +41,10 @@
   },
   "homepage": "https://github.com/sapmentors/cds-pg#readme",
   "dependencies": {
-    "@sap/cds": "~5.1",
+    "@sap/cds": "~5.3",
     "moment": "^2.29.1",
     "passport": "^0.4.1",
-    "pg": "^8.6.0",
+    "pg": "^8.7.1",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@ const {
   PGExpressionBuilder,
   PGFunctionBuilder,
 } = require('../../../lib/pg/sql-builder')
-const { sqlFactory } = require('@sap/cds-runtime/lib/db/sql-builder')
+const { sqlFactory } = require('@sap/cds/libx/_runtime/db/sql-builder')
 
 const loadModel = async () => {
   const model = await cds.load('./__tests__/__assets__/cap-proj/db/schema.cds')
