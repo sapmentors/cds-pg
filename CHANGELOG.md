@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.8 (2021-08-16)
+
+
+### Features
+
+* support @sap/cds 5.4 ([1755362](https://github.com/sapmentors/cds-pg/commit/17553620ee5f322b2730742527e544369be49573))
+
 ### 0.1.7 (2021-08-02)
 
 
