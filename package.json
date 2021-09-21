@@ -18,6 +18,7 @@
     "release": "standard-version",
     "deploy:cf": "run-s _build:cf _deploy:cf",
     "_build:cf": "cd __tests__/__assets__/cap-proj && cp as-scp-package.json package.json && mbt build",
+    "_deploy:cf": "cd __tests__/__assets__/cap-proj && cf deploy mta_archives/cap-proj_*.mtar --version-rule ALL",
     "prepare": "husky install"
   },
   "repository": {
@@ -41,7 +42,7 @@
   },
   "homepage": "https://github.com/sapmentors/cds-pg#readme",
   "dependencies": {
-    "@sap/cds": "^5.3",
+    "@sap/cds": "^5.4",
     "moment": "^2.29.1",
     "passport": "^0.4.1",
     "pg": "^8.7.1",
@@ -50,20 +51,21 @@
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^27.0.2",
     "copyfiles": "^2.4.1",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-jest": "^24.4.2",
     "express": "^4.17.1",
-    "husky": "^7.0.1",
-    "jest": "^27.0.6",
+    "husky": "^7.0.0",
+    "jest": "^27.2.1",
     "lint-staged": "^11.1.2",
-    "mbt": "^1.2.3",
+    "mbt": "^1.2.4",
     "npm-run-all": "^4.1.5",
-    "prettier": "2.3.2",
+    "prettier": "2.4.1",
     "sqlite3": "^5.0.2",
     "standard-version": "^9.3.1",
+    "supertest": "^6.1.6",
     "uuidv4": "^6.2.12"
   },
   "lint-staged": {
