@@ -1,12 +1,16 @@
 namespace csw;
 
-using {cuid,managed} from '@sap/cds/common';
+using {
+  cuid,
+  managed
+} from '@sap/cds/common';
 
 entity Beers : cuid, managed {
-  name    : String(100);
-  abv     : Decimal(3, 1);
-  ibu     : Integer;
-  brewery : Association to one Brewery;
+  name           : String(100);
+  abv            : Decimal(3, 1);
+  ibu            : Integer;
+  brewery        : Association to one Brewery;
+  virtual rating : Integer
 }
 
 entity Brewery : cuid, managed {
@@ -29,4 +33,5 @@ entity TypeChecks : cuid {
   type_Binary      : Binary(100);
   type_LargeBinary : LargeBinary;
   type_LargeString : LargeString;
+// virtual type_virtual : Integer;
 }
