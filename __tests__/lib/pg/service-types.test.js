@@ -25,6 +25,7 @@ describe.each(suiteEnvironments)('[%s] OData to Postgres dialect', (
     this._dbProperties = {
       kind: 'postgres',
       model: this._model,
+      dialect: "plain",
       credentials: credentials,
     }
 

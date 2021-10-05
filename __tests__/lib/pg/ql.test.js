@@ -13,6 +13,7 @@ describe('QL to PostgreSQL', () => {
     this._dbProperties = {
       kind: 'postgres',
       model: this._model,
+      dialect: "plain",
       credentials: {
         host: 'localhost',
         port: '5432',
@@ -57,11 +58,11 @@ describe('QL to PostgreSQL', () => {
       expect(beer).not.toHaveProperty('abv')
     })
 
-    test.skip('-> with distinct', () => {})
-    test.skip('-> with orderBy', () => {})
-    test.skip('-> with groupBy', () => {})
-    test.skip('-> with having', () => {})
-    test.skip('-> with joins', () => {})
+    test.skip('-> with distinct', () => { })
+    test.skip('-> with orderBy', () => { })
+    test.skip('-> with groupBy', () => { })
+    test.skip('-> with having', () => { })
+    test.skip('-> with joins', () => { })
   })
 
   describe('INSERT', () => {

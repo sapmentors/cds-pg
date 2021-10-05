@@ -12,6 +12,7 @@ module.exports = async (model, credentials, app, deployDB = false) => {
   const dbProperties = {
     kind: 'postgres',
     model: model,
+    dialect: "plain",
     credentials: credentials,
   }
 
