@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.14 (2021-10-19)
+
+
+### Features
+
+* support virtual fields (fixes [#204](https://github.com/sapmentors/cds-pg/issues/204)) ([#211](https://github.com/sapmentors/cds-pg/issues/211)) ([9a60e57](https://github.com/sapmentors/cds-pg/commit/9a60e57077092fe39f7f01e2351e5b84193a2f64))
+
 ### 0.1.13 (2021-10-06)
 
 ### 0.1.12 (2021-10-06)
