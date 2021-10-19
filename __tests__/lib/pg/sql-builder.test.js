@@ -84,7 +84,7 @@ describe('CQN to PostgreSQL', () => {
       const { sql } = this.runQuery(query)
 
       expect(sql).toMatch(
-        'SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers ORDER BY "ID" ASC LIMIT 1 OFFSET 1'
+        'SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers ORDER BY ID ASC LIMIT 1 OFFSET 1'
       )
     })
 
@@ -110,7 +110,7 @@ describe('CQN to PostgreSQL', () => {
         SELECT: {
           from: { ref: ['BeershopService.Beers'] },
           columns: [{ ref: ['ID'] }, { ref: ['name'] }],
-          where: [{ ref: ['ID'] }, '=', { val: 111 }],
+          where: [{ ref: ['ID'] }, '=', { val: 'b8c3fc14-22e2-4f42-837a-e6134775a186' }],
           orderBy: [{ ref: ['ID'], sort: 'asc' }],
           limit: { rows: { val: 1 }, offset: { val: 1 } },
         },
@@ -119,7 +119,7 @@ describe('CQN to PostgreSQL', () => {
       const { sql } = this.runQuery(query)
 
       expect(sql).toMatch(
-        'SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers WHERE ID = 111 ORDER BY "ID" ASC LIMIT 1 OFFSET 1'
+        `SELECT ID AS "ID", name AS "name" FROM BeershopService_Beers WHERE ID = ? ORDER BY ID ASC LIMIT 1 OFFSET 1`
       )
     })
 

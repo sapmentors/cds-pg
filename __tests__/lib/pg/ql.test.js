@@ -4,14 +4,18 @@ const deploy = require('@sap/cds/lib/deploy')
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
+  dialect: 'plain',
   impl: './cds-pg', // hint: not really sure as to why this is, but...
 }
+
+jest.setTimeout(100000)
 
 describe('QL to PostgreSQL', () => {
   beforeAll(async () => {
     this._model = './__tests__/__assets__/cap-proj/srv/'
     this._dbProperties = {
       kind: 'postgres',
+      dialect: 'plain',
       model: this._model,
       credentials: {
         host: 'localhost',
@@ -57,11 +61,11 @@ describe('QL to PostgreSQL', () => {
       expect(beer).not.toHaveProperty('abv')
     })
 
-    test.skip('-> with distinct', () => {})
-    test.skip('-> with orderBy', () => {})
-    test.skip('-> with groupBy', () => {})
-    test.skip('-> with having', () => {})
-    test.skip('-> with joins', () => {})
+    test.todo('-> with distinct')
+    test.todo('-> with orderBy')
+    test.todo('-> with groupBy')
+    test.todo('-> with having')
+    test.todo('-> with joins')
   })
 
   describe('INSERT', () => {
