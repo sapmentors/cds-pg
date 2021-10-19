@@ -1,6 +1,6 @@
 {
   "name": "cds-pg",
-  "version": "0.1.10",
+  "version": "0.1.13",
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "engines": {
     "node": ">=12"
@@ -42,29 +42,29 @@
   },
   "homepage": "https://github.com/sapmentors/cds-pg#readme",
   "dependencies": {
-    "@sap/cds": "^5.5.1",
+    "@sap/cds": "^5.5.4",
     "moment": "^2.29.1",
     "passport": "^0.5.0",
     "pg": "^8.7.1",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
     "@types/jest": "^27.0.2",
     "copyfiles": "^2.4.1",
     "dotenv": "^10.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-jest": "^24.4.2",
+    "eslint": "^8.0.1",
+    "eslint-plugin-jest": "^25.2.2",
     "express": "^4.17.1",
     "husky": "^7.0.2",
-    "jest": "^27.2.2",
-    "lint-staged": "^11.1.2",
+    "jest": "^27.3.1",
+    "lint-staged": "^11.2.3",
     "mbt": "^1.2.4",
     "npm-run-all": "^4.1.5",
     "prettier": "2.4.1",
     "sqlite3": "^5.0.2",
-    "standard-version": "^9.3.1",
+    "standard-version": "^9.3.2",
     "supertest": "^6.1.6",
     "uuidv4": "^6.2.12"
   },
