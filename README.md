@@ -42,7 +42,7 @@ Also checkout the following blog posts on how to get started using `cds-pg` in y
   - [ ] arithmetic operators + functions
 - [x] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
 - [x] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
-- [ ] support [`virtual` fields](https://cap.cloud.sap/docs/cds/cdl#virtual-elements) (see [issue 204](https://github.com/sapmentors/cds-pg/issues/204))
+- [x] support [`virtual` fields](https://cap.cloud.sap/docs/cds/cdl#virtual-elements) (see [issue 204](https://github.com/sapmentors/cds-pg/issues/204))
 - [ ] support [`localized` entities](https://cap.cloud.sap/docs/guides/localized-data) (see [issue 196](https://github.com/sapmentors/cds-pg/issues/196))
 
 ## Usage in your CAP project
@@ -62,6 +62,7 @@ Then add this configuration to the `cds` section of your `package.json:
         "kind": "postgres"
       },
       "postgres": {
+        "dialect": "plain", // <- for cds >= 5.1
         "impl": "cds-pg",
         "model": [
           "srv"
