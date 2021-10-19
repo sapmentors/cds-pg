@@ -94,6 +94,20 @@ describe.each(suiteEnvironments)(
         )
       })
 
+      test('odata: entityset Beers -> sql: select all beers ORDER BY "virtual field"', async () => {
+        const response = await request.get('/beershop/Beers?$orderby=rating')
+        expect(response.status).toStrictEqual(200)
+        expect(response.body.value.length).toStrictEqual(11)
+        expect(response.body.value).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              name: 'Lagerbier Hell',
+              rating: null,
+            }),
+          ])
+        )
+      })
+
       test('odata: entityset Beers -> sql: select all beers and count', async () => {
         const response = await request.get('/beershop/Beers?$count=true')
         expect(response.status).toStrictEqual(200)
