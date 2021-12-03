@@ -6,9 +6,9 @@ CREATE TABLE BeershopAdminService_UserScopes (
 
 CREATE TABLE csw_Beers (
   ID VARCHAR(36) NOT NULL,
-  createdAt TIMESTAMP,
+  createdAt TIMESTAMPTZ,
   createdBy VARCHAR(255),
-  modifiedAt TIMESTAMP,
+  modifiedAt TIMESTAMPTZ,
   modifiedBy VARCHAR(255),
   name VARCHAR(100),
   abv DECIMAL(3, 1),
@@ -19,9 +19,9 @@ CREATE TABLE csw_Beers (
 
 CREATE TABLE csw_Brewery (
   ID VARCHAR(36) NOT NULL,
-  createdAt TIMESTAMP,
+  createdAt TIMESTAMPTZ,
   createdBy VARCHAR(255),
-  modifiedAt TIMESTAMP,
+  modifiedAt TIMESTAMPTZ,
   modifiedBy VARCHAR(255),
   name VARCHAR(150),
   PRIMARY KEY(ID)
@@ -36,8 +36,8 @@ CREATE TABLE csw_TypeChecks (
   type_Double NUMERIC(30, 15),
   type_Date DATE,
   type_Time TIME,
-  type_DateTime TIMESTAMP,
-  type_Timestamp TIMESTAMP,
+  type_DateTime TIMESTAMPTZ,
+  type_Timestamp TIMESTAMPTZ,
   type_String VARCHAR(5000),
   type_Binary CHAR(100),
   type_LargeBinary BYTEA,
