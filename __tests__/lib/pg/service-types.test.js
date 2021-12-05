@@ -102,10 +102,13 @@ describe.each(suiteEnvironments)(
       })
 
       test(' -> Timestamp', async () => {
+        const value = '2012-12-03T07:16:23.574Z';
         const response = await request.post('/beershop/TypeChecks').send({
-          type_Timestamp: '2012-12-03T07:16:23.574Z',
+          type_Timestamp: value,
         })
         expect(response.status).toStrictEqual(201)
+        const verify = await request.get(`/beershop/TypeChecks(${response.body.ID})`).send()
+        expect(verify.body.type_Timestamp).toStrictEqual(value);
       })
 
       test(' -> String', async () => {
