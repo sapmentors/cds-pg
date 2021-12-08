@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.16 (2021-12-08)
+
+
+### Bug Fixes
+
+* timestamp conversion issue ([#243](https://github.com/sapmentors/cds-pg/issues/243)) ([ed83ae4](https://github.com/sapmentors/cds-pg/commit/ed83ae47a0f867805e44bff85f3213cff15aaa1d))
+
 ### 0.1.15 (2021-11-18)
 
 ### 0.1.14 (2021-10-19)
