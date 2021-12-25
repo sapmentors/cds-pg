@@ -1,10 +1,10 @@
 {
   "VCAP_SERVICES": {
-    "postgres-local": [
+    "postgres": [
       {
         "name": "postgres",
         "label": "postgres",
-        "tags": ["database"],
+        "tags": ["plain", "database"],
         "credentials": {
           "host": "localhost",
           "port": "5432",
