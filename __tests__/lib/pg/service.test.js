@@ -4,11 +4,11 @@ const deploy = require('@sap/cds/lib/deploy')
 
 // mock (package|.cds'rc).json entries
 cds.env.requires.db = {
-  kind: 'postgres',
+  kind: 'postgres'
 }
 cds.env.requires.postgres = {
   dialect: 'plain',
-  impl: './cds-pg', // hint: not really sure as to why this is, but...
+  impl: './cds-pg' // hint: not really sure as to why this is, but...
 }
 
 const guidRegEx = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
@@ -32,7 +32,7 @@ describe.each(suiteEnvironments)(
         info: jest.fn(),
         debug: jest.fn(),
         warn: jest.fn(),
-        error: jest.fn(),
+        error: jest.fn()
       }
 
       this._model = model
@@ -40,7 +40,7 @@ describe.each(suiteEnvironments)(
         kind: 'postgres',
         dialect: 'plain',
         model: this._model,
-        credentials: credentials,
+        credentials: credentials
       }
 
       // only bootstrap in local mode as scp app is deployed and running
@@ -88,8 +88,8 @@ describe.each(suiteEnvironments)(
         expect(response.body.value).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              name: 'Lagerbier Hell',
-            }),
+              name: 'Lagerbier Hell'
+            })
           ])
         )
       })
@@ -102,8 +102,8 @@ describe.each(suiteEnvironments)(
           expect.arrayContaining([
             expect.objectContaining({
               name: 'Lagerbier Hell',
-              rating: null,
-            }),
+              rating: null
+            })
           ])
         )
       })
@@ -146,8 +146,8 @@ describe.each(suiteEnvironments)(
         expect(response.body.value).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              name: 'Lagerbier Hell',
-            }),
+              name: 'Lagerbier Hell'
+            })
           ])
         )
       })
@@ -166,9 +166,9 @@ describe.each(suiteEnvironments)(
             expect.objectContaining({
               brewery: {
                 ID: 'fa6b959e-3a01-40ef-872e-6030ee4de4e5',
-                name: 'Private Landbrauerei Schönram GmbH & Co. KG',
-              },
-            }),
+                name: 'Private Landbrauerei Schönram GmbH & Co. KG'
+              }
+            })
           ])
         )
       })
@@ -195,8 +195,8 @@ describe.each(suiteEnvironments)(
         expect(schoenram.beers).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              name: 'Schönramer Hell',
-            }),
+              name: 'Schönramer Hell'
+            })
           ])
         )
       })
@@ -216,7 +216,7 @@ describe.each(suiteEnvironments)(
         expect(schoenram.beers[0]).toMatchObject({
           ID: expect.stringMatching(guidRegEx),
           name: 'Schönramer Hell',
-          ibu: 20,
+          ibu: 20
         })
       })
     })
@@ -278,7 +278,7 @@ describe.each(suiteEnvironments)(
           .send({
             name: 'Schlappe Seppel',
             ibu: 10,
-            abv: '16.2',
+            abv: '16.2'
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
 
@@ -304,14 +304,14 @@ describe.each(suiteEnvironments)(
               {
                 name: 'Glucks Pils',
                 ibu: 101,
-                abv: '5.2',
+                abv: '5.2'
               },
               {
                 name: 'Glucks Pils Herb',
                 ibu: 101,
-                abv: '6.2',
-              },
-            ],
+                abv: '6.2'
+              }
+            ]
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
         expect(response.body.createdAt).toBeTruthy()
@@ -340,7 +340,7 @@ describe.each(suiteEnvironments)(
           .put('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
           .send({
             name: 'Changed name',
-            ibu: 10,
+            ibu: 10
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
         expect(response.status).toStrictEqual(200)
@@ -349,7 +349,7 @@ describe.each(suiteEnvironments)(
         expect(getResponse.body).toEqual(
           expect.objectContaining({
             name: 'Changed name',
-            ibu: 10,
+            ibu: 10
           })
         )
       })
@@ -359,7 +359,7 @@ describe.each(suiteEnvironments)(
           .put('/beershop/Beers/e0c571af-7745-4f1a-88bc-d7620aff6a39')
           .send({
             name: 'Testbier created with PUT',
-            ibu: 15,
+            ibu: 15
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
         expect(response.status).toStrictEqual(200)
@@ -368,7 +368,7 @@ describe.each(suiteEnvironments)(
         expect(getResponse.body).toEqual(
           expect.objectContaining({
             name: 'Testbier created with PUT',
-            ibu: 15,
+            ibu: 15
           })
         )
         // Cleanup created entry
@@ -395,7 +395,7 @@ describe.each(suiteEnvironments)(
             name: 'Schönramer Hell',
             abv: '5.0',
             ibu: 20,
-            brewery_ID: 'fa6b959e-3a01-40ef-872e-6030ee4de4e5',
+            brewery_ID: 'fa6b959e-3a01-40ef-872e-6030ee4de4e5'
           })
           .set('Accept', 'application/json;odata.metadata=minimal;IEEE754Compatible=true')
           .set('Content-Type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
@@ -429,9 +429,9 @@ describe.each(suiteEnvironments)(
               {
                 name: 'Weissen',
                 ibu: 55,
-                abv: '5.2',
-              },
-            ],
+                abv: '5.2'
+              }
+            ]
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
         expect(response.status).toStrictEqual(200)
