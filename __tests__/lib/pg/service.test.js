@@ -114,10 +114,10 @@ describe.each(suiteEnvironments)(
         expect(response.body['@odata.count']).toEqual(11)
       })
 
-      test.skip('odata: entityset Beers -> count only', async () => {
+      test('odata: entityset Beers -> count only', async () => {
         const response = await request.get('/beershop/Beers/$count')
         expect(response.status).toStrictEqual(200)
-        expect(response.body).toEqual(11)
+        expect(response.text).toEqual('11')
       })
 
       test('odata: single entity -> sql: select record', async () => {
