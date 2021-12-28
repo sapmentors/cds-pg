@@ -9,6 +9,13 @@ GET http://localhost:4004/beershop/Beers/$count
 
 ### Read Beers
 GET http://localhost:4004/beershop/Beers
+### Read Beers expanded to Brewery
+GET http://localhost:4004/beershop/Beers?$expand=brewery
+### Read Brewery expanded to Beers
+# @name brewery
+GET http://localhost:4004/beershop/Breweries?$expand=beers($filter=abv ge 5)
+###
+@breweryId = {{brewery.response.body.value[0].ID}}
 ### Create Beer with POST
 # @name create
 POST http://localhost:4004/beershop/Beers
@@ -16,12 +23,15 @@ Content-Type: application/json
 
 {
     "ID": "{{$guid}}",
-    "name": "Testbier with POST"
+    "name": "Testbier with POST",
+    "brewery_ID": "{{breweryId}}"
 }
 ###
 @id = {{create.response.body.ID}}
 ### Read Beer
 GET  http://localhost:4004/beershop/Beers({{id}})
+### Read Brewery expanded to Beers
+GET http://localhost:4004/beershop/Breweries({{breweryId}})?$expand=beers($filter=ID eq {{id}})
 ### Delete Beer
 DELETE  http://localhost:4004/beershop/Beers({{id}})
 
