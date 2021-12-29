@@ -11,7 +11,19 @@ GET http://localhost:4004/beershop/Beers/$count
 GET http://localhost:4004/beershop/Beers
 ### Read Beers expanded to Brewery
 GET http://localhost:4004/beershop/Beers?$expand=brewery
-### Read Brewery expanded to Beers
+### Read Breweries
+GET http://localhost:4004/beershop/Breweries
+    ?$count=true
+### Read Breweries filter with Lambda Operator any
+GET http://localhost:4004/beershop/Breweries
+    ?$count=true
+    &$filter=beers/any(d:d/abv ge 5)
+    ?$count=true
+### Read Breweries filter with Lambda Operator all
+GET http://localhost:4004/beershop/Breweries
+    ?$count=true
+    &$filter=beers/all(d:d/abv ge 5)
+### Read Breweries expanded to Beers
 # @name brewery
 GET http://localhost:4004/beershop/Breweries?$expand=beers($filter=abv ge 5)
 ###
