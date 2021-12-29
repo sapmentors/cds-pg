@@ -151,6 +151,23 @@ describe.each(suiteEnvironments)(
           ])
         )
       })
+
+      test('odata: $filter -> Lambda Operator any', async () => {
+        const response = await request.get('/beershop/Breweries?$count=true&$filter=beers/any(d:d/abv ge 5)')
+
+        expect(response.status).toStrictEqual(200)
+        expect(response.body.value.length).toStrictEqual(4)
+        expect(response.body['@odata.count']).toStrictEqual(4)
+      })
+
+      test('odata: $filter -> Lambda Operator all', async () => {
+        const response = await request.get('/beershop/Breweries?$count=true&$filter=beers/all(d:d/abv ge 5)')
+
+        expect(response.status).toStrictEqual(200)
+        expect(response.body.value.length).toStrictEqual(2)
+        expect(response.body['@odata.count']).toStrictEqual(2)
+      })
+
       test('odata: $expand single entity on 1:1 rel -> sql: sub-select single record from expand-target table', async () => {
         const response = await request.get(
           '/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b?$expand=brewery($select=ID,name)'
