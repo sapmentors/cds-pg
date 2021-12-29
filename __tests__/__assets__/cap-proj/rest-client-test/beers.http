@@ -18,7 +18,6 @@ GET http://localhost:4004/beershop/Breweries
 GET http://localhost:4004/beershop/Breweries
     ?$count=true
     &$filter=beers/any(d:d/abv ge 5)
-    ?$count=true
 ### Read Breweries filter with Lambda Operator all
 GET http://localhost:4004/beershop/Breweries
     ?$count=true
