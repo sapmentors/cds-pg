@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.22 (2022-01-25)
+
+
+### Bug Fixes
+
+* return null when SELECT.one returns empty result instead of empty array ([#266](https://github.com/sapmentors/cds-pg/issues/266)) ([99dc308](https://github.com/sapmentors/cds-pg/commit/99dc308109c0455b5b057023f6d2deeace82b733))
+
 ### 0.1.21 (2022-01-24)
 
 ### 0.1.20 (2021-12-29)
