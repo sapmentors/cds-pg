@@ -13,7 +13,7 @@ For a short introduction on the background of this project you can check out [a 
 
 ## Current status
 
-**_cds-pg_ is ready to be used!**  
+**_cds-pg_ is ready to be used!**
 Still, there's some gaps left to fill - note the list below and please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
 
 Also checkout the following blog posts on how to get started using `cds-pg` in your local development environment and on SAP Business Technology Platform (BTP), Cloud Foundry:
@@ -81,9 +81,7 @@ For local development you can provide the credentials in the file `default-env.j
       {
         "name": "postgres",
         "label": "postgres",
-        "tags": [
-          "postgres"
-        ],
+        "tags": ["plain", "database"],
         "credentials": {
           "host": "localhost",
           "port": "5432",

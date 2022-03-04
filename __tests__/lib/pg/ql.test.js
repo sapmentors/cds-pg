@@ -5,7 +5,7 @@ const deploy = require('@sap/cds/lib/deploy')
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
   dialect: 'plain',
-  impl: './cds-pg', // hint: not really sure as to why this is, but...
+  impl: './cds-pg' // hint: not really sure as to why this is, but...
 }
 
 jest.setTimeout(100000)
@@ -22,8 +22,8 @@ describe('QL to PostgreSQL', () => {
         port: '5432',
         database: 'beershop',
         username: 'postgres',
-        password: 'postgres',
-      },
+        password: 'postgres'
+      }
     }
     cds.db = await cds.connect.to(this._dbProperties)
   })
@@ -59,6 +59,13 @@ describe('QL to PostgreSQL', () => {
       )
       expect(beer).toHaveProperty('ID', '9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
       expect(beer).not.toHaveProperty('abv')
+    })
+
+    test('-> with one - no result returns null not empty array', async () => {
+      const { Beers } = cds.entities('csw')
+      const beer = await cds.run(SELECT.one(Beers).where({ name: 'does not exist' }))
+      expect(beer).not.toBeInstanceOf(Array)
+      expect(beer).toBeNull()
     })
 
     test.todo('-> with distinct')

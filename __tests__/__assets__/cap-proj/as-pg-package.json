@@ -2,9 +2,9 @@
   "cds": {
     "requires": {
       "db": {
-        "kind": "postgres"
+        "kind": "database"
       },
-      "postgres": {
+      "database": {
         "dialect": "plain",
         "impl": "../../../",
         "model": ["srv"]
