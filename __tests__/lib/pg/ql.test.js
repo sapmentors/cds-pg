@@ -68,11 +68,57 @@ describe('QL to PostgreSQL', () => {
       expect(beer).toBeNull()
     })
 
-    test.todo('-> with distinct')
-    test.todo('-> with orderBy')
-    test.todo('-> with groupBy')
-    test.todo('-> with having')
-    test.todo('-> with joins')
+    test('-> with distinct', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(SELECT.distinct.from(Beers).columns('abv'))
+      expect(results.length).toStrictEqual(6)
+      const otherResults = await cds.run(SELECT.distinct.from(Beers).columns('abv', 'ibu'))
+      expect(otherResults.length).toStrictEqual(9)
+    })
+
+    test('-> with orderBy', async () => {
+      const { Beers } = cds.entities('csw')
+      const beers = await cds.run(
+        SELECT.from(Beers)
+          .where({ abv: { '>': 1.0 } })
+          .orderBy({ abv: 'desc' })
+      )
+      expect(beers[0].abv).toStrictEqual('5.9')
+      const reverseBeers = await cds.run(
+        SELECT.from(Beers)
+          .where({ abv: { '>': 1.0 } })
+          .orderBy({ abv: 'asc' })
+      )
+      expect(reverseBeers[0].abv).toStrictEqual('4.9')
+    })
+
+    test('-> with groupBy', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(SELECT.from(Beers).columns('count(*) as count', 'brewery_id').groupBy('brewery_id'))
+      expect(results.length).toStrictEqual(6)
+    })
+
+    test('-> with having', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(
+        SELECT.from(Beers).columns('brewery_id').groupBy('brewery_id').having('count(*) >=', 2)
+      )
+      expect(results.length).toStrictEqual(3)
+    })
+
+    test('-> with joins', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(
+        SELECT.from(Beers, (b) => {
+          b`.*`,
+            b.brewery((br) => {
+              br`.*`
+            })
+        }).where({ brewery_id: '4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb' })
+      )
+      expect(results[0].brewery).toHaveProperty('name', 'Rittmayer Hallerndorf')
+      expect(results.length).toStrictEqual(4)
+    })
   })
 
   describe('INSERT', () => {
