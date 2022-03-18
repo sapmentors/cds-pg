@@ -157,5 +157,29 @@ describe('QL to PostgreSQL', () => {
       const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test' }))
       expect(beer).toHaveProperty('name', 'Test')
     })
+
+    // see https://cap.cloud.sap/docs/node.js/databases#insertresult-beta and https://answers.sap.com/questions/13569793/api-of-insert-query-results-for-cap-nodejs.html
+    test('-> with InsertResult Beta API', async () => {
+      const { Beers } = cds.entities('csw')
+
+      const entries = [
+        { name: 'Beer1', abv: 1.0, ibu: 1, brewery_ID: '0465e9ca-6255-4f5c-b8ba-7439531f8d28' },
+        { name: 'Beer2', abv: 2.0, ibu: 2, brewery_ID: '0465e9ca-6255-4f5c-b8ba-7439531f8d28' },
+        { name: 'Beer3', abv: 3.0, ibu: 3, brewery_ID: '0465e9ca-6255-4f5c-b8ba-7439531f8d28' }
+      ]
+
+      const uuidRegex = /[\d|a-f]{8}-[\d|a-f]{4}-[\d|a-f]{4}-[\d|a-f]{4}-[\d|a-f]{12}/
+      const timestampRegex = /[\d]{4}-[\d]{2}-[\d]{2}T[\d]{2}:[\d]{2}:[\d]{2}.[\d]{3}Z/
+
+      const insertResult = await cds.run(INSERT.into(Beers).entries(entries))
+      expect(insertResult.affectedRows).toStrictEqual(3)
+      expect(insertResult == 3).toStrictEqual(true)
+      expect(insertResult.valueOf()).toStrictEqual(insertResult.affectedRows)
+      const beers = [...entries]
+      expect(beers.length).toStrictEqual(3)
+      expect(beers[0].ID).toMatch(uuidRegex)
+      expect(beers[0].createdAt).toMatch(timestampRegex)
+      expect(beers[0].modifiedAt).toMatch(timestampRegex)
+    })
   })
 })
