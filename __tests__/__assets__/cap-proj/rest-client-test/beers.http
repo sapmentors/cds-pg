@@ -53,3 +53,18 @@ Content-Type: application/json
 {
     "name": "Testbier with PUT"
 }
+
+### Deep Update
+PUT http://localhost:4004/beershop/Breweries/4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb
+Content-Type: application/json
+
+{
+    "name": "Rittmayer Hallerndorfz",
+    "beers": [
+        {
+            "name": "Weissen",
+            "ibu": 55,
+            "abv": 5.2
+        }
+    ]
+}

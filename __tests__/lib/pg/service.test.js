@@ -437,7 +437,7 @@ describe.each(suiteEnvironments)(
       })
     })
     describe('odata: PATCH -> DEEP UPDATE', () => {
-      test.skip('odata: deep update Brewery and beers -> sql: deep update into Breweries', async () => {
+      test('odata: deep update Brewery and beers -> sql: deep update into Breweries', async () => {
         const response = await request
           .patch('/beershop/Breweries/4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb')
           .send({
@@ -452,6 +452,36 @@ describe.each(suiteEnvironments)(
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
         expect(response.status).toStrictEqual(200)
+        // deep update deletes the other beers from Rittmayer Hallerndorf - they have to be restored, otherwise the user-defined-schema test fails
+        const restoreReponse = await request
+          .patch('/beershop/Breweries/4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb')
+          .send({
+            name: 'Rittmayer Hallerndorf',
+            beers: [
+              {
+                name: 'Hallerndorfer Landbier Hell',
+                abv: 4.9,
+                ibu: 0
+              },
+              {
+                name: 'Hallerndorfer Hausbrauerbier',
+                abv: 5,
+                ibu: 0
+              },
+              {
+                name: 'Bitter 42',
+                abv: 5.5,
+                ibu: 42
+              },
+              {
+                name: 'Summer 69',
+                abv: 5.9,
+                ibu: 12
+              }
+            ]
+          })
+          .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
+        expect(restoreReponse.status).toStrictEqual(200)
       })
     })
   }
