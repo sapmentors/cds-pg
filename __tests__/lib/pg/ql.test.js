@@ -68,11 +68,57 @@ describe('QL to PostgreSQL', () => {
       expect(beer).toBeNull()
     })
 
-    test.todo('-> with distinct')
-    test.todo('-> with orderBy')
-    test.todo('-> with groupBy')
-    test.todo('-> with having')
-    test.todo('-> with joins')
+    test('-> with distinct', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(SELECT.distinct.from(Beers).columns('abv'))
+      expect(results.length).toStrictEqual(6)
+      const otherResults = await cds.run(SELECT.distinct.from(Beers).columns('abv', 'ibu'))
+      expect(otherResults.length).toStrictEqual(9)
+    })
+
+    test('-> with orderBy', async () => {
+      const { Beers } = cds.entities('csw')
+      const beers = await cds.run(
+        SELECT.from(Beers)
+          .where({ abv: { '>': 1.0 } })
+          .orderBy({ abv: 'desc' })
+      )
+      expect(beers[0].abv).toStrictEqual('5.9')
+      const reverseBeers = await cds.run(
+        SELECT.from(Beers)
+          .where({ abv: { '>': 1.0 } })
+          .orderBy({ abv: 'asc' })
+      )
+      expect(reverseBeers[0].abv).toStrictEqual('4.9')
+    })
+
+    test('-> with groupBy', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(SELECT.from(Beers).columns('count(*) as count', 'brewery_id').groupBy('brewery_id'))
+      expect(results.length).toStrictEqual(6)
+    })
+
+    test('-> with having', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(
+        SELECT.from(Beers).columns('brewery_id').groupBy('brewery_id').having('count(*) >=', 2)
+      )
+      expect(results.length).toStrictEqual(3)
+    })
+
+    test('-> with joins', async () => {
+      const { Beers } = cds.entities('csw')
+      const results = await cds.run(
+        SELECT.from(Beers, (b) => {
+          b`.*`,
+            b.brewery((br) => {
+              br`.*`
+            })
+        }).where({ brewery_id: '4aeebbed-90c2-4bdd-aa70-d8eecb8eaebb' })
+      )
+      expect(results[0].brewery).toHaveProperty('name', 'Rittmayer Hallerndorf')
+      expect(results.length).toStrictEqual(4)
+    })
   })
 
   describe('INSERT', () => {
@@ -110,6 +156,30 @@ describe('QL to PostgreSQL', () => {
 
       const beer = await cds.run(SELECT.one(Beers).where({ name: 'Test' }))
       expect(beer).toHaveProperty('name', 'Test')
+    })
+
+    // see https://cap.cloud.sap/docs/node.js/databases#insertresult-beta and https://answers.sap.com/questions/13569793/api-of-insert-query-results-for-cap-nodejs.html
+    test('-> with InsertResult Beta API', async () => {
+      const { Beers } = cds.entities('csw')
+
+      const entries = [
+        { name: 'Beer1', abv: 1.0, ibu: 1, brewery_ID: '0465e9ca-6255-4f5c-b8ba-7439531f8d28' },
+        { name: 'Beer2', abv: 2.0, ibu: 2, brewery_ID: '0465e9ca-6255-4f5c-b8ba-7439531f8d28' },
+        { name: 'Beer3', abv: 3.0, ibu: 3, brewery_ID: '0465e9ca-6255-4f5c-b8ba-7439531f8d28' }
+      ]
+
+      const uuidRegex = /[\d|a-f]{8}-[\d|a-f]{4}-[\d|a-f]{4}-[\d|a-f]{4}-[\d|a-f]{12}/
+      const timestampRegex = /[\d]{4}-[\d]{2}-[\d]{2}T[\d]{2}:[\d]{2}:[\d]{2}.[\d]{3}Z/
+
+      const insertResult = await cds.run(INSERT.into(Beers).entries(entries))
+      expect(insertResult.affectedRows).toStrictEqual(3)
+      expect(insertResult == 3).toStrictEqual(true)
+      expect(insertResult.valueOf()).toStrictEqual(insertResult.affectedRows)
+      const beers = [...entries]
+      expect(beers.length).toStrictEqual(3)
+      expect(beers[0].ID).toMatch(uuidRegex)
+      expect(beers[0].createdAt).toMatch(timestampRegex)
+      expect(beers[0].modifiedAt).toMatch(timestampRegex)
     })
   })
 })

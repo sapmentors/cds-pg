@@ -8,8 +8,8 @@ because we know the data model, we can predict the result of the OData call, thu
 
 The two most crucial files/code points are:
 
-- API implementation of `cds.Service` in `index.js`
-- `cqn` to PostgreSQL-`sql` "compiler" in `lib/cqn2pgsql.js`
+- API implementation of `cds.DatabaseService` in `lib/pg/Service.js`
+- `cqn` to PostgreSQL-`sql` translation in `lib/pg`
 
 There most likely the majority of your work will take place.
 
@@ -87,7 +87,33 @@ Choose `PostgreSQL` as `System`,
 Upon successful login, you'll see the `beershop` db, w00t 🍺
 ![postgresql beershop database](./images/postgres-beershop.png)
 
-Finally, rename `__tests__/__assets__/cap-proj/default-env-template.json` to `__tests__/__assets__/cap-proj/default-env.json` for having the sample CAP project authenticate locally against the dockerized PostgreSQL.
+### run CAP project against the dockerized PostgreSQL
+
+In the previous step you've confirmed that PostgreSQL is working. Now you can now either start a new terminal to run:
+
+```
+npm run test:as-pg
+```
+
+or you stop the running `npm run test:pg:up-nobg` by CTRL+c and start the database using:
+
+```
+npm run test:pg:up
+```
+
+and then run:
+
+```
+npm run test:as-pg
+```
+
+this will startup the CAP project which you then can reach at 'http://localhost:4004'. You can experiment with the provided endpoints using the browser. The more efficient way are the REST Client scripts in the `__tests__/__assets__/cap-proj/rest-client-test` folder. This is also the most efficient way to report an issue. Fork this project, create a sample request in the REST Client tests and create a pull request. Check the chapter [comparison possibility with sqlite](#comparison-possibility-with-sqlite) on how to check if it's a missing functionality in cds-pg or maybe a missing feature in the @sap/cds standard.
+
+To stop the running CAP servcie use CTRL+c. To stop the running PostgreSQL docker container use:
+
+```
+npm run test:pg:down
+```
 
 ### runnable queries and runtime debug capabilites
 
