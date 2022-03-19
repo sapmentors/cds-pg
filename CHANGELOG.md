@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.26 (2022-03-19)
+
+
+### Bug Fixes
+
+* support deep update for one to many composition ([#281](https://github.com/sapmentors/cds-pg/issues/281)) ([5e9e124](https://github.com/sapmentors/cds-pg/commit/5e9e124c88a2e94e49be891c4b2726cd8d6adcc4))
+
 ### 0.1.25 (2022-03-19)
 
 ### 0.1.24 (2022-03-19)
