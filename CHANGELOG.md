@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.24 (2022-03-19)
+
+
+### Bug Fixes
+
+* return timestamps, not now() for createdat and modifiedat columns ([#278](https://github.com/sapmentors/cds-pg/issues/278)) ([8a2c05b](https://github.com/sapmentors/cds-pg/commit/8a2c05bef8106838ba3228bbf1040e7241ee12d5))
+
 ### 0.1.23 (2022-03-16)
 
 ### 0.1.22 (2022-01-25)
