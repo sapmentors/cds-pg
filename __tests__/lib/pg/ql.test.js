@@ -182,4 +182,17 @@ describe('QL to PostgreSQL', () => {
       expect(beers[0].modifiedAt).toMatch(timestampRegex)
     })
   })
+
+  describe('UPDATE', () => {
+    beforeEach(async () => {
+      await deploy(this._model, {}).to(this._dbProperties)
+    })
+    test('-> Get affected rows ', async () => {
+      const { Beers } = cds.entities('csw')
+      const affectedRows = await cds.run(
+        UPDATE(Beers).set({ name: 'TEST' }).where({ ID: '9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b' })
+      )
+      expect(affectedRows).toStrictEqual(1)
+    })
+  })
 })
