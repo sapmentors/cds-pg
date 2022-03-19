@@ -21,6 +21,7 @@ describe.each(suiteEnvironments)(
       this._model = model
       this._dbProperties = {
         kind: 'postgres',
+        dialect: 'plain',
         model: this._model,
         credentials: credentials,
       }

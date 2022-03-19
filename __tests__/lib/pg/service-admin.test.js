@@ -3,6 +3,7 @@ const deploy = require('@sap/cds/lib/deploy')
 
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
+  dialect: 'plain',
   impl: './cds-pg', // hint: not really sure as to why this is, but...
 }
 

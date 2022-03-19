@@ -1,9 +1,9 @@
 {
   "name": "cds-pg",
-  "version": "0.1.6",
+  "version": "0.1.26",
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,8 @@
     "release": "standard-version",
     "deploy:cf": "run-s _build:cf _deploy:cf",
     "_build:cf": "cd __tests__/__assets__/cap-proj && cp as-scp-package.json package.json && mbt build",
-    "_deploy:cf": "cd __tests__/__assets__/cap-proj && cf deploy mta_archives/cap-proj_*.mtar --version-rule ALL"
+    "_deploy:cf": "cd __tests__/__assets__/cap-proj && cf deploy mta_archives/cap-proj_*.mtar --version-rule ALL",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -41,37 +42,31 @@
   },
   "homepage": "https://github.com/sapmentors/cds-pg#readme",
   "dependencies": {
-    "@sap/cds": "~5.1",
+    "@sap/cds": "^5.8.4",
     "moment": "^2.29.1",
-    "passport": "^0.4.1",
-    "pg": "^8.6.0",
+    "passport": "^0.5.2",
+    "pg": "^8.7.3",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4",
-    "@types/jest": "^26.0.23",
+    "@commitlint/cli": "^16.0.1",
+    "@commitlint/config-conventional": "^16.0.0",
+    "@types/jest": "^27.4.1",
     "copyfiles": "^2.4.1",
     "dotenv": "^10.0.0",
-    "eslint": "^7.29.0",
-    "eslint-plugin-jest": "^24.3.6",
-    "express": "^4.17.1",
-    "husky": "^6.0.0",
-    "jest": "^27.0.6",
-    "lint-staged": "^11.0.0",
-    "mbt": "^1.2.1",
+    "eslint": "^8.11.0",
+    "eslint-plugin-jest": "^25.3.2",
+    "express": "^4.17.3",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "lint-staged": "^12.1.4",
+    "mbt": "^1.2.7",
     "npm-run-all": "^4.1.5",
-    "prettier": "2.3.2",
+    "prettier": "2.5.1",
     "sqlite3": "^5.0.2",
-    "standard-version": "^9.3.0",
-    "supertest": "^6.1.3",
-    "uuidv4": "^6.2.10"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
+    "standard-version": "^9.3.2",
+    "supertest": "^6.2.2",
+    "uuidv4": "^6.2.12"
   },
   "lint-staged": {
     "*.(js|json)": [
@@ -87,12 +82,5 @@
     ],
     "testRegex": "/__tests__/.*(\\.|/)(test|spec)\\.[jt]sx?$",
     "testTimeout": 10000
-  },
-  "prettier": {
-    "semi": false,
-    "printWidth": 120,
-    "arrowParens": "always",
-    "trailingComma": "es5",
-    "singleQuote": true
   }
 }

@@ -13,7 +13,7 @@ For a short introduction on the background of this project you can check out [a 
 
 ## Current status
 
-**_cds-pg_ is ready to be used!**  
+**_cds-pg_ is ready to be used!**
 Still, there's some gaps left to fill - note the list below and please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!
 
 Also checkout the following blog posts on how to get started using `cds-pg` in your local development environment and on SAP Business Technology Platform (BTP), Cloud Foundry:
@@ -42,8 +42,8 @@ Also checkout the following blog posts on how to get started using `cds-pg` in y
   - [ ] arithmetic operators + functions
 - [x] add draft support (see [issue #30](https://github.com/sapmentors/cds-pg/issues/30))
 - [x] add advanced deployment model that supports delta handling/migrations (see [issue #27](https://github.com/sapmentors/cds-pg/issues/27))
-- [ ] add more tests to make the module more robust to `@sap/cds` core changes
-- [ ] maybe add some PostgreSQL specific data type support
+- [x] support [`virtual` fields](https://cap.cloud.sap/docs/cds/cdl#virtual-elements) (see [issue 204](https://github.com/sapmentors/cds-pg/issues/204))
+- [ ] support [`localized` entities](https://cap.cloud.sap/docs/guides/localized-data) (see [issue 196](https://github.com/sapmentors/cds-pg/issues/196))
 
 ## Usage in your CAP project
 
@@ -62,6 +62,7 @@ Then add this configuration to the `cds` section of your `package.json:
         "kind": "postgres"
       },
       "postgres": {
+        "dialect": "plain", // <- for cds >= 5.1
         "impl": "cds-pg",
         "model": [
           "srv"
@@ -80,9 +81,7 @@ For local development you can provide the credentials in the file `default-env.j
       {
         "name": "postgres",
         "label": "postgres",
-        "tags": [
-          "postgres"
-        ],
+        "tags": ["plain", "database"],
         "credentials": {
           "host": "localhost",
           "port": "5432",

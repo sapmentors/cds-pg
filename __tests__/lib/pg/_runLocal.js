@@ -11,6 +11,7 @@ const path = require('path')
 module.exports = async (model, credentials, app, deployDB = false) => {
   const dbProperties = {
     kind: 'postgres',
+    dialect: 'plain',
     model: model,
     credentials: credentials,
   }

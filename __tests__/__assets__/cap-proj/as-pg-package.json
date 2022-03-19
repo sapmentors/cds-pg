@@ -5,6 +5,7 @@
         "kind": "database"
       },
       "database": {
+        "dialect": "plain",
         "impl": "../../../",
         "model": ["srv"]
       }

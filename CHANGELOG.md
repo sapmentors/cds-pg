@@ -2,6 +2,79 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.26 (2022-03-19)
+
+
+### Bug Fixes
+
+* support deep update for one to many composition ([#281](https://github.com/sapmentors/cds-pg/issues/281)) ([5e9e124](https://github.com/sapmentors/cds-pg/commit/5e9e124c88a2e94e49be891c4b2726cd8d6adcc4))
+
+### 0.1.25 (2022-03-19)
+
+### 0.1.24 (2022-03-19)
+
+
+### Bug Fixes
+
+* return timestamps, not now() for createdat and modifiedat columns ([#278](https://github.com/sapmentors/cds-pg/issues/278)) ([8a2c05b](https://github.com/sapmentors/cds-pg/commit/8a2c05bef8106838ba3228bbf1040e7241ee12d5))
+
+### 0.1.23 (2022-03-16)
+
+### 0.1.22 (2022-01-25)
+
+
+### Bug Fixes
+
+* return null when SELECT.one returns empty result instead of empty array ([#266](https://github.com/sapmentors/cds-pg/issues/266)) ([99dc308](https://github.com/sapmentors/cds-pg/commit/99dc308109c0455b5b057023f6d2deeace82b733))
+
+### 0.1.21 (2022-01-24)
+
+### 0.1.20 (2021-12-29)
+
+### 0.1.19 (2021-12-29)
+
+### 0.1.18 (2021-12-29)
+
+### 0.1.17 (2021-12-27)
+
+### 0.1.16 (2021-12-08)
+
+
+### Bug Fixes
+
+* timestamp conversion issue ([#243](https://github.com/sapmentors/cds-pg/issues/243)) ([ed83ae4](https://github.com/sapmentors/cds-pg/commit/ed83ae47a0f867805e44bff85f3213cff15aaa1d))
+
+### 0.1.15 (2021-11-18)
+
+### 0.1.14 (2021-10-19)
+
+
+### Features
+
+* support virtual fields (fixes [#204](https://github.com/sapmentors/cds-pg/issues/204)) ([#211](https://github.com/sapmentors/cds-pg/issues/211)) ([9a60e57](https://github.com/sapmentors/cds-pg/commit/9a60e57077092fe39f7f01e2351e5b84193a2f64))
+
+### 0.1.13 (2021-10-06)
+
+### 0.1.12 (2021-10-06)
+
+### 0.1.11 (2021-10-06)
+
+### 0.1.10 (2021-09-21)
+
+### 0.1.8 (2021-08-16)
+
+
+### Features
+
+* support @sap/cds 5.4 ([1755362](https://github.com/sapmentors/cds-pg/commit/17553620ee5f322b2730742527e544369be49573))
+
+### 0.1.7 (2021-08-02)
+
+
+### Features
+
+* re-using as release commit for cds 5.3 support ([#180](https://github.com/sapmentors/cds-pg/issues/180)) ([a79c37e](https://github.com/sapmentors/cds-pg/commit/a79c37e9ce010e38662deadf4768f979296ef984))
+
 ### 0.1.6 (2021-06-29)
 
 ### 0.1.5 (2021-06-16)
