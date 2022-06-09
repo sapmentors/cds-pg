@@ -119,6 +119,11 @@ describe('QL to PostgreSQL', () => {
       expect(results[0].brewery).toHaveProperty('name', 'Rittmayer Hallerndorf')
       expect(results.length).toStrictEqual(4)
     })
+    test('-> case of the query result', async () => {
+      const { TypeChecks } = cds.entities('csw')
+      const results = await cds.run(SELECT.one.from(TypeChecks))
+      expect(results).toHaveProperty('type_Boolean')
+    })
   })
 
   describe('INSERT', () => {
