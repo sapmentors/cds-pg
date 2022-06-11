@@ -12,4 +12,5 @@ service BeershopService {
 
 extend service BeershopService with {
   action reset();
+  action createBeer();
 }

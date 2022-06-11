@@ -5,7 +5,12 @@ POST {{$dotenv scpServiceURL}}/beershop/reset
 Content-Type: application/json
 
 {}
+###
+# create a beer using action
+POST {{$dotenv scpServiceURL}}/beershop/createBeer
+Content-Type: application/json
 
+{}
 ###
 # delete a brewery
 DELETE {{$dotenv scpServiceURL}}/beershop/Breweries(0465e9ca-6255-4f5c-b8ba-7439531f8d28)
