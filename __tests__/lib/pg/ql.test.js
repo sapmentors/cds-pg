@@ -119,6 +119,11 @@ describe('QL to PostgreSQL', () => {
       expect(results[0].brewery).toHaveProperty('name', 'Rittmayer Hallerndorf')
       expect(results.length).toStrictEqual(4)
     })
+    test('-> case of the query result', async () => {
+      const { TypeChecks } = cds.entities('csw')
+      const results = await cds.run(SELECT.one.from(TypeChecks))
+      expect(results).toHaveProperty('type_Boolean')
+    })
   })
 
   describe('INSERT', () => {
@@ -176,11 +181,11 @@ describe('QL to PostgreSQL', () => {
       expect(insertResult.affectedRows).toStrictEqual(3)
       expect(insertResult == 3).toStrictEqual(true)
       expect(insertResult.valueOf()).toStrictEqual(insertResult.affectedRows)
-      const beers = [...entries]
+      const beers = insertResult.results
       expect(beers.length).toStrictEqual(3)
       expect(beers[0].ID).toMatch(uuidRegex)
-      expect(beers[0].createdAt).toMatch(timestampRegex)
-      expect(beers[0].modifiedAt).toMatch(timestampRegex)
+      expect(beers[0].createdAt.toISOString()).toMatch(timestampRegex)
+      expect(beers[0].modifiedAt.toISOString()).toMatch(timestampRegex)
     })
   })
 
