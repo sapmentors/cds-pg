@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.29 (2022-06-13)
+
+
+### Bug Fixes
+
+* issue [#315](https://github.com/sapmentors/cds-pg/issues/315) lowercase INSERT results ([#316](https://github.com/sapmentors/cds-pg/issues/316)) ([7ad25a1](https://github.com/sapmentors/cds-pg/commit/7ad25a1865a1b479fa0e63f0ed6dcc40e0f45704))
+
 ### 0.1.28 (2022-04-04)
 
 
