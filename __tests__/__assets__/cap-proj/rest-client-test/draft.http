@@ -4,3 +4,6 @@ Accept:application/json;odata.metadata=minimal;IEEE754Compatible=true
 Content-Type:application/json;charset=UTF-8;IEEE754Compatible=true
 
 {}
+
+### Read TypeChecksWithDraft
+GET http://localhost:4004/beershop/TypeChecksWithDraft
