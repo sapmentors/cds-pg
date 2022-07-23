@@ -168,6 +168,39 @@ describe('CQN to PostgreSQL', () => {
         'SELECT a.ID AS "a_ID", a.abv AS "a_abv" FROM BeershopService_Beers LEFT JOIN BeershopService_Brewery b ON ( b.ID = a.brewery_ID ) WHERE b.name = asd ORDER BY b.name ASC '
       )
     })
+    
+    test('+ should create a valid orderBy and filter query with nested references', async () => {
+      const query = {
+        SELECT: {
+          from: {
+            join: 'left',
+            args: [
+              { ref: [ 'BeershopService.Beers' ], as: 'a' },
+              { ref: [ 'BeershopService.Breweries' ], as: 'b' }
+            ],
+            on: [
+              '(',
+              { ref: [ 'b', 'ID' ] },
+              '=',
+              { ref: [ 'a', 'brewery_ID' ] },
+              ')'
+            ]
+          },
+          columns: [
+            { ref: [ 'a', 'ID' ], as: 'a_ID' },
+            { ref: [ 'b', 'ID' ], as: 'b_ID' },
+            { ref: [ 'b', 'name' ], as: 'b_name' }
+          ],
+          where: [ { ref: [ 'b', 'name' ] }, '=', { val: 'asd' } ],
+          orderBy: [ { ref: [ 'a', 'ID' ], sort: 'asc', as: 'a_ID' } ],
+        },
+        _toManyTree: []
+      }
+      const { sql } = this.runQuery(query)
+      expect(sql).toMatch(
+        'SELECT a.ID AS "a_ID", b.ID AS "b_ID", b.name AS "b_name" FROM BeershopService_Beers a LEFT JOIN BeershopService_Breweries b ON ( b.ID = a.brewery_ID ) WHERE b.name = ? ORDER BY a.ID ASC'
+      )
+    })
   })
 
   // Examples taken from: https://cap.cloud.sap/docs/cds/cqn#insert
