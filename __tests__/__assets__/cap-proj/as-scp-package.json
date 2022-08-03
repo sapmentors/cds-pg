@@ -6,14 +6,14 @@
     "copycds:srv": "copyfiles srv/**/* _gen"
   },
   "dependencies": {
-    "@sap/cds": "^4.3.0",
-    "@sap/cds-dk": "^3.2.0",
-    "@sap/xsenv": "^3.1.0",
-    "@sap/xssec": "^3.0.10",
-    "cds-pg": "^0.0.30",
-    "express": "^4.17.1",
-    "passport": "^0.4.1",
-    "pg": "^8.5.1"
+    "@sap/cds": "^5",
+    "@sap/cds-dk": "^4",
+    "@sap/xsenv": "^3.3.2",
+    "@sap/xssec": "^3.2.13",
+    "cds-pg": "*",
+    "express": "^4.18.1",
+    "passport": "^0.6.0",
+    "pg": "^8.7.3"
   },
   "cds": {
     "requires": {
