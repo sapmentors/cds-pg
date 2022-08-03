@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.30 (2022-08-03)
+
+
+### Bug Fixes
+
+* delete with grant ([#334](https://github.com/sapmentors/cds-pg/issues/334)) ([d72ec82](https://github.com/sapmentors/cds-pg/commit/d72ec829643665145552d20c37a235324f3462ce)), closes [#262](https://github.com/sapmentors/cds-pg/issues/262)
+
 ### 0.1.29 (2022-06-13)
 
 

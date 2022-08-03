@@ -4,7 +4,7 @@ const deploy = require('@sap/cds/lib/deploy')
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
   dialect: 'plain',
-  impl: './cds-pg', // hint: not really sure as to why this is, but...
+  impl: './cds-pg' // hint: not really sure as to why this is, but...
 }
 
 // default (single) test environment is local,
@@ -25,13 +25,13 @@ describe.each(suiteEnvironments)(
         info: jest.fn(),
         debug: jest.fn(),
         warn: jest.fn(),
-        error: jest.fn(),
+        error: jest.fn()
       }
       this._model = model
       this._dbProperties = {
         kind: 'postgres',
         model: this._model,
-        credentials: credentials,
+        credentials: credentials
       }
 
       // only bootstrap in local mode as scp app is deployed and running
@@ -74,7 +74,7 @@ describe.each(suiteEnvironments)(
           .send({
             name: 'Schlappe Seppel',
             ibu: 10,
-            abv: '16.2',
+            abv: '16.2'
           })
           .set('content-type', 'application/json;charset=UTF-8;IEEE754Compatible=true')
           .auth('bob', '')
@@ -90,6 +90,9 @@ describe.each(suiteEnvironments)(
         expect(responseGet.status).toStrictEqual(200)
         expect(responseGet.body.createdBy).toStrictEqual('bob')
         expect(responseGet.body.modifiedBy).toStrictEqual('bob')
+
+        const responseDelete = await request.delete(`/beershop-admin/Beers(${response.body.ID})`).auth('bob', '')
+        expect(responseDelete.status).toStrictEqual(204)
       })
     })
   }
