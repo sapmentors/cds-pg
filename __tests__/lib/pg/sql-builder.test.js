@@ -151,23 +151,6 @@ describe('CQN to PostgreSQL', () => {
         'SELECT ID AS "ID", createdAt AS "createdAt", createdBy AS "createdBy", modifiedAt AS "modifiedAt", modifiedBy AS "modifiedBy", name AS "name" FROM csw_Brewery'
       )
     })
-
-    test('+ should create a valid orderBy and filter query with nested references', async () => {
-      const query = {
-        cmd: 'SELECT',
-        SELECT: {
-          from: { ref: ['BeershopService.Beers'] },
-          columns: [{ ref: ['ID'] }, { ref: ['abv'] }, { ref: ['brewery_ID'] }],
-          where: [{ ref: ['brewery/name'] }, '=', { val: 'asd' }],
-          orderBy: [{ ref: ['brewery/name'], sort: 'asc' }],
-        },
-      }
-
-      const { sql } = this.runQuery(query)
-      expect(sql).toMatch(
-        'SELECT a.ID AS "a_ID", a.abv AS "a_abv" FROM BeershopService_Beers LEFT JOIN BeershopService_Brewery b ON ( b.ID = a.brewery_ID ) WHERE b.name = asd ORDER BY b.name ASC '
-      )
-    })
     
     test('+ should create a valid orderBy and filter query with nested references', async () => {
       const query = {
