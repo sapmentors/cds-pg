@@ -178,5 +178,12 @@ describe.each(suiteEnvironments)(
         expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })])
       )
     })
+    
+    test('case-insensitive', async () => {
+      const response = await request.get(`/beershop/Beers?$filter=contains(name,'bi')`)
+      expect(response.status).toStrictEqual(200)
+      expect(response.body.value.length).toEqual(7)
+      expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Bitter 42' })]))
+    })
   }
 )
