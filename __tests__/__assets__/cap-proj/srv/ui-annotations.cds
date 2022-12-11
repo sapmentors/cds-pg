@@ -38,3 +38,34 @@ annotate BeershopService.TypeChecksWithDraft with @(
     ]},
   }
 );
+
+annotate BeershopService.Suppliers with @(  
+  Common.SemanticKey : [ID],
+  Identification     : [{Value : code}],
+  UI                 : {
+    SelectionFields     : [
+      name
+    ],
+    LineItem            : [
+      {Value : name},
+      {Value : country},
+      {Value : bottle.name},
+    ],
+    HeaderInfo          : {
+      TypeName       : 'Supplier',
+      TypeNamePlural : 'Suppliers',      
+      Title          : {Value : name},
+      Description    : {Value : name}
+    },
+    Facets              : [{
+      $Type  : 'UI.ReferenceFacet',
+      Label  : '{i18n>Details}',
+      Target : '@UI.FieldGroup#Details'
+    }, ],
+    FieldGroup #Details : {Data : [
+      {Value : name},
+      {Value : country},
+      {Value : bottle_ID},
+    ]},
+  }
+);

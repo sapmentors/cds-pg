@@ -39,6 +39,22 @@ CREATE TABLE csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE csw_Bottle (
+  ID VARCHAR(36) NOT NULL,
+  name VARCHAR(5000),
+  size INTEGER,
+  color VARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE csw_Supplier (
+  ID VARCHAR(36) NOT NULL,
+  name VARCHAR(5000),
+  country VARCHAR(2),
+  bottle_ID VARCHAR(36),
+  PRIMARY KEY(ID)
+);
+
 CREATE TABLE DRAFT_DraftAdministrativeData (
   DraftUUID VARCHAR(36) NOT NULL,
   CreationDateTime TIMESTAMPTZ,
@@ -66,6 +82,30 @@ CREATE TABLE BeershopService_TypeChecksWithDraft_drafts (
   type_Binary CHAR(100) NULL,
   type_LargeBinary BYTEA NULL,
   type_LargeString TEXT NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID VARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE BeershopService_Bottles_drafts (
+  ID VARCHAR(36) NOT NULL,
+  name VARCHAR(5000) NULL,
+  size INTEGER NULL,
+  color VARCHAR(5000) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID VARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE BeershopService_Suppliers_drafts (
+  ID VARCHAR(36) NOT NULL,
+  name VARCHAR(5000) NULL,
+  country VARCHAR(2) NULL,
+  bottle_ID VARCHAR(36) NULL,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,
   HasDraftEntity BOOLEAN,
@@ -128,6 +168,20 @@ CREATE VIEW BeershopService_TypeChecksWithDraft AS SELECT
   TypeChecks_0.type_LargeString
 FROM csw_TypeChecks AS TypeChecks_0;
 
+CREATE VIEW BeershopService_Bottles AS SELECT
+  Bottle_0.ID,
+  Bottle_0.name,
+  Bottle_0.size,
+  Bottle_0.color
+FROM csw_Bottle AS Bottle_0;
+
+CREATE VIEW BeershopService_Suppliers AS SELECT
+  Supplier_0.ID,
+  Supplier_0.name,
+  Supplier_0.country,
+  Supplier_0.bottle_ID
+FROM csw_Supplier AS Supplier_0;
+
 CREATE VIEW BeershopService_DraftAdministrativeData AS SELECT
   DraftAdministrativeData.DraftUUID,
   DraftAdministrativeData.CreationDateTime,
@@ -137,4 +191,4 @@ CREATE VIEW BeershopService_DraftAdministrativeData AS SELECT
   DraftAdministrativeData.LastChangedByUser,
   DraftAdministrativeData.InProcessByUser,
   DraftAdministrativeData.DraftIsProcessedByMe
-FROM DRAFT_DraftAdministrativeData AS DraftAdministrativeData
+FROM DRAFT_DraftAdministrativeData AS DraftAdministrativeData;
