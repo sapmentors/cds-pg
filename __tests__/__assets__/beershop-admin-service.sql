@@ -45,6 +45,22 @@ CREATE TABLE csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE csw_Bottle (
+  ID VARCHAR(36) NOT NULL,
+  name VARCHAR(5000),
+  size INTEGER,
+  color VARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE csw_Supplier (
+  ID VARCHAR(36) NOT NULL,
+  name VARCHAR(5000),
+  country VARCHAR(2),
+  bottle_ID VARCHAR(36),
+  PRIMARY KEY(ID)
+);
+
 CREATE VIEW BeershopAdminService_Beers AS SELECT
   Beers_0.ID,
   Beers_0.createdAt,
@@ -64,4 +80,4 @@ CREATE VIEW BeershopAdminService_Breweries AS SELECT
   Brewery_0.modifiedAt,
   Brewery_0.modifiedBy,
   Brewery_0.name
-FROM csw_Brewery AS Brewery_0
+FROM csw_Brewery AS Brewery_0;

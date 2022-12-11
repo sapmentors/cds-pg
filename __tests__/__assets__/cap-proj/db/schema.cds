@@ -35,3 +35,40 @@ entity TypeChecks : cuid {
   type_LargeString     : LargeString;
   virtual type_virtual : Integer;
 }
+
+
+entity Bottle : cuid {
+
+  name  : String; 
+  size  : Integer;
+  color : String;
+}
+
+entity Supplier : cuid {
+
+  name :    String;
+  country : String(2);
+  bottle  : Association to one Bottle;
+
+}
+
+
+annotate Supplier with {
+    bottle       @(
+        Common.ValueListWithFixedValues : false,
+        Common.ValueList                : {
+            CollectionPath : 'Bottles',
+            Parameters      : [{
+                $Type             : 'Common.ValueListParameterInOut',
+                ValueListProperty : 'ID',
+                LocalDataProperty : bottle_ID,
+                ![@UI.Hidden]     : true
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'name',
+            }            
+            ]
+        }
+    );  
+};
