@@ -1,6 +1,6 @@
 {
   "name": "cds-pg",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "description": "PostgreSQL adapter for SAP CDS (CAP)",
   "engines": {
     "node": ">=14"
