@@ -185,5 +185,19 @@ describe.each(suiteEnvironments)(
       expect(response.body.value.length).toEqual(7)
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Bitter 42' })]))
     })
+
+    test('localization-entity-only', async () => {
+      const response = await request.get(`/bookshop/Books?sap-language=it`)
+      expect(response.status).toStrictEqual(200)
+      expect(response.body.value.length).toEqual(5)
+      expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ title: 'Book 1 Name Italian'})]))
+    })
+
+    test('localization-entity-with-expand', async () => {
+      const response = await request.get(`/bookshop/Books?sap-language=it&$expand=author`)
+      expect(response.status).toStrictEqual(200)
+      expect(response.body.value.length).toEqual(5)
+      expect(response.body.value[0].author.name).toEqual('Author 5 Name Italian')
+    })
   }
 )

@@ -1,5 +1,21 @@
 {
   "cds": {
+    "i18n": {
+      "[development]": {
+        "for_sqlite": [
+          "en",
+          "it",
+          "de"
+        ]
+      },
+      "[production]": {
+        "for_sql": [
+          "en",
+          "it",
+          "de"
+        ]
+      }
+    },
     "requires": {
       "db": {
         "kind": "database"
