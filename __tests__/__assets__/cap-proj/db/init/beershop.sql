@@ -319,31 +319,31 @@ SELECT Brewery_0.ID,
 FROM superbeer.csw_Brewery AS Brewery_0;
 CREATE TABLE IF NOT EXISTS my_bookshop_authors
 (
-    id integer NOT NULL,
-    name character varying(5000) COLLATE pg_catalog."default",
-    CONSTRAINT my_bookshop_authors_pkey PRIMARY KEY (id)
+  ID VARCHAR(36) NOT NULL,
+  name VARCHAR(150),
+  PRIMARY KEY(ID)
 );
 CREATE TABLE IF NOT EXISTS my_bookshop_authors_texts
 (
-    locale character varying(14) COLLATE pg_catalog."default" NOT NULL,
-    id integer NOT NULL,
-    name character varying(5000) COLLATE pg_catalog."default",
-    CONSTRAINT my_bookshop_authors_texts_pkey PRIMARY KEY (locale, id)
+  ID VARCHAR(36) NOT NULL,
+  locale VARCHAR(2) NOT NULL,
+  name VARCHAR(150),
+  PRIMARY KEY(ID, locale)
 );
 CREATE TABLE IF NOT EXISTS my_bookshop_books
 (
-    id integer NOT NULL,
-    title character varying(5000) COLLATE pg_catalog."default",
-    author_id integer,
-    stock integer,
-    CONSTRAINT my_bookshop_books_pkey PRIMARY KEY (id)
+  ID VARCHAR(36) NOT NULL,
+  title VARCHAR(150),
+  author_ID VARCHAR(36),
+  stock INTEGER,
+  PRIMARY KEY(ID)
 );
 CREATE TABLE IF NOT EXISTS my_bookshop_books_texts
 (
-    locale character varying(14) COLLATE pg_catalog."default" NOT NULL,
-    id integer NOT NULL,
-    title character varying(5000) COLLATE pg_catalog."default",
-    CONSTRAINT my_bookshop_books_texts_pkey PRIMARY KEY (locale, id)
+  ID VARCHAR(36) NOT NULL,
+  locale VARCHAR(2) NOT NULL,
+  title VARCHAR(150),
+  PRIMARY KEY(ID, locale)
 );
 CREATE OR REPLACE VIEW bookshopservice_authors
  AS
