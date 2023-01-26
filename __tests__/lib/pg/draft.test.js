@@ -59,7 +59,7 @@ describe.each(suiteEnvironments)(
 
       test(' -> Draft entity referencing another draft entity on matchcode call', async () => {
         const oQuery =
-          '/beershop/Suppliers?$filter=(IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null)&$expand=bottle'
+          '/beershop/TypeChecksSibling?$filter=(IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null)&$expand=typeChecks($select=type_String)'
 
         const response = await request.get(oQuery).send({
           PreserveChanges: true

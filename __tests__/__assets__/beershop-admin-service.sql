@@ -45,19 +45,10 @@ CREATE TABLE csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 
-CREATE TABLE csw_Bottle (
+CREATE TABLE csw_TypeChecksSibling (
   ID VARCHAR(36) NOT NULL,
-  name VARCHAR(5000),
-  size INTEGER,
-  color VARCHAR(5000),
-  PRIMARY KEY(ID)
-);
-
-CREATE TABLE csw_Supplier (
-  ID VARCHAR(36) NOT NULL,
-  name VARCHAR(5000),
-  country VARCHAR(2),
-  bottle_ID VARCHAR(36),
+  dummyField VARCHAR(5000),
+  typeChecks_ID VARCHAR(36),
   PRIMARY KEY(ID)
 );
 
