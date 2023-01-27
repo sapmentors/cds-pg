@@ -10,7 +10,7 @@ jobs:
     if: "contains(github.event.head_commit.author.name, 'SAP Mentors & Friends')"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         # read all commit messages since the last tag
       - name: get commit messages
         run: |
