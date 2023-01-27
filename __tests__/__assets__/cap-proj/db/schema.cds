@@ -41,25 +41,3 @@ entity TypeChecksSibling : cuid {
   dummyField : String;
   typeChecks : Association to one TypeChecks;
 }
-
-
-annotate Supplier with {
-  bottle @(
-    Common.ValueListWithFixedValues : false,
-    Common.ValueList                : {
-      CollectionPath : 'Bottles',
-      Parameters     : [
-        {
-          $Type             : 'Common.ValueListParameterInOut',
-          ValueListProperty : 'ID',
-          LocalDataProperty : bottle_ID,
-          ![@UI.Hidden]     : true
-        },
-        {
-          $Type             : 'Common.ValueListParameterDisplayOnly',
-          ValueListProperty : 'name',
-        }
-      ]
-    }
-  );
-};
