@@ -35,3 +35,9 @@ entity TypeChecks : cuid {
   type_LargeString     : LargeString;
   virtual type_virtual : Integer;
 }
+
+
+entity TypeChecksSibling : cuid {
+  dummyField : String;
+  typeChecks : Association to one TypeChecks;
+}

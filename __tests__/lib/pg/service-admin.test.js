@@ -64,7 +64,7 @@ describe.each(suiteEnvironments)(
       const response = await request.get('/beershop/')
 
       expect(response.status).toStrictEqual(200)
-      expect(response.body.value.length).toStrictEqual(4)
+      expect(response.body.value.length).toStrictEqual(5)
     })
 
     describe('OData admin: CREATE', () => {

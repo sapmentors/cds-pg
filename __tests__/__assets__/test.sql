@@ -39,6 +39,13 @@ CREATE TABLE csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE csw_TypeChecksSibling (
+  ID VARCHAR(36) NOT NULL,
+  dummyField VARCHAR(5000),
+  typeChecks_ID VARCHAR(36),
+  PRIMARY KEY(ID)
+);
+
 CREATE TABLE DRAFT_DraftAdministrativeData (
   DraftUUID VARCHAR(36) NOT NULL,
   CreationDateTime TIMESTAMPTZ,
@@ -66,6 +73,17 @@ CREATE TABLE BeershopService_TypeChecksWithDraft_drafts (
   type_Binary CHAR(100) NULL,
   type_LargeBinary BYTEA NULL,
   type_LargeString TEXT NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID VARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE BeershopService_TypeChecksSibling_drafts (
+  ID VARCHAR(36) NOT NULL,
+  dummyField VARCHAR(5000) NULL,
+  typeChecks_ID VARCHAR(36) NULL,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,
   HasDraftEntity BOOLEAN,
@@ -128,6 +146,12 @@ CREATE VIEW BeershopService_TypeChecksWithDraft AS SELECT
   TypeChecks_0.type_LargeString
 FROM csw_TypeChecks AS TypeChecks_0;
 
+CREATE VIEW BeershopService_TypeChecksSibling AS SELECT
+  TypeChecksSibling_0.ID,
+  TypeChecksSibling_0.dummyField,
+  TypeChecksSibling_0.typeChecks_ID
+FROM csw_TypeChecksSibling AS TypeChecksSibling_0;
+
 CREATE VIEW BeershopService_DraftAdministrativeData AS SELECT
   DraftAdministrativeData.DraftUUID,
   DraftAdministrativeData.CreationDateTime,
@@ -137,4 +161,4 @@ CREATE VIEW BeershopService_DraftAdministrativeData AS SELECT
   DraftAdministrativeData.LastChangedByUser,
   DraftAdministrativeData.InProcessByUser,
   DraftAdministrativeData.DraftIsProcessedByMe
-FROM DRAFT_DraftAdministrativeData AS DraftAdministrativeData
+FROM DRAFT_DraftAdministrativeData AS DraftAdministrativeData;

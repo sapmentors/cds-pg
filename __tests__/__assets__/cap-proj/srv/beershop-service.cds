@@ -6,8 +6,13 @@ service BeershopService {
   entity Breweries           as projection on csw.Brewery;
   entity TypeChecks          as projection on csw.TypeChecks;
 
+  @cds.redirection.target
   @odata.draft.enabled
   entity TypeChecksWithDraft as projection on csw.TypeChecks;
+
+  @odata.draft.enabled
+  entity TypeChecksSibling   as projection on csw.TypeChecksSibling;
+
 }
 
 extend service BeershopService with {
