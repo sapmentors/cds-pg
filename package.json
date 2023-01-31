@@ -44,7 +44,7 @@
   "dependencies": {
     "@sap/cds": "^5.9.1",
     "moment": "^2.29.4",
-    "passport": "^0.5.2",
+    "passport": "^0.6.0",
     "pg": "^8.7.3",
     "pg-format": "^1.0.4"
   },
