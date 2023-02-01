@@ -1,5 +1,5 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/deploy')
+const deploy = require('@sap/cds/lib/dbs/cds-deploy')
 
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
