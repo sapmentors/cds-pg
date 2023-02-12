@@ -2,8 +2,8 @@ module.exports = {
   semi: false,
   printWidth: 120,
   arrowParens: 'always',
-  trailingComma: 'all',
+  trailingComma: 'none',
   singleQuote: true,
   tabWidth: 2,
-  proseWrap: 'never',
+  proseWrap: 'never'
 }
