@@ -1,5 +1,5 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/deploy')
+const deploy = require('@sap/cds/lib/dbs/cds-deploy')
 
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -42,13 +42,13 @@ describe.each(suiteEnvironments)(
         })
 
         describe('Timestamp TEST', () => {
-
             test(' -> Check modifiedAt', async () => {
                 //Set Different TimeZone
-                await cds.run(`alter user postgres set timezone = 'EST'`, [])//UTC,EST
+                await cds.run(`alter user postgres set timezone = 'EST'`, []) //UTC,EST
                 const beforeTimestamp = new Date()
-                beforeTimestamp.setMilliseconds(0);
-                await request.put('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
+                beforeTimestamp.setMilliseconds(0)
+                await request
+                    .put('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
                     .send({
                         name: 'Changed name',
                         ibu: 10,
@@ -58,8 +58,8 @@ describe.each(suiteEnvironments)(
                 const response = await request.get('/beershop/Beers/9e1704e3-6fd0-4a5d-bfb1-13ac47f7976b')
                 const afterTimestamp = new Date()
                 const modifiedAt = new Date(response.body.modifiedAt)
-                expect((beforeTimestamp <= modifiedAt) && (modifiedAt <= afterTimestamp)).toBe(true)
+                expect(beforeTimestamp <= modifiedAt && modifiedAt <= afterTimestamp).toBe(true)
             })
         })
-    }
+    },
 )
