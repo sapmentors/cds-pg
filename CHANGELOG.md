@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.35 (2023-02-13)
+
+
+### Features
+
+* @sap/cds 6.5.0 compatibility ([#383](https://github.com/sapmentors/cds-pg/issues/383)) ([28b2c42](https://github.com/sapmentors/cds-pg/commit/28b2c42e7c390eb120e8f8e47ddb8ad7d78f9402))
+
 ### 0.1.34 (2023-01-27)
 
 ### 0.1.33 (2022-11-29)
