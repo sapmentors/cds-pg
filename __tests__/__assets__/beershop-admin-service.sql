@@ -45,6 +45,13 @@ CREATE TABLE csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE csw_TypeChecksSibling (
+  ID VARCHAR(36) NOT NULL,
+  dummyField VARCHAR(5000),
+  typeChecks_ID VARCHAR(36),
+  PRIMARY KEY(ID)
+);
+
 CREATE VIEW BeershopAdminService_Beers AS SELECT
   Beers_0.ID,
   Beers_0.createdAt,
@@ -64,4 +71,4 @@ CREATE VIEW BeershopAdminService_Breweries AS SELECT
   Brewery_0.modifiedAt,
   Brewery_0.modifiedBy,
   Brewery_0.name
-FROM csw_Brewery AS Brewery_0
+FROM csw_Brewery AS Brewery_0;

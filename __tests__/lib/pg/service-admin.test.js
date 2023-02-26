@@ -1,5 +1,5 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/deploy')
+const deploy = require('@sap/cds/lib/dbs/cds-deploy')
 
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
@@ -64,7 +64,7 @@ describe.each(suiteEnvironments)(
       const response = await request.get('/beershop/')
 
       expect(response.status).toStrictEqual(200)
-      expect(response.body.value.length).toStrictEqual(4)
+      expect(response.body.value.length).toStrictEqual(5)
     })
 
     describe('OData admin: CREATE', () => {

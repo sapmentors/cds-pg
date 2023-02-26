@@ -1,5 +1,5 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/deploy')
+const deploy = require('@sap/cds/lib/dbs/cds-deploy')
 
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
@@ -102,13 +102,13 @@ describe.each(suiteEnvironments)(
       })
 
       test(' -> Timestamp', async () => {
-        const value = '2012-12-03T07:16:23.574Z';
+        const value = '2012-12-03T07:16:23.574Z'
         const response = await request.post('/beershop/TypeChecks').send({
           type_Timestamp: value,
         })
         expect(response.status).toStrictEqual(201)
         const verify = await request.get(`/beershop/TypeChecks(${response.body.ID})`).send()
-        expect(verify.body.type_Timestamp).toStrictEqual(value);
+        expect(verify.body.type_Timestamp).toStrictEqual(value)
       })
 
       test(' -> String', async () => {
@@ -140,5 +140,5 @@ describe.each(suiteEnvironments)(
         expect(response.status).toStrictEqual(201)
       })
     })
-  }
+  },
 )

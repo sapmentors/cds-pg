@@ -1,10 +1,10 @@
 const cds = require('@sap/cds')
-const deploy = require('@sap/cds/lib/deploy')
+const deploy = require('@sap/cds/lib/dbs/cds-deploy')
 
 // mock (package|.cdsrc).json entries
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
-  impl: './cds-pg', // hint: not really sure as to why this is, but...
+  impl: './cds-pg' // hint: not really sure as to why this is, but...
 }
 
 // default (single) test environment is local,
@@ -23,7 +23,7 @@ describe.each(suiteEnvironments)(
         kind: 'postgres',
         dialect: 'plain',
         model: this._model,
-        credentials: credentials,
+        credentials: credentials
       }
 
       // only bootstrap in local mode as scp app is deployed and running
@@ -49,12 +49,23 @@ describe.each(suiteEnvironments)(
             `${basepath}/BeershopService.draftEdit?$expand=DraftAdministrativeData($select=DraftUUID,InProcessByUser)`
           )
           .send({
-            PreserveChanges: true,
+            PreserveChanges: true
           })
         expect(response.status).toStrictEqual(201)
 
         const responseGet = await request.get(basepath)
         expect(responseGet.status).toStrictEqual(200)
+      })
+
+      test(' -> Draft entity referencing another draft entity on matchcode call', async () => {
+        const oQuery =
+          '/beershop/TypeChecksSibling?$filter=(IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null)&$expand=typeChecks($select=type_String)'
+
+        const response = await request.get(oQuery).send({
+          PreserveChanges: true
+        })
+
+        expect(response.status).toStrictEqual(200)
       })
     })
   }
