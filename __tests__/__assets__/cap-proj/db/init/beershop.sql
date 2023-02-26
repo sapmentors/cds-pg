@@ -317,20 +317,20 @@ SELECT Brewery_0.ID,
   Brewery_0.modifiedBy,
   Brewery_0.name
 FROM superbeer.csw_Brewery AS Brewery_0;
-CREATE TABLE IF NOT EXISTS my_bookshop_authors
+CREATE TABLE my_bookshop_authors
 (
   ID VARCHAR(36) NOT NULL,
   name VARCHAR(150),
   PRIMARY KEY(ID)
 );
-CREATE TABLE IF NOT EXISTS my_bookshop_authors_texts
+CREATE TABLE my_bookshop_authors_texts
 (
   ID VARCHAR(36) NOT NULL,
   locale VARCHAR(2) NOT NULL,
   name VARCHAR(150),
   PRIMARY KEY(ID, locale)
 );
-CREATE TABLE IF NOT EXISTS my_bookshop_books
+CREATE TABLE my_bookshop_books
 (
   ID VARCHAR(36) NOT NULL,
   title VARCHAR(150),
@@ -338,76 +338,50 @@ CREATE TABLE IF NOT EXISTS my_bookshop_books
   stock INTEGER,
   PRIMARY KEY(ID)
 );
-CREATE TABLE IF NOT EXISTS my_bookshop_books_texts
+CREATE TABLE my_bookshop_books_texts
 (
   ID VARCHAR(36) NOT NULL,
   locale VARCHAR(2) NOT NULL,
   title VARCHAR(150),
   PRIMARY KEY(ID, locale)
 );
-CREATE OR REPLACE VIEW bookshopservice_authors
+CREATE VIEW bookshopservice_authors
  AS
  SELECT authors_0.id,
     authors_0.name
    FROM my_bookshop_authors authors_0;
-CREATE OR REPLACE VIEW bookshopservice_authors_texts
+CREATE VIEW bookshopservice_authors_texts
  AS
  SELECT texts_0.locale,
     texts_0.id,
     texts_0.name
    FROM my_bookshop_authors_texts texts_0;
-CREATE OR REPLACE VIEW bookshopservice_books
+CREATE VIEW bookshopservice_books
  AS
  SELECT books_0.id,
     books_0.title,
     books_0.author_id,
     books_0.stock
    FROM my_bookshop_books books_0;
-CREATE OR REPLACE VIEW bookshopservice_books_texts
+CREATE VIEW bookshopservice_books_texts
  AS
  SELECT texts_0.locale,
     texts_0.id,
     texts_0.title
    FROM my_bookshop_books_texts texts_0;
-CREATE OR REPLACE VIEW localized_my_bookshop_authors
- AS
- SELECT l_0.id,
-    COALESCE(localized_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
-CREATE OR REPLACE VIEW localized_my_bookshop_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_1.title, l_0.title) AS title,
-    l_0.author_id,
-    l_0.stock
-   FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
-CREATE OR REPLACE VIEW localized_bookshopservice_authors
- AS
- SELECT authors_0.id,
-    authors_0.name
-   FROM localized_my_bookshop_authors authors_0;
-
-CREATE OR REPLACE VIEW localized_bookshopservice_books
- AS
- SELECT books_0.id,
-    books_0.title,
-    books_0.author_id,
-    books_0.stock
-   FROM localized_my_bookshop_books books_0;
-CREATE OR REPLACE VIEW localized_de_my_bookshop_authors
+CREATE VIEW localized_de_my_bookshop_authors
  AS
  SELECT l_0.id,
     COALESCE(localized_de_1.name, l_0.name) AS name
    FROM my_bookshop_authors l_0
      LEFT JOIN my_bookshop_authors_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
-CREATE OR REPLACE VIEW localized_de_bookshopservice_authors
+CREATE VIEW localized_de_bookshopservice_authors
  AS
- SELECT authors_0.id,
-    authors_0.name
-   FROM localized_de_my_bookshop_authors authors_0;
-CREATE OR REPLACE VIEW localized_de_my_bookshop_books
+ SELECT l_0.id,
+    COALESCE(localized_de_1.name, l_0.name) AS name
+   FROM my_bookshop_authors l_0
+     LEFT JOIN my_bookshop_authors_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
+CREATE VIEW localized_de_my_bookshop_books
  AS
  SELECT l_0.id,
     COALESCE(localized_de_1.title, l_0.title) AS title,
@@ -415,65 +389,66 @@ CREATE OR REPLACE VIEW localized_de_my_bookshop_books
     l_0.stock
    FROM my_bookshop_books l_0
      LEFT JOIN my_bookshop_books_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
-CREATE OR REPLACE VIEW localized_de_bookshopservice_books
- AS
- SELECT books_0.id,
-    books_0.title,
-    books_0.author_id,
-    books_0.stock
-   FROM localized_de_my_bookshop_books books_0;
-CREATE OR REPLACE VIEW localized_en_my_bookshop_authors
+CREATE VIEW localized_de_bookshopservice_books
  AS
  SELECT l_0.id,
-    COALESCE(localized_en_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_en_1 ON localized_en_1.id = l_0.id AND localized_en_1.locale::text = 'en'::text;
-CREATE OR REPLACE VIEW localized_en_bookshopservice_authors
- AS
- SELECT authors_0.id,
-    authors_0.name
-   FROM localized_en_my_bookshop_authors authors_0;
-CREATE OR REPLACE VIEW localized_en_my_bookshop_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_en_1.title, l_0.title) AS title,
+    COALESCE(localized_de_1.title, l_0.title) AS title,
     l_0.author_id,
     l_0.stock
    FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_en_1 ON localized_en_1.id = l_0.id AND localized_en_1.locale::text = 'en'::text;
-CREATE OR REPLACE VIEW localized_en_bookshopservice_books
- AS
- SELECT books_0.id,
-    books_0.title,
-    books_0.author_id,
-    books_0.stock
-   FROM localized_en_my_bookshop_books books_0;
-CREATE OR REPLACE VIEW localized_it_my_bookshop_authors
+     LEFT JOIN my_bookshop_books_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
+CREATE VIEW localized_fr_my_bookshop_books
  AS
  SELECT l_0.id,
-    COALESCE(localized_it_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_it_1 ON localized_it_1.id = l_0.id AND localized_it_1.locale::text = 'it'::text;
-CREATE OR REPLACE VIEW localized_it_bookshopservice_authors
- AS
- SELECT authors_0.id,
-    authors_0.name
-   FROM localized_it_my_bookshop_authors authors_0;
-CREATE OR REPLACE VIEW localized_it_my_bookshop_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_it_1.title, l_0.title) AS title,
+    COALESCE(localized_fr_1.title, l_0.title) AS title,
     l_0.author_id,
     l_0.stock
    FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_it_1 ON localized_it_1.id = l_0.id AND localized_it_1.locale::text = 'it'::text;
-CREATE OR REPLACE VIEW localized_it_bookshopservice_books
+     LEFT JOIN my_bookshop_books_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
+CREATE VIEW localized_fr_bookshopservice_books
  AS
- SELECT books_0.id,
-    books_0.title,
-    books_0.author_id,
-    books_0.stock
-   FROM localized_it_my_bookshop_books books_0;
+ SELECT l_0.id,
+    COALESCE(localized_fr_1.title, l_0.title) AS title,
+    l_0.author_id,
+    l_0.stock
+   FROM my_bookshop_books l_0
+     LEFT JOIN my_bookshop_books_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
+CREATE VIEW localized_fr_my_bookshop_authors
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_fr_1.name, l_0.name) AS name
+   FROM my_bookshop_authors l_0
+     LEFT JOIN my_bookshop_authors_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
+CREATE VIEW localized_fr_bookshopservice_authors
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_fr_1.name, l_0.name) AS name
+   FROM my_bookshop_authors l_0
+     LEFT JOIN my_bookshop_authors_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
+CREATE VIEW localized_my_bookshop_authors
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.name, l_0.name) AS name
+   FROM my_bookshop_authors l_0
+     LEFT JOIN my_bookshop_authors_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
+CREATE VIEW localized_my_bookshop_books
+ AS SELECT l_0.id,    COALESCE(localized_1.title, l_0.title) AS title,    l_0.author_id,    l_0.stock
+   FROM my_bookshop_books l_0
+     LEFT JOIN my_bookshop_books_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
+CREATE VIEW localized_bookshopservice_authors
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.name, l_0.name) AS name
+   FROM my_bookshop_authors l_0
+     LEFT JOIN my_bookshop_authors_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
+CREATE VIEW localized_bookshopservice_books
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.title, l_0.title) AS title,
+    l_0.author_id,
+    l_0.stock
+   FROM my_bookshop_books l_0
+     LEFT JOIN my_bookshop_books_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
 
 COPY superbeer.csw_Beers (ID, name, abv, ibu, brewery_ID)
 FROM '/tmp/data/csw-Beers.csv' DELIMITER ',' CSV HEADER;
@@ -482,10 +457,10 @@ FROM '/tmp/data/csw-Brewery.csv' DELIMITER ',' CSV HEADER;
 COPY superbeer.csw_TypeChecks (ID, type_String, type_LargeString)
 FROM '/tmp/data/csw-TypeChecks.csv' DELIMITER ',' CSV HEADER;
 COPY my_bookshop_authors (ID, name)
-FROM '/tmp/data/my.bookshop-Authors.csv' DELIMITER ',' CSV_HEADER;
+FROM '/tmp/data/my.bookshop-Authors.csv' DELIMITER ',' CSV HEADER;
 COPY my_bookshop_authors_texts (ID, locale, name)
-FROM '/tmp/data/my.bookshop-Authors_texts.csv' DELIMITER ',' CSV_HEADER;
+FROM '/tmp/data/my.bookshop-Authors_texts.csv' DELIMITER ',' CSV HEADER;
 COPY my_bookshop_books (ID, title, stock, author_ID)
-FROM '/tmp/data/my.bookshop-Books.csv' DELIMITER ',' CSV_HEADER;
+FROM '/tmp/data/my.bookshop-Books.csv' DELIMITER ',' CSV HEADER;
 COPY my_bookshop_books_texts (ID, locale, title)
-FROM '/tmp/data/my.bookshop-Books_texts.csv' DELIMITER ',' CSV_HEADER;
+FROM '/tmp/data/my.bookshop-Books_texts.csv' DELIMITER ',' CSV HEADER;

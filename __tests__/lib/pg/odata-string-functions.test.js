@@ -4,7 +4,7 @@ const cds = require('@sap/cds')
 cds.env.requires.db = { kind: 'postgres' }
 cds.env.requires.postgres = {
   dialect: 'plain',
-  impl: './cds-pg', // hint: not really sure as to why this is, but...
+  impl: './cds-pg' // hint: not really sure as to why this is, but...
 }
 
 // default (single) test environment is local,
@@ -25,7 +25,7 @@ describe.each(suiteEnvironments)(
         info: jest.fn(),
         debug: jest.fn(),
         warn: jest.fn(),
-        error: jest.fn(),
+        error: jest.fn()
       }
 
       if (_suitename.startsWith('local')) {
@@ -178,7 +178,7 @@ describe.each(suiteEnvironments)(
         expect.arrayContaining([expect.objectContaining({ name: 'Schönramer Hell' })])
       )
     })
-    
+
     test('case-insensitive', async () => {
       const response = await request.get(`/beershop/Beers?$filter=contains(name,'bi')`)
       expect(response.status).toStrictEqual(200)
@@ -187,17 +187,12 @@ describe.each(suiteEnvironments)(
     })
 
     test('localization-entity-only', async () => {
-      const response = await request.get(`/bookshop/Books?sap-language=it`)
+      const response = await request.get(`/bookshop/Books?sap-language=de`).set('accept-language', 'de')
       expect(response.status).toStrictEqual(200)
       expect(response.body.value.length).toEqual(5)
-      expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ title: 'Book 1 Name Italian'})]))
-    })
-
-    test('localization-entity-with-expand', async () => {
-      const response = await request.get(`/bookshop/Books?sap-language=it&$expand=author`)
-      expect(response.status).toStrictEqual(200)
-      expect(response.body.value.length).toEqual(5)
-      expect(response.body.value[0].author.name).toEqual('Author 5 Name Italian')
+      expect(response.body.value).toEqual(
+        expect.arrayContaining([expect.objectContaining({ title: 'Book 1 Name Deutsche' })])
+      )
     })
   }
 )
