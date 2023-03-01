@@ -29,7 +29,7 @@ entity TypeChecks : cuid {
   type_Time            : Time;
   type_DateTime        : DateTime;
   type_Timestamp       : Timestamp;
-  type_String          : String;
+  type_String          : localized String;
   type_Binary          : Binary(100);
   type_LargeBinary     : LargeBinary;
   type_LargeString     : LargeString;

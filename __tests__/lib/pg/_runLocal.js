@@ -26,6 +26,4 @@ module.exports = async (model, credentials, app, deployDB = false) => {
   await cds.serve('BeershopService').from(servicePath).in(app)
   const adminServicePath = path.resolve(model, 'beershop-admin-service')
   await cds.serve('BeershopAdminService').from(adminServicePath).in(app)
-  const bookshopServicePath = path.resolve(model, 'bookshop-service')
-  await cds.serve('BookshopService').from(bookshopServicePath).in(app)
 }

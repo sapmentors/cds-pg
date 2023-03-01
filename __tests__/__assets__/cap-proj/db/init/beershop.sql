@@ -43,6 +43,12 @@ CREATE TABLE csw_TypeChecks (
   type_LargeString TEXT,
   PRIMARY KEY(ID)
 );
+CREATE TABLE csw_TypeChecks_texts (
+  ID VARCHAR(36) NOT NULL,
+  locale VARCHAR(2) NOT NULL,
+  type_String VARCHAR(50000),
+  PRIMARY KEY(ID, locale)
+);
 CREATE TABLE DRAFT_DraftAdministrativeData (
   DraftUUID VARCHAR(36) NOT NULL,
   CreationDateTime TIMESTAMP,
@@ -110,6 +116,48 @@ SELECT TypeChecks_0.ID,
   TypeChecks_0.type_LargeBinary,
   TypeChecks_0.type_LargeString
 FROM csw_TypeChecks AS TypeChecks_0;
+CREATE VIEW BeershopService_TypeChecks_texts
+ AS
+ SELECT texts_0.locale,
+ texts_0.ID,
+ texts_0.type_String
+  FROM csw_TypeChecks_texts AS texts_0;
+CREATE VIEW localized_csw_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
+CREATE VIEW localized_de_csw_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'de'::text;
+CREATE VIEW localized_fr_csw_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'fr'::text;
+CREATE VIEW localized_BeershopService_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
+CREATE VIEW localized_de_BeershopService_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'de'::text;
+CREATE VIEW localized_fr_BeershopService_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'fr'::text;
 CREATE VIEW BeershopService_TypeChecksWithDraft AS
 SELECT TypeChecks_0.ID,
   TypeChecks_0.type_Boolean,
@@ -161,6 +209,8 @@ COPY csw_Brewery (ID, name)
 FROM '/tmp/data/csw-Brewery.csv' DELIMITER ',' CSV HEADER;
 COPY csw_TypeChecks (ID, type_String, type_LargeString)
 FROM '/tmp/data/csw-TypeChecks.csv' DELIMITER ',' CSV HEADER;
+COPY csw_TypeChecks_texts (ID, locale, type_String)
+FROM '/tmp/data/csw-TypeChecks_texts.csv' DELIMITER ',' CSV HEADER;
 CREATE SCHEMA superbeer AUTHORIZATION postgres;
 CREATE TABLE superbeer.BeershopAdminService_UserScopes (
   username VARCHAR(5000) NOT NULL,
@@ -204,6 +254,12 @@ CREATE TABLE superbeer.csw_TypeChecks (
   type_LargeBinary BYTEA,
   type_LargeString TEXT,
   PRIMARY KEY(ID)
+);
+CREATE TABLE superbeer.csw_TypeChecks_texts (
+  ID VARCHAR(36) NOT NULL,
+  locale VARCHAR(2) NOT NULL,
+  type_String VARCHAR(50000),
+  PRIMARY KEY(ID, locale)
 );
 CREATE TABLE superbeer.DRAFT_DraftAdministrativeData (
   DraftUUID VARCHAR(36) NOT NULL,
@@ -272,6 +328,30 @@ SELECT TypeChecks_0.ID,
   TypeChecks_0.type_LargeBinary,
   TypeChecks_0.type_LargeString
 FROM superbeer.csw_TypeChecks AS TypeChecks_0;
+CREATE VIEW superbeer.BeershopService_TypeChecks_texts
+ AS
+ SELECT texts_0.locale,
+ texts_0.ID,
+ texts_0.type_String
+  FROM csw_TypeChecks_texts AS texts_0;
+CREATE VIEW superbeer.localized_BeershopService_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
+CREATE VIEW superbeer.localized_de_BeershopService_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'de'::text;
+CREATE VIEW superbeer.localized_fr_BeershopService_TypeChecks
+ AS
+ SELECT l_0.id,
+    COALESCE(localized_1.type_String, l_0.type_String) AS type_String
+   FROM csw_TypeChecks l_0
+     LEFT JOIN csw_TypeChecks_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'fr'::text;
 CREATE VIEW superbeer.BeershopService_TypeChecksWithDraft AS
 SELECT TypeChecks_0.ID,
   TypeChecks_0.type_Boolean,
@@ -317,138 +397,6 @@ SELECT Brewery_0.ID,
   Brewery_0.modifiedBy,
   Brewery_0.name
 FROM superbeer.csw_Brewery AS Brewery_0;
-CREATE TABLE my_bookshop_authors
-(
-  ID VARCHAR(36) NOT NULL,
-  name VARCHAR(150),
-  PRIMARY KEY(ID)
-);
-CREATE TABLE my_bookshop_authors_texts
-(
-  ID VARCHAR(36) NOT NULL,
-  locale VARCHAR(2) NOT NULL,
-  name VARCHAR(150),
-  PRIMARY KEY(ID, locale)
-);
-CREATE TABLE my_bookshop_books
-(
-  ID VARCHAR(36) NOT NULL,
-  title VARCHAR(150),
-  author_ID VARCHAR(36),
-  stock INTEGER,
-  PRIMARY KEY(ID)
-);
-CREATE TABLE my_bookshop_books_texts
-(
-  ID VARCHAR(36) NOT NULL,
-  locale VARCHAR(2) NOT NULL,
-  title VARCHAR(150),
-  PRIMARY KEY(ID, locale)
-);
-CREATE VIEW bookshopservice_authors
- AS
- SELECT authors_0.id,
-    authors_0.name
-   FROM my_bookshop_authors authors_0;
-CREATE VIEW bookshopservice_authors_texts
- AS
- SELECT texts_0.locale,
-    texts_0.id,
-    texts_0.name
-   FROM my_bookshop_authors_texts texts_0;
-CREATE VIEW bookshopservice_books
- AS
- SELECT books_0.id,
-    books_0.title,
-    books_0.author_id,
-    books_0.stock
-   FROM my_bookshop_books books_0;
-CREATE VIEW bookshopservice_books_texts
- AS
- SELECT texts_0.locale,
-    texts_0.id,
-    texts_0.title
-   FROM my_bookshop_books_texts texts_0;
-CREATE VIEW localized_de_my_bookshop_authors
- AS
- SELECT l_0.id,
-    COALESCE(localized_de_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
-CREATE VIEW localized_de_bookshopservice_authors
- AS
- SELECT l_0.id,
-    COALESCE(localized_de_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
-CREATE VIEW localized_de_my_bookshop_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_de_1.title, l_0.title) AS title,
-    l_0.author_id,
-    l_0.stock
-   FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
-CREATE VIEW localized_de_bookshopservice_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_de_1.title, l_0.title) AS title,
-    l_0.author_id,
-    l_0.stock
-   FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_de_1 ON localized_de_1.id = l_0.id AND localized_de_1.locale::text = 'de'::text;
-CREATE VIEW localized_fr_my_bookshop_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_fr_1.title, l_0.title) AS title,
-    l_0.author_id,
-    l_0.stock
-   FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
-CREATE VIEW localized_fr_bookshopservice_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_fr_1.title, l_0.title) AS title,
-    l_0.author_id,
-    l_0.stock
-   FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
-CREATE VIEW localized_fr_my_bookshop_authors
- AS
- SELECT l_0.id,
-    COALESCE(localized_fr_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
-CREATE VIEW localized_fr_bookshopservice_authors
- AS
- SELECT l_0.id,
-    COALESCE(localized_fr_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_fr_1 ON localized_fr_1.id = l_0.id AND localized_fr_1.locale::text = 'fr'::text;
-CREATE VIEW localized_my_bookshop_authors
- AS
- SELECT l_0.id,
-    COALESCE(localized_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
-CREATE VIEW localized_my_bookshop_books
- AS SELECT l_0.id,    COALESCE(localized_1.title, l_0.title) AS title,    l_0.author_id,    l_0.stock
-   FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
-CREATE VIEW localized_bookshopservice_authors
- AS
- SELECT l_0.id,
-    COALESCE(localized_1.name, l_0.name) AS name
-   FROM my_bookshop_authors l_0
-     LEFT JOIN my_bookshop_authors_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
-CREATE VIEW localized_bookshopservice_books
- AS
- SELECT l_0.id,
-    COALESCE(localized_1.title, l_0.title) AS title,
-    l_0.author_id,
-    l_0.stock
-   FROM my_bookshop_books l_0
-     LEFT JOIN my_bookshop_books_texts localized_1 ON localized_1.id = l_0.id AND localized_1.locale::text = 'en'::text;
 
 COPY superbeer.csw_Beers (ID, name, abv, ibu, brewery_ID)
 FROM '/tmp/data/csw-Beers.csv' DELIMITER ',' CSV HEADER;
@@ -456,11 +404,5 @@ COPY superbeer.csw_Brewery (ID, name)
 FROM '/tmp/data/csw-Brewery.csv' DELIMITER ',' CSV HEADER;
 COPY superbeer.csw_TypeChecks (ID, type_String, type_LargeString)
 FROM '/tmp/data/csw-TypeChecks.csv' DELIMITER ',' CSV HEADER;
-COPY my_bookshop_authors (ID, name)
-FROM '/tmp/data/my.bookshop-Authors.csv' DELIMITER ',' CSV HEADER;
-COPY my_bookshop_authors_texts (ID, locale, name)
-FROM '/tmp/data/my.bookshop-Authors_texts.csv' DELIMITER ',' CSV HEADER;
-COPY my_bookshop_books (ID, title, stock, author_ID)
-FROM '/tmp/data/my.bookshop-Books.csv' DELIMITER ',' CSV HEADER;
-COPY my_bookshop_books_texts (ID, locale, title)
-FROM '/tmp/data/my.bookshop-Books_texts.csv' DELIMITER ',' CSV HEADER;
+COPY superbeer.csw_TypeChecks_texts (ID, locale, type_String)
+FROM '/tmp/data/csw-TypeChecks_texts.csv' DELIMITER ',' CSV HEADER;

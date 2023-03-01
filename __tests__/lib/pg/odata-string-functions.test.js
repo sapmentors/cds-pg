@@ -186,12 +186,12 @@ describe.each(suiteEnvironments)(
       expect(response.body.value).toEqual(expect.arrayContaining([expect.objectContaining({ name: 'Bitter 42' })]))
     })
 
-    test('localization-entity-only', async () => {
-      const response = await request.get(`/bookshop/Books?sap-language=de`).set('accept-language', 'de')
+    test('localization-entity', async () => {
+      const response = await request.get(`/beershop/TypeChecks?sap-language=de`).set('accept-language', 'de')
       expect(response.status).toStrictEqual(200)
-      expect(response.body.value.length).toEqual(5)
+      expect(response.body.value.length).toEqual(1)
       expect(response.body.value).toEqual(
-        expect.arrayContaining([expect.objectContaining({ title: 'Book 1 Name Deutsche' })])
+        expect.arrayContaining([expect.objectContaining({ type_String: 'Type in Deutsche' })])
       )
     })
   }
