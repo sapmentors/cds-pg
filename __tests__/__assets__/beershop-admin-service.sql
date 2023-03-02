@@ -52,6 +52,13 @@ CREATE TABLE csw_TypeChecksSibling (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE csw_TypeChecks_texts (
+  locale VARCHAR(14) NOT NULL,
+  ID VARCHAR(36) NOT NULL,
+  type_String VARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
 CREATE VIEW BeershopAdminService_Beers AS SELECT
   Beers_0.ID,
   Beers_0.createdAt,
@@ -72,3 +79,72 @@ CREATE VIEW BeershopAdminService_Breweries AS SELECT
   Brewery_0.modifiedBy,
   Brewery_0.name
 FROM csw_Brewery AS Brewery_0;
+
+CREATE VIEW localized_csw_TypeChecks AS SELECT
+  L_0.ID,
+  L_0.type_Boolean,
+  L_0.type_Int32,
+  L_0.type_Int64,
+  L_0.type_Decimal,
+  L_0.type_Double,
+  L_0.type_Date,
+  L_0.type_Time,
+  L_0.type_DateTime,
+  L_0.type_Timestamp,
+  coalesce(localized_1.type_String, L_0.type_String) AS type_String,
+  L_0.type_Binary,
+  L_0.type_LargeBinary,
+  L_0.type_LargeString
+FROM (csw_TypeChecks AS L_0 LEFT JOIN csw_TypeChecks_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_csw_TypeChecksSibling AS SELECT
+  L.ID,
+  L.dummyField,
+  L.typeChecks_ID
+FROM csw_TypeChecksSibling AS L;
+
+CREATE VIEW localized_de_csw_TypeChecks AS SELECT
+  L_0.ID,
+  L_0.type_Boolean,
+  L_0.type_Int32,
+  L_0.type_Int64,
+  L_0.type_Decimal,
+  L_0.type_Double,
+  L_0.type_Date,
+  L_0.type_Time,
+  L_0.type_DateTime,
+  L_0.type_Timestamp,
+  coalesce(localized_de_1.type_String, L_0.type_String) AS type_String,
+  L_0.type_Binary,
+  L_0.type_LargeBinary,
+  L_0.type_LargeString
+FROM (csw_TypeChecks AS L_0 LEFT JOIN csw_TypeChecks_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_csw_TypeChecks AS SELECT
+  L_0.ID,
+  L_0.type_Boolean,
+  L_0.type_Int32,
+  L_0.type_Int64,
+  L_0.type_Decimal,
+  L_0.type_Double,
+  L_0.type_Date,
+  L_0.type_Time,
+  L_0.type_DateTime,
+  L_0.type_Timestamp,
+  coalesce(localized_fr_1.type_String, L_0.type_String) AS type_String,
+  L_0.type_Binary,
+  L_0.type_LargeBinary,
+  L_0.type_LargeString
+FROM (csw_TypeChecks AS L_0 LEFT JOIN csw_TypeChecks_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_csw_TypeChecksSibling AS SELECT
+  L.ID,
+  L.dummyField,
+  L.typeChecks_ID
+FROM csw_TypeChecksSibling AS L;
+
+CREATE VIEW localized_fr_csw_TypeChecksSibling AS SELECT
+  L.ID,
+  L.dummyField,
+  L.typeChecks_ID
+FROM csw_TypeChecksSibling AS L;

@@ -44,10 +44,10 @@ CREATE TABLE csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 CREATE TABLE csw_TypeChecks_texts (
+  locale VARCHAR(14) NOT NULL,
   ID VARCHAR(36) NOT NULL,
-  locale VARCHAR(2) NOT NULL,
-  type_String VARCHAR(50000),
-  PRIMARY KEY(ID, locale)
+  type_String VARCHAR(5000),
+  PRIMARY KEY(locale, ID)
 );
 CREATE TABLE DRAFT_DraftAdministrativeData (
   DraftUUID VARCHAR(36) NOT NULL,
@@ -256,10 +256,10 @@ CREATE TABLE superbeer.csw_TypeChecks (
   PRIMARY KEY(ID)
 );
 CREATE TABLE superbeer.csw_TypeChecks_texts (
+  locale VARCHAR(14) NOT NULL,
   ID VARCHAR(36) NOT NULL,
-  locale VARCHAR(2) NOT NULL,
-  type_String VARCHAR(50000),
-  PRIMARY KEY(ID, locale)
+  type_String VARCHAR(5000),
+  PRIMARY KEY(locale, ID)
 );
 CREATE TABLE superbeer.DRAFT_DraftAdministrativeData (
   DraftUUID VARCHAR(36) NOT NULL,

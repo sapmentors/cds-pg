@@ -69,7 +69,7 @@ describe.each(suiteEnvironments)(
       const response = await request.get('/beershop/')
 
       expect(response.status).toStrictEqual(200)
-      expect(response.body.value.length).toStrictEqual(5)
+      expect(response.body.value.length).toStrictEqual(7)
     })
 
     describe('odata: GET -> sql: SELECT', () => {

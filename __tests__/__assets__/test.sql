@@ -46,6 +46,13 @@ CREATE TABLE csw_TypeChecksSibling (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE csw_TypeChecks_texts (
+  locale VARCHAR(14) NOT NULL,
+  ID VARCHAR(36) NOT NULL,
+  type_String VARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
 CREATE TABLE DRAFT_DraftAdministrativeData (
   DraftUUID VARCHAR(36) NOT NULL,
   CreationDateTime TIMESTAMPTZ,
@@ -152,6 +159,41 @@ CREATE VIEW BeershopService_TypeChecksSibling AS SELECT
   TypeChecksSibling_0.typeChecks_ID
 FROM csw_TypeChecksSibling AS TypeChecksSibling_0;
 
+CREATE VIEW BeershopService_TypeChecks_texts AS SELECT
+  texts_0.locale,
+  texts_0.ID,
+  texts_0.type_String
+FROM csw_TypeChecks_texts AS texts_0;
+
+CREATE VIEW BeershopService_TypeChecksWithDraft_texts AS SELECT
+  texts_0.locale,
+  texts_0.ID,
+  texts_0.type_String
+FROM csw_TypeChecks_texts AS texts_0;
+
+CREATE VIEW localized_csw_TypeChecks AS SELECT
+  L_0.ID,
+  L_0.type_Boolean,
+  L_0.type_Int32,
+  L_0.type_Int64,
+  L_0.type_Decimal,
+  L_0.type_Double,
+  L_0.type_Date,
+  L_0.type_Time,
+  L_0.type_DateTime,
+  L_0.type_Timestamp,
+  coalesce(localized_1.type_String, L_0.type_String) AS type_String,
+  L_0.type_Binary,
+  L_0.type_LargeBinary,
+  L_0.type_LargeString
+FROM (csw_TypeChecks AS L_0 LEFT JOIN csw_TypeChecks_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_csw_TypeChecksSibling AS SELECT
+  L.ID,
+  L.dummyField,
+  L.typeChecks_ID
+FROM csw_TypeChecksSibling AS L;
+
 CREATE VIEW BeershopService_DraftAdministrativeData AS SELECT
   DraftAdministrativeData.DraftUUID,
   DraftAdministrativeData.CreationDateTime,
@@ -162,3 +204,169 @@ CREATE VIEW BeershopService_DraftAdministrativeData AS SELECT
   DraftAdministrativeData.InProcessByUser,
   DraftAdministrativeData.DraftIsProcessedByMe
 FROM DRAFT_DraftAdministrativeData AS DraftAdministrativeData;
+
+CREATE VIEW localized_BeershopService_TypeChecks AS SELECT
+  TypeChecks_0.ID,
+  TypeChecks_0.type_Boolean,
+  TypeChecks_0.type_Int32,
+  TypeChecks_0.type_Int64,
+  TypeChecks_0.type_Decimal,
+  TypeChecks_0.type_Double,
+  TypeChecks_0.type_Date,
+  TypeChecks_0.type_Time,
+  TypeChecks_0.type_DateTime,
+  TypeChecks_0.type_Timestamp,
+  TypeChecks_0.type_String,
+  TypeChecks_0.type_Binary,
+  TypeChecks_0.type_LargeBinary,
+  TypeChecks_0.type_LargeString
+FROM localized_csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW localized_BeershopService_TypeChecksWithDraft AS SELECT
+  TypeChecks_0.ID,
+  TypeChecks_0.type_Boolean,
+  TypeChecks_0.type_Int32,
+  TypeChecks_0.type_Int64,
+  TypeChecks_0.type_Decimal,
+  TypeChecks_0.type_Double,
+  TypeChecks_0.type_Date,
+  TypeChecks_0.type_Time,
+  TypeChecks_0.type_DateTime,
+  TypeChecks_0.type_Timestamp,
+  TypeChecks_0.type_String,
+  TypeChecks_0.type_Binary,
+  TypeChecks_0.type_LargeBinary,
+  TypeChecks_0.type_LargeString
+FROM localized_csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW localized_BeershopService_TypeChecksSibling AS SELECT
+  TypeChecksSibling_0.ID,
+  TypeChecksSibling_0.dummyField,
+  TypeChecksSibling_0.typeChecks_ID
+FROM localized_csw_TypeChecksSibling AS TypeChecksSibling_0;
+
+CREATE VIEW localized_de_csw_TypeChecks AS SELECT
+  L_0.ID,
+  L_0.type_Boolean,
+  L_0.type_Int32,
+  L_0.type_Int64,
+  L_0.type_Decimal,
+  L_0.type_Double,
+  L_0.type_Date,
+  L_0.type_Time,
+  L_0.type_DateTime,
+  L_0.type_Timestamp,
+  coalesce(localized_de_1.type_String, L_0.type_String) AS type_String,
+  L_0.type_Binary,
+  L_0.type_LargeBinary,
+  L_0.type_LargeString
+FROM (csw_TypeChecks AS L_0 LEFT JOIN csw_TypeChecks_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_csw_TypeChecks AS SELECT
+  L_0.ID,
+  L_0.type_Boolean,
+  L_0.type_Int32,
+  L_0.type_Int64,
+  L_0.type_Decimal,
+  L_0.type_Double,
+  L_0.type_Date,
+  L_0.type_Time,
+  L_0.type_DateTime,
+  L_0.type_Timestamp,
+  coalesce(localized_fr_1.type_String, L_0.type_String) AS type_String,
+  L_0.type_Binary,
+  L_0.type_LargeBinary,
+  L_0.type_LargeString
+FROM (csw_TypeChecks AS L_0 LEFT JOIN csw_TypeChecks_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_csw_TypeChecksSibling AS SELECT
+  L.ID,
+  L.dummyField,
+  L.typeChecks_ID
+FROM csw_TypeChecksSibling AS L;
+
+CREATE VIEW localized_fr_csw_TypeChecksSibling AS SELECT
+  L.ID,
+  L.dummyField,
+  L.typeChecks_ID
+FROM csw_TypeChecksSibling AS L;
+
+CREATE VIEW localized_de_BeershopService_TypeChecks AS SELECT
+  TypeChecks_0.ID,
+  TypeChecks_0.type_Boolean,
+  TypeChecks_0.type_Int32,
+  TypeChecks_0.type_Int64,
+  TypeChecks_0.type_Decimal,
+  TypeChecks_0.type_Double,
+  TypeChecks_0.type_Date,
+  TypeChecks_0.type_Time,
+  TypeChecks_0.type_DateTime,
+  TypeChecks_0.type_Timestamp,
+  TypeChecks_0.type_String,
+  TypeChecks_0.type_Binary,
+  TypeChecks_0.type_LargeBinary,
+  TypeChecks_0.type_LargeString
+FROM localized_de_csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW localized_fr_BeershopService_TypeChecks AS SELECT
+  TypeChecks_0.ID,
+  TypeChecks_0.type_Boolean,
+  TypeChecks_0.type_Int32,
+  TypeChecks_0.type_Int64,
+  TypeChecks_0.type_Decimal,
+  TypeChecks_0.type_Double,
+  TypeChecks_0.type_Date,
+  TypeChecks_0.type_Time,
+  TypeChecks_0.type_DateTime,
+  TypeChecks_0.type_Timestamp,
+  TypeChecks_0.type_String,
+  TypeChecks_0.type_Binary,
+  TypeChecks_0.type_LargeBinary,
+  TypeChecks_0.type_LargeString
+FROM localized_fr_csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW localized_de_BeershopService_TypeChecksWithDraft AS SELECT
+  TypeChecks_0.ID,
+  TypeChecks_0.type_Boolean,
+  TypeChecks_0.type_Int32,
+  TypeChecks_0.type_Int64,
+  TypeChecks_0.type_Decimal,
+  TypeChecks_0.type_Double,
+  TypeChecks_0.type_Date,
+  TypeChecks_0.type_Time,
+  TypeChecks_0.type_DateTime,
+  TypeChecks_0.type_Timestamp,
+  TypeChecks_0.type_String,
+  TypeChecks_0.type_Binary,
+  TypeChecks_0.type_LargeBinary,
+  TypeChecks_0.type_LargeString
+FROM localized_de_csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW localized_fr_BeershopService_TypeChecksWithDraft AS SELECT
+  TypeChecks_0.ID,
+  TypeChecks_0.type_Boolean,
+  TypeChecks_0.type_Int32,
+  TypeChecks_0.type_Int64,
+  TypeChecks_0.type_Decimal,
+  TypeChecks_0.type_Double,
+  TypeChecks_0.type_Date,
+  TypeChecks_0.type_Time,
+  TypeChecks_0.type_DateTime,
+  TypeChecks_0.type_Timestamp,
+  TypeChecks_0.type_String,
+  TypeChecks_0.type_Binary,
+  TypeChecks_0.type_LargeBinary,
+  TypeChecks_0.type_LargeString
+FROM localized_fr_csw_TypeChecks AS TypeChecks_0;
+
+CREATE VIEW localized_de_BeershopService_TypeChecksSibling AS SELECT
+  TypeChecksSibling_0.ID,
+  TypeChecksSibling_0.dummyField,
+  TypeChecksSibling_0.typeChecks_ID
+FROM localized_de_csw_TypeChecksSibling AS TypeChecksSibling_0;
+
+CREATE VIEW localized_fr_BeershopService_TypeChecksSibling AS SELECT
+  TypeChecksSibling_0.ID,
+  TypeChecksSibling_0.dummyField,
+  TypeChecksSibling_0.typeChecks_ID
+FROM localized_fr_csw_TypeChecksSibling AS TypeChecksSibling_0;
