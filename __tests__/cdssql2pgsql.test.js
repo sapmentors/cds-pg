@@ -12,7 +12,7 @@ describe('CDS SQL to PostgreSQL', () => {
       let pgsql = cdspg.cdssql2pgsql(cdssql).trim()
       //fs.writeFileSync(`${__dirname}/__assets__/test.sql`, pgsql);
       const pgsqlMatch = fs.readFileSync(`${__dirname}/__assets__/test.sql`, 'utf-8')
-      expect(pgsql).toMatch(pgsqlMatch.replaceAll('\r\n', '\n'))
+      expect(pgsql).toMatch(pgsqlMatch.split('\r\n').join('\n'))
     })
     test('+ should return PostgreSQL compatible statment for beershop-admin-service', async () => {
       const servicePath = `${__dirname}/__assets__/cap-proj/srv/beershop-admin-service`
@@ -23,7 +23,7 @@ describe('CDS SQL to PostgreSQL', () => {
       // fs.writeFileSync(`${__dirname}/__assets__/beershop-admin-service.sql`, pgsql)
       const pgsqlMatch = fs.readFileSync(`${__dirname}/__assets__/beershop-admin-service.sql`, 'utf-8')
       const x = pgsqlMatch.replaceAll('\r\n', '\n')
-      expect(pgsql).toMatch(pgsqlMatch.replaceAll('\r\n', '\n'))
+      expect(pgsql).toMatch(pgsqlMatch.split('\r\n').join('\n'))
     })
   })
 })
