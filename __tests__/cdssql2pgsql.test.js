@@ -22,7 +22,6 @@ describe('CDS SQL to PostgreSQL', () => {
       let pgsql = cdspg.cdssql2pgsql(cdssql).trim()
       // fs.writeFileSync(`${__dirname}/__assets__/beershop-admin-service.sql`, pgsql)
       const pgsqlMatch = fs.readFileSync(`${__dirname}/__assets__/beershop-admin-service.sql`, 'utf-8')
-      const x = pgsqlMatch.replaceAll('\r\n', '\n')
       expect(pgsql).toMatch(pgsqlMatch.split('\r\n').join('\n'))
     })
   })
