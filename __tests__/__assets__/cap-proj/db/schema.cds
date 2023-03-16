@@ -33,6 +33,8 @@ entity TypeChecks : cuid {
   type_Binary          : Binary(100);
   type_LargeBinary     : LargeBinary;
   type_LargeString     : LargeString;
+  type_mediaType       : String      @Core.IsMediaType: true;
+  type_mediaContent    : LargeBinary @Core.MediaType  : type_mediaType;
   virtual type_virtual : Integer;
 }
 

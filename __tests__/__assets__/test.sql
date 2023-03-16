@@ -36,6 +36,8 @@ CREATE TABLE csw_TypeChecks (
   type_Binary CHAR(100),
   type_LargeBinary BYTEA,
   type_LargeString TEXT,
+  type_mediaType VARCHAR(5000),
+  type_mediaContent BYTEA,
   PRIMARY KEY(ID)
 );
 
@@ -73,6 +75,8 @@ CREATE TABLE BeershopService_TypeChecksWithDraft_drafts (
   type_Binary CHAR(100) NULL,
   type_LargeBinary BYTEA NULL,
   type_LargeString TEXT NULL,
+  type_mediaType VARCHAR(5000) NULL,
+  type_mediaContent BYTEA NULL,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,
   HasDraftEntity BOOLEAN,
@@ -126,7 +130,9 @@ CREATE VIEW BeershopService_TypeChecks AS SELECT
   TypeChecks_0.type_String,
   TypeChecks_0.type_Binary,
   TypeChecks_0.type_LargeBinary,
-  TypeChecks_0.type_LargeString
+  TypeChecks_0.type_LargeString,
+  TypeChecks_0.type_mediaType,
+  TypeChecks_0.type_mediaContent
 FROM csw_TypeChecks AS TypeChecks_0;
 
 CREATE VIEW BeershopService_TypeChecksWithDraft AS SELECT
@@ -143,7 +149,9 @@ CREATE VIEW BeershopService_TypeChecksWithDraft AS SELECT
   TypeChecks_0.type_String,
   TypeChecks_0.type_Binary,
   TypeChecks_0.type_LargeBinary,
-  TypeChecks_0.type_LargeString
+  TypeChecks_0.type_LargeString,
+  TypeChecks_0.type_mediaType,
+  TypeChecks_0.type_mediaContent
 FROM csw_TypeChecks AS TypeChecks_0;
 
 CREATE VIEW BeershopService_TypeChecksSibling AS SELECT

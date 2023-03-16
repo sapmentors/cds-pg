@@ -42,6 +42,8 @@ CREATE TABLE csw_TypeChecks (
   type_Binary CHAR(100),
   type_LargeBinary BYTEA,
   type_LargeString TEXT,
+  type_mediaType VARCHAR(5000),
+  type_mediaContent BYTEA,
   PRIMARY KEY(ID)
 );
 
