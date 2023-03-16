@@ -1,5 +1,6 @@
 const cds = require('@sap/cds')
 const deploy = require('@sap/cds/lib/dbs/cds-deploy')
+const { fs } = require('@sap/cds/lib/utils/cds-utils')
 // const path = require('path')
 
 // mock (package|.cds'rc).json entries
@@ -235,6 +236,27 @@ describe.each(suiteEnvironments)(
           name: 'Schönramer Hell',
           ibu: 20
         })
+      })
+
+      test('odata: stream -> sql: upload/dowload stream Media Content', async () => {
+        //Create a media
+        const response = await request.post('/beershop/TypeChecks').send({
+          type_mediaType: 'text/plain'
+        })
+
+        const entry = JSON.parse(response.text)
+
+        const mediaPath = `/beershop/TypeChecks(${entry.ID})/type_mediaContent`
+
+        const buffer = fs.readFileSync('__tests__/__assets__/test.sql')
+
+        // Upload file
+        await request.put(mediaPath).attach('file', buffer).expect(204)
+
+        // Download file
+        const mediaResponse = await request.get(mediaPath).send().responseType('blob').expect(200)
+
+        expect(mediaResponse.body.toString().includes(buffer.toString())).toEqual(true)
       })
     })
 
