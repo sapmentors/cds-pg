@@ -124,6 +124,16 @@ describe('QL to PostgreSQL', () => {
       const results = await cds.run(SELECT.one.from(TypeChecks))
       expect(results).toHaveProperty('type_Boolean')
     })
+
+    test('-> query parameters cast at query response (boolean)', async () => {
+      const { TypeChecks } = cds.entities('csw')
+      const results = await cds.run(
+        SELECT.columns([{ val: false, as: 'type_Boolean', cast: { type: 'cds.Boolean' } }]).from(TypeChecks)
+      )
+      expect(Array.isArray(results)).toBe(true)
+      expect(results[0]).toHaveProperty('type_Boolean')
+      expect(results[0].type_Boolean).toBe(false)
+    })
   })
 
   describe('INSERT', () => {
