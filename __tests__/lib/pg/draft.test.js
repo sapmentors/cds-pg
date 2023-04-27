@@ -67,6 +67,30 @@ describe.each(suiteEnvironments)(
 
         expect(response.status).toStrictEqual(200)
       })
+
+      test(' -> Query for draft entity entry on DB layer', async () => {
+        const basepath = '/beershop/TypeChecksWithDraft(ID=5e4ca9ef-7c4c-4b22-8e85-7cadefa02c94,IsActiveEntity=true)'
+        const response = await request
+          .post(
+            `${basepath}/BeershopService.draftEdit?$expand=DraftAdministrativeData($select=DraftUUID,InProcessByUser)`
+          )
+          .send({
+            PreserveChanges: true
+          })
+
+        const { TypeChecksWithDraft } = cds.entities('BeershopService')
+
+        // Query on db Layer, to simulate possible select's on draft's while implement exit handler's
+        const typeChecksWithDraft = await cds.db.run(
+          SELECT.one.from(`${TypeChecksWithDraft.name}.Drafts`).where({ ID: response.body.ID })
+        )
+
+        //Check properties name case
+        expect(typeChecksWithDraft).toHaveProperty('ID', response.body.ID)
+        expect(typeChecksWithDraft).toHaveProperty('IsActiveEntity', false)
+        expect(typeChecksWithDraft).toHaveProperty('type_String', response.body.type_String)
+        expect(typeChecksWithDraft).toHaveProperty('type_LargeString', response.body.type_LargeString)
+      })
     })
   }
 )
