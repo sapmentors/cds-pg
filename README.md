@@ -17,7 +17,7 @@ For a short introduction on the background of this project you can check out [a 
 
 Please use [@cap-js/postgres](https://github.com/cap-js/cds-dbs/tree/main/postgres)!
 
-~~**_cds-pg_ is ready to be used!~
+~~**_cds-pg_ is ready to be used!
 Still, there's some gaps left to fill - note the list below and please see [`CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for how to contribute additional capabilities!~~
 
 Also checkout the following blog posts on how to get started using `cds-pg` in your local development environment and on SAP Business Technology Platform (BTP), Cloud Foundry:
@@ -30,7 +30,7 @@ Also checkout the following blog posts on how to get started using `cds-pg` in y
 
 Please use [@cap-js/postgres](https://github.com/cap-js/cds-dbs/tree/main/postgres)!
 
-~~Add this package to your [SAP Cloud Application Programming Model](https://cap.cloud.sap/docs/) project by running:~~
+~~Add this package to your [SAP Cloud Application Programming Model](ht~ps://cap.cloud.sap/docs/) project by running:~~
 
 ```bash
 npm install cds-pg
